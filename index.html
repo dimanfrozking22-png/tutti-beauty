@@ -81,7 +81,7 @@
             z-index: 1;
         }
 
-        /* СТИЛИ ДЛЯ РУКИ */
+        /* СТИЛИ ДЛЯ РУКИ (МАГИЯ) */
         .hero-images {
             position: relative;
             display: flex;
@@ -102,17 +102,20 @@
         }
 
         .animated-img {
-            height: 350px; 
-            width: auto;
+            height: 400px; 
+            width: 400px;
+            object-fit: cover;
             filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.8)); 
             animation: float 5s ease-in-out infinite;
             transition: 0.4s;
-            mix-blend-mode: screen; /* УБИРАЕТ БЕЛЫЙ ФОН */
+            /* ЧИТ-КОД: Обрезаем по кругу и смешиваем белый с черным */
+            clip-path: circle(40% at 50% 50%);
+            mix-blend-mode: screen;
         }
 
         .animated-img:hover {
-            transform: scale(1.05) rotate(2deg);
-            filter: drop-shadow(0 0 50px var(--secondary));
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 60px var(--secondary));
         }
 
         .hero h1 {
@@ -276,14 +279,14 @@
             .hero h1 { font-size: 4rem; }
             .about-content { flex-direction: column; }
             .about-img { width: 100%; }
-            .animated-img { height: 250px; }
-            .glow-ring { width: 300px; height: 300px; }
+            .animated-img { height: 300px; width: 300px; }
+            .glow-ring { width: 350px; height: 350px; }
         }
         @media (max-width: 768px) {
             .steps-grid { grid-template-columns: 1fr; }
             .hero h1 { font-size: 2.5rem; }
-            .animated-img { height: 180px; }
-            .glow-ring { width: 220px; height: 220px; }
+            .animated-img { height: 250px; width: 250px; }
+            .glow-ring { width: 280px; height: 280px; }
             .section-title { font-size: 2.2rem; }
         }
     </style>
