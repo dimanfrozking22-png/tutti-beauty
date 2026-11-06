@@ -54,7 +54,7 @@
             100% { box-shadow: 0 0 20px rgba(255, 140, 0, 0.2); opacity: 0.8; }
         }
 
-        /* ПЛАВНОЕ ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ */
+        /* ПЛАВНОЕ ПОЯВЛЕНИЕ */
         .reveal { 
             opacity: 0; 
             transform: translateY(60px); 
@@ -90,11 +90,10 @@
             margin-bottom: 40px;
         }
 
-        /* Золотое свечение (пульсирует за рукой) */
         .glow-ring {
             position: absolute;
-            width: 400px;
-            height: 400px;
+            width: 450px;
+            height: 450px;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(255, 140, 0, 0.3) 0%, transparent 70%);
             box-shadow: 0 0 80px rgba(255, 215, 0, 0.2);
@@ -103,9 +102,9 @@
         }
 
         .animated-img {
-            height: 350px; /* Увеличили руку */
+            height: 350px; 
             width: auto;
-            filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.6)); /* Свечение вокруг руки */
+            filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.6)); 
             animation: float 5s ease-in-out infinite;
             transition: 0.4s;
         }
@@ -294,8 +293,8 @@
     <section class="hero" id="hero">
         <div class="hero-images">
             <div class="glow-ring"></div>
-            <!-- Твоя рука -->
-            <img src="hand.png" alt="Hand" class="animated-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3844/3844767.png'">
+            <!-- Твоя рука. Название файла: hand.png -->
+            <img src="hand.png" alt="Hand" class="animated-img">
         </div>
         <h1>Дмитрий</h1>
         <p>Премиальные сайты, которые приносят деньги. Разработка под ключ с использованием современных технологий и анимаций.</p>
@@ -463,13 +462,10 @@
             const hero = document.getElementById('hero');
             const scrollY = window.scrollY;
             
-            // Вычисляем прозрачность (1 - видимый, 0 - невидимый)
             let opacity = 1 - (scrollY / (window.innerHeight * 0.6));
             if (opacity < 0) opacity = 0;
             
             hero.style.opacity = opacity;
-            
-            // Эффект приближения (зум)
             hero.style.transform = `scale(${1 - (scrollY * 0.0005)})`;
         });
 
