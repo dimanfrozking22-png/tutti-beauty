@@ -6,11 +6,11 @@
     <title>Дмитрий | Веб-разработчик</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* БАЗА (ЖЕЛТО-ОРАНЖЕВАЯ ГАММА) */
+        /* БАЗА */
         :root {
             --bg-color: #050505;
-            --primary: #ff8c00; /* Оранжевый */
-            --secondary: #ffd700; /* Золотой/Желтый */
+            --primary: #ff8c00;
+            --secondary: #ffd700;
             --text-main: #ffffff;
             --text-muted: #999999;
             --card-bg: #111111;
@@ -44,42 +44,26 @@
 
         @keyframes float {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-25px); }
             100% { transform: translateY(0px); }
         }
 
         @keyframes pulseGlow {
-            0% { box-shadow: 0 0 10px rgba(255, 140, 0, 0.4); }
-            50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); }
-            100% { box-shadow: 0 0 10px rgba(255, 140, 0, 0.4); }
+            0% { box-shadow: 0 0 20px rgba(255, 140, 0, 0.2); opacity: 0.8; }
+            50% { box-shadow: 0 0 60px rgba(255, 215, 0, 0.4); opacity: 1; }
+            100% { box-shadow: 0 0 20px rgba(255, 140, 0, 0.2); opacity: 0.8; }
         }
 
-        /* 100 РАЗ ПЛАВНЕЕ АНИМАЦИИ ПОЯВЛЕНИЯ */
+        /* ПЛАВНОЕ ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ */
         .reveal { 
             opacity: 0; 
-            transform: translateY(40px); 
-            transition: opacity 1.5s ease-out, transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1); 
+            transform: translateY(60px); 
+            transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1); 
             will-change: opacity, transform;
         }
         .reveal.active { 
             opacity: 1; 
             transform: translateY(0); 
-        }
-
-        /* ОБЩИЕ СТИЛИ */
-        section { padding: 120px 5%; position: relative; }
-        .section-title {
-            font-size: 3.5rem;
-            text-align: center;
-            margin-bottom: 70px;
-            text-transform: uppercase;
-            font-weight: 900;
-            color: #fff;
-        }
-        .section-title span {
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
         /* ГЛАВНЫЙ ЭКРАН */
@@ -90,18 +74,46 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: radial-gradient(circle at center, rgba(255, 140, 0, 0.15) 0%, transparent 60%);
+            background: radial-gradient(circle at center, rgba(255, 140, 0, 0.1) 0%, transparent 60%);
+            position: sticky;
+            top: 0;
+            transition: opacity 0.1s linear;
+            z-index: 1;
         }
 
-        .diamond-hand {
-            font-size: 12rem;
+        /* СТИЛИ ДЛЯ РУКИ */
+        .hero-images {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        /* Золотое свечение (пульсирует за рукой) */
+        .glow-ring {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.3) 0%, transparent 70%);
+            box-shadow: 0 0 80px rgba(255, 215, 0, 0.2);
+            animation: pulseGlow 4s infinite alternate;
+            z-index: -1;
+        }
+
+        .animated-img {
+            height: 350px; /* Увеличили руку */
+            width: auto;
+            filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.6)); /* Свечение вокруг руки */
             animation: float 5s ease-in-out infinite;
-            margin-bottom: 30px;
-            text-shadow: 0 0 30px var(--primary), 0 0 60px var(--secondary);
-            cursor: pointer;
             transition: 0.4s;
         }
-        .diamond-hand:hover { transform: scale(1.05) rotate(5deg); }
+
+        .animated-img:hover {
+            transform: scale(1.05) rotate(2deg);
+            filter: drop-shadow(0 0 50px var(--secondary));
+        }
 
         .hero h1 {
             font-size: 6rem;
@@ -134,12 +146,34 @@
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 2px;
-            animation: pulseGlow 3s infinite;
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3);
             transition: 0.4s;
             text-decoration: none;
             display: inline-block;
         }
-        .btn:hover { transform: scale(1.05); animation: none; box-shadow: 0 0 50px var(--secondary); }
+        .btn:hover { transform: scale(1.05); box-shadow: 0 0 50px var(--secondary); }
+
+        /* ОСТАЛЬНЫЕ СЕКЦИИ */
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
+            background: var(--bg-color);
+        }
+
+        section { padding: 120px 5%; position: relative; }
+        .section-title {
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 70px;
+            text-transform: uppercase;
+            font-weight: 900;
+            color: #fff;
+        }
+        .section-title span {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
         /* ОБО МНЕ */
         .about { background: #0a0a0a; }
@@ -166,9 +200,8 @@
             box-shadow: 0 0 40px rgba(255, 140, 0, 0.1);
         }
 
-        /* СЕТКИ (Услуги, Портфолио) */
+        /* СЕТКИ */
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; max-width: 1300px; margin: 0 auto; }
-        
         .card {
             background: var(--card-bg);
             padding: 50px 40px;
@@ -243,11 +276,14 @@
             .hero h1 { font-size: 4rem; }
             .about-content { flex-direction: column; }
             .about-img { width: 100%; }
+            .animated-img { height: 250px; }
+            .glow-ring { width: 300px; height: 300px; }
         }
         @media (max-width: 768px) {
             .steps-grid { grid-template-columns: 1fr; }
             .hero h1 { font-size: 2.5rem; }
-            .diamond-hand { font-size: 8rem; }
+            .animated-img { height: 180px; }
+            .glow-ring { width: 220px; height: 220px; }
             .section-title { font-size: 2.2rem; }
         }
     </style>
@@ -255,156 +291,165 @@
 <body>
 
     <!-- 1. ГЛАВНЫЙ ЭКРАН -->
-    <section class="hero">
-        <div class="diamond-hand">💎🫱</div>
+    <section class="hero" id="hero">
+        <div class="hero-images">
+            <div class="glow-ring"></div>
+            <!-- Твоя рука -->
+            <img src="hand.png" alt="Hand" class="animated-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/3844/3844767.png'">
+        </div>
         <h1>Дмитрий</h1>
         <p>Премиальные сайты, которые приносят деньги. Разработка под ключ с использованием современных технологий и анимаций.</p>
         <a href="#services" class="btn">Начать проект</a>
     </section>
 
-    <!-- 2. ОБО МНЕ -->
-    <section class="about reveal">
-        <h2 class="section-title">Кто такой <span>Дмитрий</span></h2>
-        <div class="about-content">
-            <div class="about-text">
-                <h3>Привет! Я твой веб-разработчик.</h3>
-                <p>Меня зовут Дмитрий, и я создаю сайты, которые выглядят дорого и работают быстро. Мне 13 лет, но я уже разбираюсь в HTML, CSS, JavaScript и Python.</p>
-                <p>Я не просто верстаю страницы. Я создаю цифровые визитки, которые помогают бизнесу выделяться. Никакого шаблонного кода — только индивидуальный подход.</p>
-                <p>Моя цель — сделать так, чтобы твой сайт приносил тебе клиентов и прибыль. И я знаю, как это сделать.</p>
+    <!-- ОБЕРТКА ДЛЯ КОНТЕНТА -->
+    <div class="content-wrapper">
+        
+        <!-- 2. ОБО МНЕ -->
+        <section class="about reveal">
+            <h2 class="section-title">Кто такой <span>Дмитрий</span></h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Привет! Я твой веб-разработчик.</h3>
+                    <p>Меня зовут Дмитрий, и я создаю сайты, которые выглядят дорого и работают быстро. Мне 13 лет, но я уже разбираюсь в HTML, CSS, JavaScript и Python.</p>
+                    <p>Я не просто верстаю страницы. Я создаю цифровые визитки, которые помогают бизнесу выделяться. Никакого шаблонного кода — только индивидуальный подход.</p>
+                    <p>Моя цель — сделать так, чтобы твой сайт приносил тебе клиентов и прибыль. И я знаю, как это сделать.</p>
+                </div>
+                <div class="about-img">👨‍💻</div>
             </div>
-            <div class="about-img">👨‍💻</div>
-        </div>
-    </section>
+        </section>
 
-    <!-- 3. УСЛУГИ (От дешевого к дорогому) -->
-    <section id="services" class="reveal">
-        <h2 class="section-title">Мои <span>Услуги</span></h2>
-        <div class="grid-3">
-            <div class="card">
-                <div class="card-icon">⚙️</div>
-                <h3>Верстка</h3>
-                <p>У тебя есть дизайн в Figma? Я сверстаю его в чистый код без ошибок и багов.</p>
-                <div class="price">от 1500 ₽</div>
+        <!-- 3. УСЛУГИ -->
+        <section id="services" class="reveal">
+            <h2 class="section-title">Мои <span>Услуги</span></h2>
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-icon">⚙️</div>
+                    <h3>Верстка</h3>
+                    <p>У тебя есть дизайн в Figma? Я сверстаю его в чистый код без ошибок и багов.</p>
+                    <div class="price">от 1500 ₽</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🚀</div>
+                    <h3>Лендинги</h3>
+                    <p>Одностраничные сайты, которые продают. Идеально для услуг, товаров и запуска стартапов.</p>
+                    <div class="price">от 2000 ₽</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">💎</div>
+                    <h3>Сайты-визитки</h3>
+                    <p>Красивое портфолио для мастера, салона или фрилансера. Привлекает клиентов 24/7.</p>
+                    <div class="price">от 3000 ₽</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🤖</div>
+                    <h3>Telegram-боты</h3>
+                    <p>Автоматизируй бизнес с помощью ботов. Прием заявок, ответы на вопросы, каталог.</p>
+                    <div class="price">от 4000 ₽</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎨</div>
+                    <h3>Редизайн</h3>
+                    <p>Твой сайт устарел? Я сделаю его современным, быстрым и адаптивным под телефоны.</p>
+                    <div class="price">от 5000 ₽</div>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🛒</div>
+                    <h3>Интернет-магазины</h3>
+                    <p>Полноценные магазины с корзиной, каталогом и оплатой. Для серьезного бизнеса.</p>
+                    <div class="price">от 10000 ₽</div>
+                </div>
             </div>
-            <div class="card">
-                <div class="card-icon">🚀</div>
-                <h3>Лендинги</h3>
-                <p>Одностраничные сайты, которые продают. Идеально для услуг, товаров и запуска стартапов.</p>
-                <div class="price">от 2000 ₽</div>
-            </div>
-            <div class="card">
-                <div class="card-icon">💎</div>
-                <h3>Сайты-визитки</h3>
-                <p>Красивое портфолио для мастера, салона или фрилансера. Привлекает клиентов 24/7.</p>
-                <div class="price">от 3000 ₽</div>
-            </div>
-            <div class="card">
-                <div class="card-icon">🤖</div>
-                <h3>Telegram-боты</h3>
-                <p>Автоматизируй бизнес с помощью ботов. Прием заявок, ответы на вопросы, каталог.</p>
-                <div class="price">от 4000 ₽</div>
-            </div>
-            <div class="card">
-                <div class="card-icon">🎨</div>
-                <h3>Редизайн</h3>
-                <p>Твой сайт устарел? Я сделаю его современным, быстрым и адаптивным под телефоны.</p>
-                <div class="price">от 5000 ₽</div>
-            </div>
-            <div class="card">
-                <div class="card-icon">🛒</div>
-                <h3>Интернет-магазины</h3>
-                <p>Полноценные магазины с корзиной, каталогом и оплатой. Для серьезного бизнеса.</p>
-                <div class="price">от 10000 ₽</div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- 4. ПОРТФОЛИО -->
-    <section class="reveal">
-        <h2 class="section-title">Мои <span>Работы</span></h2>
-        <div class="grid-3">
-            <div class="work-item"><h4>Проект 1</h4></div>
-            <div class="work-item"><h4>Проект 2</h4></div>
-            <div class="work-item"><h4>Проект 3</h4></div>
-            <div class="work-item"><h4>Проект 4</h4></div>
-            <div class="work-item"><h4>Проект 5</h4></div>
-            <div class="work-item"><h4>Проект 6</h4></div>
-        </div>
-    </section>
+        <!-- 4. ПОРТФОЛИО -->
+        <section class="reveal">
+            <h2 class="section-title">Мои <span>Работы</span></h2>
+            <div class="grid-3">
+                <div class="work-item"><h4>Проект 1</h4></div>
+                <div class="work-item"><h4>Проект 2</h4></div>
+                <div class="work-item"><h4>Проект 3</h4></div>
+                <div class="work-item"><h4>Проект 4</h4></div>
+                <div class="work-item"><h4>Проект 5</h4></div>
+                <div class="work-item"><h4>Проект 6</h4></div>
+            </div>
+        </section>
 
-    <!-- 5. ЭТАПЫ РАБОТЫ ("Как Я работаю") -->
-    <section class="steps reveal">
-        <h2 class="section-title">Как <span>Я работаю</span></h2>
-        <div class="steps-grid">
-            <div class="step-card">
-                <div class="step-num">1</div>
-                <h3>Заявка</h3>
-                <p>Ты пишешь мне, мы обсуждаем идею и задачи.</p>
+        <!-- 5. ЭТАПЫ РАБОТЫ -->
+        <section class="steps reveal">
+            <h2 class="section-title">Как <span>Я работаю</span></h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h3>Заявка</h3>
+                    <p>Ты пишешь мне, мы обсуждаем идею и задачи.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h3>Прототип</h3>
+                    <p>Я делаю черновой вариант, чтобы ты увидел структуру.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h3>Разработка</h3>
+                    <p>Я пишу код, добавляю анимации и наполняю контентом.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <h3>Запуск</h3>
+                    <p>Выкладываем сайт в интернет и радуемся результату!</p>
+                </div>
             </div>
-            <div class="step-card">
-                <div class="step-num">2</div>
-                <h3>Прототип</h3>
-                <p>Я делаю черновой вариант, чтобы ты увидел структуру.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-num">3</div>
-                <h3>Разработка</h3>
-                <p>Я пишу код, добавляю анимации и наполняю контентом.</p>
-            </div>
-            <div class="step-card">
-                <div class="step-num">4</div>
-                <h3>Запуск</h3>
-                <p>Выкладываем сайт в интернет и радуемся результату!</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- 6. ОТЗЫВЫ -->
-    <section class="reveal">
-        <h2 class="section-title">Что говорят <span>Клиенты</span></h2>
-        <div class="reviews-grid">
-            <div class="review-card">
-                <p class="review-text">«Дмитрий сделал сайт для моего салона за 2 дня. Выглядит дорого, клиенты записываются через кнопку. Рекомендую!»</p>
-                <div class="review-author">— Елена, салон красоты</div>
+        <!-- 6. ОТЗЫВЫ -->
+        <section class="reveal">
+            <h2 class="section-title">Что говорят <span>Клиенты</span></h2>
+            <div class="reviews-grid">
+                <div class="review-card">
+                    <p class="review-text">«Дмитрий сделал сайт для моего салона за 2 дня. Выглядит дорого, клиенты записываются через кнопку. Рекомендую!»</p>
+                    <div class="review-author">— Елена, салон красоты</div>
+                </div>
+                <div class="review-card">
+                    <p class="review-text">«Очень крутые анимации. Сайт летает, даже на телефоне. Сделал быстрее, чем я ожидал.»</p>
+                    <div class="review-author">— Максим, автосервис</div>
+                </div>
+                <div class="review-card">
+                    <p class="review-text">«Понравился подход. Все четко, без воды. За такие деньги — просто подарок.»</p>
+                    <div class="review-author">— Ольга, кофейня</div>
+                </div>
             </div>
-            <div class="review-card">
-                <p class="review-text">«Очень крутые анимации. Сайт летает, даже на телефоне. Сделал быстрее, чем я ожидал.»</p>
-                <div class="review-author">— Максим, автосервис</div>
-            </div>
-            <div class="review-card">
-                <p class="review-text">«Понравился подход. Все четко, без воды. За такие деньги — просто подарок.»</p>
-                <div class="review-author">— Ольга, кофейня</div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- 7. FAQ -->
-    <section class="faq reveal">
-        <h2 class="section-title">Частые <span>Вопросы</span></h2>
-        <div class="faq-item">
-            <div class="faq-question">Сколько времени занимает разработка? <span>+</span></div>
-            <div class="faq-answer">Простые лендинги — 2-3 дня. Сайты-визитки — до недели. Все зависит от сложности и количества правок.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">Как происходит оплата? <span>+</span></div>
-            <div class="faq-answer">Оплата 50/50. Половина — предоплата, половина — после сдачи проекта. Перевод на карту или СБП.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">Вы даете гарантию? <span>+</span></div>
-            <div class="faq-answer">Да, я бесплатно исправляю ошибки в течение 14 дней после сдачи проекта. Если что-то сломалось по моей вине — чиню за свой счет.</div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">Смогу ли я сам редактировать сайт? <span>+</span></div>
-            <div class="faq-answer">Конечно. Я покажу, как менять текст и картинки. Если нужно, сделаю админ-панель.</div>
-        </div>
-    </section>
+        <!-- 7. FAQ -->
+        <section class="faq reveal">
+            <h2 class="section-title">Частые <span>Вопросы</span></h2>
+            <div class="faq-item">
+                <div class="faq-question">Сколько времени занимает разработка? <span>+</span></div>
+                <div class="faq-answer">Простые лендинги — 2-3 дня. Сайты-визитки — до недели. Все зависит от сложности и количества правок.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Как происходит оплата? <span>+</span></div>
+                <div class="faq-answer">Оплата 50/50. Половина — предоплата, половина — после сдачи проекта. Перевод на карту или СБП.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Вы даете гарантию? <span>+</span></div>
+                <div class="faq-answer">Да, я бесплатно исправляю ошибки в течение 14 дней после сдачи проекта. Если что-то сломалось по моей вине — чиню за свой счет.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Смогу ли я сам редактировать сайт? <span>+</span></div>
+                <div class="faq-answer">Конечно. Я покажу, как менять текст и картинки. Если нужно, сделаю админ-панель.</div>
+            </div>
+        </section>
 
-    <!-- 8. КОНТАКТЫ -->
-    <section class="contacts reveal">
-        <h2 class="section-title">Готов <span>начать?</span></h2>
-        <p style="font-size: 1.5rem; color: #aaa; margin-bottom: 40px;">Напиши мне прямо сейчас, и мы обсудим твой будущий сайт.</p>
-        <a href="https://t.me/твой_ник" class="btn" target="_blank">Написать в Telegram</a>
-    </section>
+        <!-- 8. КОНТАКТЫ -->
+        <section class="contacts reveal">
+            <h2 class="section-title">Готов <span>начать?</span></h2>
+            <p style="font-size: 1.5rem; color: #aaa; margin-bottom: 40px;">Напиши мне прямо сейчас, и мы обсудим твой будущий сайт.</p>
+            <a href="https://t.me/твой_ник" class="btn" target="_blank">Написать в Telegram</a>
+        </section>
+
+    </div> <!-- Конец обертки контента -->
 
     <!-- ПОДВАЛ -->
     <footer>
@@ -413,23 +458,41 @@
 
     <!-- СКРИПТЫ -->
     <script>
-        // 1. Плавная анимация появления при скролле
+        // 1. ПЛАВНОЕ ИСЧЕЗНОВЕНИЕ ГЛАВНОГО ЭКРАНА ПРИ СКРОЛЛЕ
+        window.addEventListener('scroll', () => {
+            const hero = document.getElementById('hero');
+            const scrollY = window.scrollY;
+            
+            // Вычисляем прозрачность (1 - видимый, 0 - невидимый)
+            let opacity = 1 - (scrollY / (window.innerHeight * 0.6));
+            if (opacity < 0) opacity = 0;
+            
+            hero.style.opacity = opacity;
+            
+            // Эффект приближения (зум)
+            hero.style.transform = `scale(${1 - (scrollY * 0.0005)})`;
+        });
+
+        // 2. АНИМАЦИЯ ПОЯВЛЕНИЯ (РАБОТАЕТ В ОБЕ СТОРОНЫ)
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 100; // Срабатывает чуть раньше
+                var elementVisible = 100;
+
                 if (elementTop < windowHeight - elementVisible) {
                     reveals[i].classList.add("active");
+                } else {
+                    reveals[i].classList.remove("active");
                 }
             }
         }
+        
         window.addEventListener("scroll", reveal);
-        // Вызываем один раз при загрузке, чтобы верхние блоки тоже появились
         reveal();
 
-        // 2. Аккордеон для FAQ
+        // 3. АККОРДЕОН ДЛЯ FAQ
         document.querySelectorAll('.faq-question').forEach(item => {
             item.addEventListener('click', () => {
                 const parent = item.parentElement;
