@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>site referencov dimona</title>
+    <title>site referencov dimona | Премиум разработка</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* БАЗОВЫЕ НАСТРОЙКИ */
+        /* БАЗА */
         :root {
-            --bg-color: #0a0a0a;
-            --primary: #ff8c00; /* Оранжевый */
-            --secondary: #00d4ff; /* Бриллиантовый голубой */
+            --bg-color: #050505;
+            --primary: #ff8c00;
+            --secondary: #00d4ff;
             --text-main: #ffffff;
-            --text-muted: #888888;
-            --card-bg: rgba(20, 20, 20, 0.8);
+            --text-muted: #999999;
+            --card-bg: #111111;
         }
 
         * {
@@ -30,19 +30,12 @@
             overflow-x: hidden;
         }
 
-        /* КАСТОМНЫЙ СКРОЛЛБАР */
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #000;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, var(--primary), var(--secondary));
-            border-radius: 10px;
-        }
+        /* СКРОЛЛБАР */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--primary), var(--secondary)); border-radius: 10px; }
 
-        /* АНИМАЦИИ (КЛЮЧЕВЫЕ КАДРЫ) */
+        /* АНИМАЦИИ */
         @keyframes diamondShine {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -51,33 +44,36 @@
 
         @keyframes float {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-25px); }
             100% { transform: translateY(0px); }
         }
 
         @keyframes pulseGlow {
             0% { box-shadow: 0 0 10px var(--primary); }
-            50% { box-shadow: 0 0 30px var(--primary), 0 0 50px var(--secondary); }
+            50% { box-shadow: 0 0 40px var(--primary), 0 0 60px var(--secondary); }
             100% { box-shadow: 0 0 10px var(--primary); }
         }
 
-        @keyframes slideInUp {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ */
+        .reveal { opacity: 0; transform: translateY(60px); transition: all 1s cubic-bezier(0.5, 0, 0, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* ОБЩИЕ СТИЛИ */
+        section { padding: 120px 5%; position: relative; }
+        .section-title {
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 70px;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+        .section-title span {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        /* КЛАССЫ ДЛЯ ПОЯВЛЕНИЯ ПРИ СКРОЛЛЕ */
-        .reveal {
-            opacity: 0;
-            transform: translateY(50px);
-            transition: all 1s ease-out;
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ГЛАВНЫЙ ЭКРАН (HERO) */
+        /* ГЛАВНЫЙ ЭКРАН */
         .hero {
             height: 100vh;
             display: flex;
@@ -85,13 +81,21 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            position: relative;
             background: radial-gradient(circle at center, rgba(255, 140, 0, 0.15) 0%, transparent 60%);
-            overflow: hidden;
         }
 
+        .diamond-hand {
+            font-size: 12rem;
+            animation: float 4s ease-in-out infinite;
+            margin-bottom: 30px;
+            text-shadow: 0 0 30px var(--primary), 0 0 60px var(--secondary);
+            cursor: pointer;
+            transition: 0.4s;
+        }
+        .diamond-hand:hover { transform: scale(1.1) rotate(10deg); }
+
         .hero h1 {
-            font-size: 5rem;
+            font-size: 6rem;
             text-transform: uppercase;
             background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
             background-size: 200% auto;
@@ -106,27 +110,14 @@
         .hero p {
             font-size: 1.5rem;
             color: var(--text-muted);
-            max-width: 600px;
-            margin-bottom: 40px;
-        }
-
-        /* БРИЛЛИАНТОВАЯ РУКА */
-        .diamond-hand {
-            font-size: 10rem;
-            animation: float 4s ease-in-out infinite;
-            margin-bottom: 40px;
-            text-shadow: 0 0 20px var(--primary), 0 0 40px var(--secondary);
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .diamond-hand:hover {
-            transform: scale(1.1) rotate(10deg);
+            max-width: 700px;
+            margin-bottom: 50px;
         }
 
         .btn {
-            padding: 15px 40px;
+            padding: 20px 50px;
             font-size: 1.2rem;
-            font-weight: bold;
+            font-weight: 900;
             color: #000;
             background: linear-gradient(90deg, var(--primary), var(--secondary));
             border: none;
@@ -137,214 +128,283 @@
             animation: pulseGlow 2s infinite;
             transition: 0.3s;
             text-decoration: none;
+            display: inline-block;
         }
+        .btn:hover { transform: scale(1.05); animation: none; box-shadow: 0 0 60px var(--secondary); }
 
-        .btn:hover {
-            transform: scale(1.05);
-            animation: none;
-            box-shadow: 0 0 50px var(--secondary);
-        }
-
-        /* СЕКЦИЯ УСЛУГ */
-        .services {
-            padding: 100px 5%;
-            background: #111;
-        }
-
-        .section-title {
-            font-size: 3rem;
-            text-align: center;
-            margin-bottom: 60px;
-            text-transform: uppercase;
-            color: var(--text-main);
-            position: relative;
-        }
-        .section-title::after {
-            content: '';
-            position: absolute;
-            bottom: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+        /* ОБО МНЕ */
+        .about { background: #0a0a0a; }
+        .about-content {
+            display: flex;
+            gap: 60px;
+            align-items: center;
             max-width: 1200px;
             margin: 0 auto;
         }
+        .about-text { flex: 1; }
+        .about-text h3 { font-size: 2.5rem; margin-bottom: 20px; color: var(--primary); }
+        .about-text p { font-size: 1.2rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 20px; }
+        .about-img {
+            flex: 1;
+            height: 400px;
+            background: linear-gradient(45deg, var(--card-bg), #222);
+            border-radius: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            box-shadow: 0 0 40px rgba(0, 212, 255, 0.1);
+        }
 
+        /* СЕТКИ (Услуги, Портфолио) */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; max-width: 1300px; margin: 0 auto; }
+        
         .card {
             background: var(--card-bg);
-            padding: 40px;
-            border-radius: 20px;
+            padding: 50px 40px;
+            border-radius: 25px;
             border: 1px solid rgba(255,255,255,0.05);
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255,140,0,0.1), transparent);
-            transform: translateX(-100%);
-            transition: 0.6s;
-        }
-
-        .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(255, 140, 0, 0.2);
-            border-color: var(--primary);
-        }
-
-        .card:hover::before {
-            transform: translateX(100%);
-        }
-
-        .card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: var(--primary);
-        }
-
-        .card p {
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-
-        .price {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--secondary);
-        }
-
-        /* СЕКЦИЯ ПОРТФОЛИО */
-        .portfolio {
-            padding: 100px 5%;
-            background: var(--bg-color);
-        }
-
-        .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-            gap: 40px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .work-item {
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            background: #222;
-            height: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.4s;
-            border: 1px solid transparent;
-        }
-
-        .work-item:hover {
-            border-color: var(--secondary);
-            transform: scale(1.03);
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
-        }
-
-        .work-item h4 {
-            font-size: 2rem;
-            color: rgba(255,255,255,0.1);
-            transition: 0.4s;
             z-index: 1;
         }
-
-        .work-item:hover h4 {
-            color: var(--secondary);
-            transform: scale(1.2);
-            text-shadow: 0 0 20px var(--secondary);
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,140,0,0.08), transparent);
+            transform: translateX(-100%); transition: 0.6s; z-index: -1;
         }
+        .card:hover { transform: translateY(-15px); border-color: var(--primary); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .card:hover::before { transform: translateX(100%); }
+        
+        .card-icon { font-size: 4rem; margin-bottom: 20px; }
+        .card h3 { font-size: 1.8rem; margin-bottom: 15px; color: #fff; }
+        .card p { color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; }
+        .price { font-size: 1.5rem; font-weight: 900; color: var(--secondary); }
 
-        /* ПОДВАЛ */
-        footer {
-            padding: 50px 20px;
-            text-align: center;
-            background: #000;
-            border-top: 1px solid rgba(255,255,255,0.05);
+        /* ПОРТФОЛИО */
+        .work-item {
+            height: 350px;
+            border-radius: 25px;
+            background: #1a1a1a;
+            display: flex; align-items: center; justify-content: center;
+            border: 2px solid transparent; transition: 0.4s; cursor: pointer;
         }
+        .work-item:hover { border-color: var(--secondary); transform: scale(1.03); box-shadow: 0 0 40px rgba(0, 212, 255, 0.2); }
+        .work-item h4 { font-size: 2rem; color: rgba(255,255,255,0.1); transition: 0.4s; }
+        .work-item:hover h4 { color: var(--secondary); text-shadow: 0 0 20px var(--secondary); }
 
-        footer p {
-            color: var(--text-muted);
-            font-size: 1rem;
+        /* ЭТАПЫ */
+        .steps { background: #0a0a0a; }
+        .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; max-width: 1300px; margin: 0 auto; }
+        .step-card { text-align: center; position: relative; }
+        .step-num {
+            width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; font-weight: 900; color: #000; margin: 0 auto 20px;
         }
+        .step-card h3 { font-size: 1.5rem; margin-bottom: 10px; }
+        .step-card p { color: var(--text-muted); }
 
-        /* МЕДИА-ЗАПРОСЫ */
+        /* ОТЗЫВЫ */
+        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; }
+        .review-card { background: var(--card-bg); padding: 40px; border-radius: 20px; border-left: 4px solid var(--primary); }
+        .review-text { font-style: italic; color: #ccc; margin-bottom: 20px; font-size: 1.1rem; line-height: 1.6; }
+        .review-author { font-weight: 900; color: var(--primary); }
+
+        /* FAQ */
+        .faq { background: #0a0a0a; max-width: 900px; margin: 0 auto; }
+        .faq-item { background: var(--card-bg); margin-bottom: 15px; border-radius: 15px; overflow: hidden; border: 1px solid #222; }
+        .faq-question {
+            padding: 25px; font-size: 1.2rem; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s;
+        }
+        .faq-question:hover { background: #1a1a1a; }
+        .faq-answer { padding: 0 25px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease; color: var(--text-muted); line-height: 1.6; }
+        .faq-item.active .faq-answer { padding-bottom: 25px; }
+
+        /* КОНТАКТЫ И ФУТЕР */
+        .contacts { text-align: center; background: radial-gradient(circle at bottom, rgba(0, 212, 255, 0.1) 0%, transparent 60%); padding-bottom: 50px; }
+        .contacts h2 { font-size: 4rem; margin-bottom: 30px; }
+        footer { text-align: center; padding: 40px; background: #000; border-top: 1px solid #111; color: #555; }
+
+        /* АДАПТИВ */
+        @media (max-width: 1024px) {
+            .steps-grid { grid-template-columns: repeat(2, 1fr); }
+            .hero h1 { font-size: 4rem; }
+            .about-content { flex-direction: column; }
+            .about-img { width: 100%; }
+        }
         @media (max-width: 768px) {
+            .steps-grid { grid-template-columns: 1fr; }
             .hero h1 { font-size: 2.5rem; }
-            .hero p { font-size: 1rem; }
-            .diamond-hand { font-size: 6rem; }
-            .section-title { font-size: 2rem; }
-            .portfolio-grid { grid-template-columns: 1fr; }
+            .diamond-hand { font-size: 8rem; }
+            .section-title { font-size: 2.2rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ГЛАВНЫЙ ЭКРАН -->
+    <!-- 1. ГЛАВНЫЙ ЭКРАН -->
     <section class="hero">
         <div class="diamond-hand">💎🫱</div>
         <h1>site referencov dimona</h1>
-        <p>Премиальные сайты, которые приносят деньги. Разработка под ключ с использованием современных технологий.</p>
-        <a href="#services" class="btn">Смотреть услуги</a>
+        <p>Премиальные сайты, которые приносят деньги. Разработка под ключ с использованием современных технологий и анимаций.</p>
+        <a href="#services" class="btn">Начать проект</a>
     </section>
 
-    <!-- УСЛУГИ -->
-    <section class="services reveal" id="services">
-        <h2 class="section-title">Мои Услуги</h2>
-        <div class="services-grid">
+    <!-- 2. ОБО МНЕ -->
+    <section class="about reveal">
+        <h2 class="section-title">Кто такой <span>Димона</span></h2>
+        <div class="about-content">
+            <div class="about-text">
+                <h3>Привет! Я твой веб-разработчик.</h3>
+                <p>Меня зовут Димона, и я создаю сайты, которые выглядят дорого и работают быстро. Мне 13 лет, но я уже разбираюсь в HTML, CSS, JavaScript и Python.</p>
+                <p>Я не просто верстаю страницы. Я создаю цифровые визитки, которые помогают бизнесу выделяться. Никакого шаблонного кода — только индивидуальный подход.</p>
+                <p>Моя цель — сделать так, чтобы твой сайт приносил тебе клиентов и прибыль. И я знаю, как это сделать.</p>
+            </div>
+            <div class="about-img">👨‍💻</div>
+        </div>
+    </section>
+
+    <!-- 3. УСЛУГИ -->
+    <section id="services" class="reveal">
+        <h2 class="section-title">Мои <span>Услуги</span></h2>
+        <div class="grid-3">
             <div class="card">
+                <div class="card-icon">🚀</div>
                 <h3>Лендинги</h3>
-                <p>Одностраничные сайты, которые продают. Идеально для услуг и товаров.</p>
+                <p>Одностраничные сайты, которые продают. Идеально для услуг, товаров и запуска стартапов.</p>
                 <div class="price">от 2000 ₽</div>
             </div>
             <div class="card">
+                <div class="card-icon">💎</div>
                 <h3>Сайты-визитки</h3>
-                <p>Красивое портфолио для мастера или салона. Привлекает клиентов.</p>
+                <p>Красивое портфолио для мастера, салона или фрилансера. Привлекает клиентов 24/7.</p>
                 <div class="price">от 3000 ₽</div>
             </div>
             <div class="card">
+                <div class="card-icon">🛒</div>
                 <h3>Интернет-магазины</h3>
-                <p>Полноценные магазины с корзиной и каталогом. Для бизнеса.</p>
+                <p>Полноценные магазины с корзиной, каталогом и оплатой. Для серьезного бизнеса.</p>
                 <div class="price">от 10000 ₽</div>
+            </div>
+            <div class="card">
+                <div class="card-icon">🎨</div>
+                <h3>Редизайн</h3>
+                <p>Твой сайт устарел? Я сделаю его современным, быстрым и адаптивным под телефоны.</p>
+                <div class="price">от 5000 ₽</div>
+            </div>
+            <div class="card">
+                <div class="card-icon">⚙️</div>
+                <h3>Верстка</h3>
+                <p>У тебя есть дизайн в Figma? Я сверстаю его в чистый код без ошибок и багов.</p>
+                <div class="price">от 1500 ₽</div>
+            </div>
+            <div class="card">
+                <div class="card-icon">🤖</div>
+                <h3>Telegram-боты</h3>
+                <p>Автоматизируй бизнес с помощью ботов. Прием заявок, ответы на вопросы, каталог.</p>
+                <div class="price">от 4000 ₽</div>
             </div>
         </div>
     </section>
 
-    <!-- ПОРТФОЛИО -->
-    <section class="portfolio reveal">
-        <h2 class="section-title">Мои Работы</h2>
-        <div class="portfolio-grid">
+    <!-- 4. ПОРТФОЛИО -->
+    <section class="reveal">
+        <h2 class="section-title">Мои <span>Работы</span></h2>
+        <div class="grid-3">
             <div class="work-item"><h4>Проект 1</h4></div>
             <div class="work-item"><h4>Проект 2</h4></div>
             <div class="work-item"><h4>Проект 3</h4></div>
             <div class="work-item"><h4>Проект 4</h4></div>
+            <div class="work-item"><h4>Проект 5</h4></div>
+            <div class="work-item"><h4>Проект 6</h4></div>
         </div>
+    </section>
+
+    <!-- 5. ЭТАПЫ РАБОТЫ -->
+    <section class="steps reveal">
+        <h2 class="section-title">Как мы <span>Работаем</span></h2>
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-num">1</div>
+                <h3>Заявка</h3>
+                <p>Ты пишешь мне, мы обсуждаем идею и задачи.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">2</div>
+                <h3>Прототип</h3>
+                <p>Я делаю черновой вариант, чтобы ты увидел структуру.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">3</div>
+                <h3>Разработка</h3>
+                <p>Я пишу код, добавляю анимации и наполняю контентом.</p>
+            </div>
+            <div class="step-card">
+                <div class="step-num">4</div>
+                <h3>Запуск</h3>
+                <p>Выкладываем сайт в интернет и радуемся результату!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. ОТЗЫВЫ -->
+    <section class="reveal">
+        <h2 class="section-title">Что говорят <span>Клиенты</span></h2>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <p class="review-text">«Димона сделал сайт для моего салона за 2 дня. Выглядит дорого, клиенты записываются через кнопку. Рекомендую!»</p>
+                <div class="review-author">— Елена, салон красоты</div>
+            </div>
+            <div class="review-card">
+                <p class="review-text">«Очень крутые анимации. Сайт летает, даже на телефоне. Сделал быстрее, чем я ожидал.»</p>
+                <div class="review-author">— Максим, автосервис</div>
+            </div>
+            <div class="review-card">
+                <p class="review-text">«Понравился подход. Все четко, без воды. За такие деньги — просто подарок.»</p>
+                <div class="review-author">— Ольга, кофейня</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. FAQ -->
+    <section class="faq reveal">
+        <h2 class="section-title">Частые <span>Вопросы</span></h2>
+        <div class="faq-item">
+            <div class="faq-question">Сколько времени занимает разработка? <span>+</span></div>
+            <div class="faq-answer">Простые лендинги — 2-3 дня. Сайты-визитки — до недели. Все зависит от сложности и количества правок.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Как происходит оплата? <span>+</span></div>
+            <div class="faq-answer">Оплата 50/50. Половина — предоплата, половина — после сдачи проекта. Перевод на карту или СБП.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Вы даете гарантию? <span>+</span></div>
+            <div class="faq-answer">Да, я бесплатно исправляю ошибки в течение 14 дней после сдачи проекта. Если что-то сломалось по моей вине — чиню за свой счет.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Смогу ли я сам редактировать сайт? <span>+</span></div>
+            <div class="faq-answer">Конечно. Я покажу, как менять текст и картинки. Если нужно, сделаю админ-панель.</div>
+        </div>
+    </section>
+
+    <!-- 8. КОНТАКТЫ -->
+    <section class="contacts reveal">
+        <h2 class="section-title">Готов <span>начать?</span></h2>
+        <p style="font-size: 1.5rem; color: #aaa; margin-bottom: 40px;">Напиши мне прямо сейчас, и мы обсудим твой будущий сайт.</p>
+        <a href="https://t.me/твой_ник" class="btn" target="_blank">Написать в Telegram</a>
     </section>
 
     <!-- ПОДВАЛ -->
     <footer>
-        <p>© 2026 site referencov dimona. Все права защищены.</p>
+        <p>© 2026 site referencov dimona. Сделано с любовью и нейросетями.</p>
     </footer>
 
-    <!-- СКРИПТ ДЛЯ АНИМАЦИЙ -->
+    <!-- СКРИПТЫ -->
     <script>
-        // Анимация появления элементов при скролле
+        // 1. Анимация появления при скролле
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -353,18 +413,28 @@
                 var elementVisible = 150;
                 if (elementTop < windowHeight - elementVisible) {
                     reveals[i].classList.add("active");
-                } else {
-                    reveals[i].classList.remove("active");
                 }
             }
         }
         window.addEventListener("scroll", reveal);
 
-        // Плавный скролл для кнопки
-        document.querySelector('a[href="#services"]').addEventListener('click', function(e) {
-            e.preventDefault();
-            document.querySelector('#services').scrollIntoView({
-                behavior: 'smooth'
+        // 2. Аккордеон для FAQ
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', () => {
+                const parent = item.parentElement;
+                parent.classList.toggle('active');
+                
+                // Меняем плюс на минус
+                const span = item.querySelector('span');
+                span.textContent = parent.classList.contains('active') ? '-' : '+';
+                
+                // Плавное раскрытие
+                const answer = parent.querySelector('.faq-answer');
+                if (parent.classList.contains('active')) {
+                    answer.style.maxHeight = answer.scrollHeight + "px";
+                } else {
+                    answer.style.maxHeight = 0;
+                }
             });
         });
     </script>
