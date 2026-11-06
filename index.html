@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>site referencov dimona | Премиум разработка</title>
+    <title>Дмитрий | Веб-разработчик</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* БАЗА */
+        /* БАЗА (ЖЕЛТО-ОРАНЖЕВАЯ ГАММА) */
         :root {
             --bg-color: #050505;
-            --primary: #ff8c00;
-            --secondary: #00d4ff;
+            --primary: #ff8c00; /* Оранжевый */
+            --secondary: #ffd700; /* Золотой/Желтый */
             --text-main: #ffffff;
             --text-muted: #999999;
             --card-bg: #111111;
@@ -36,7 +36,7 @@
         ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--primary), var(--secondary)); border-radius: 10px; }
 
         /* АНИМАЦИИ */
-        @keyframes diamondShine {
+        @keyframes goldenShine {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
@@ -44,19 +44,27 @@
 
         @keyframes float {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-25px); }
+            50% { transform: translateY(-20px); }
             100% { transform: translateY(0px); }
         }
 
         @keyframes pulseGlow {
-            0% { box-shadow: 0 0 10px var(--primary); }
-            50% { box-shadow: 0 0 40px var(--primary), 0 0 60px var(--secondary); }
-            100% { box-shadow: 0 0 10px var(--primary); }
+            0% { box-shadow: 0 0 10px rgba(255, 140, 0, 0.4); }
+            50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.6); }
+            100% { box-shadow: 0 0 10px rgba(255, 140, 0, 0.4); }
         }
 
-        /* ПОЯВЛЕНИЕ ПРИ СКРОЛЛЕ */
-        .reveal { opacity: 0; transform: translateY(60px); transition: all 1s cubic-bezier(0.5, 0, 0, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        /* 100 РАЗ ПЛАВНЕЕ АНИМАЦИИ ПОЯВЛЕНИЯ */
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(40px); 
+            transition: opacity 1.5s ease-out, transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1); 
+            will-change: opacity, transform;
+        }
+        .reveal.active { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
 
         /* ОБЩИЕ СТИЛИ */
         section { padding: 120px 5%; position: relative; }
@@ -66,6 +74,7 @@
             margin-bottom: 70px;
             text-transform: uppercase;
             font-weight: 900;
+            color: #fff;
         }
         .section-title span {
             background: linear-gradient(90deg, var(--primary), var(--secondary));
@@ -86,13 +95,13 @@
 
         .diamond-hand {
             font-size: 12rem;
-            animation: float 4s ease-in-out infinite;
+            animation: float 5s ease-in-out infinite;
             margin-bottom: 30px;
             text-shadow: 0 0 30px var(--primary), 0 0 60px var(--secondary);
             cursor: pointer;
             transition: 0.4s;
         }
-        .diamond-hand:hover { transform: scale(1.1) rotate(10deg); }
+        .diamond-hand:hover { transform: scale(1.05) rotate(5deg); }
 
         .hero h1 {
             font-size: 6rem;
@@ -101,7 +110,7 @@
             background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: diamondShine 3s linear infinite;
+            animation: goldenShine 4s linear infinite;
             margin-bottom: 20px;
             font-weight: 900;
             letter-spacing: 5px;
@@ -125,12 +134,12 @@
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 2px;
-            animation: pulseGlow 2s infinite;
-            transition: 0.3s;
+            animation: pulseGlow 3s infinite;
+            transition: 0.4s;
             text-decoration: none;
             display: inline-block;
         }
-        .btn:hover { transform: scale(1.05); animation: none; box-shadow: 0 0 60px var(--secondary); }
+        .btn:hover { transform: scale(1.05); animation: none; box-shadow: 0 0 50px var(--secondary); }
 
         /* ОБО МНЕ */
         .about { background: #0a0a0a; }
@@ -154,7 +163,7 @@
             align-items: center;
             justify-content: center;
             font-size: 8rem;
-            box-shadow: 0 0 40px rgba(0, 212, 255, 0.1);
+            box-shadow: 0 0 40px rgba(255, 140, 0, 0.1);
         }
 
         /* СЕТКИ (Услуги, Портфолио) */
@@ -175,7 +184,7 @@
             background: linear-gradient(45deg, transparent, rgba(255,140,0,0.08), transparent);
             transform: translateX(-100%); transition: 0.6s; z-index: -1;
         }
-        .card:hover { transform: translateY(-15px); border-color: var(--primary); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
         .card:hover::before { transform: translateX(100%); }
         
         .card-icon { font-size: 4rem; margin-bottom: 20px; }
@@ -191,7 +200,7 @@
             display: flex; align-items: center; justify-content: center;
             border: 2px solid transparent; transition: 0.4s; cursor: pointer;
         }
-        .work-item:hover { border-color: var(--secondary); transform: scale(1.03); box-shadow: 0 0 40px rgba(0, 212, 255, 0.2); }
+        .work-item:hover { border-color: var(--secondary); transform: scale(1.03); box-shadow: 0 0 40px rgba(255, 215, 0, 0.2); }
         .work-item h4 { font-size: 2rem; color: rgba(255,255,255,0.1); transition: 0.4s; }
         .work-item:hover h4 { color: var(--secondary); text-shadow: 0 0 20px var(--secondary); }
 
@@ -220,11 +229,11 @@
             padding: 25px; font-size: 1.2rem; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s;
         }
         .faq-question:hover { background: #1a1a1a; }
-        .faq-answer { padding: 0 25px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease; color: var(--text-muted); line-height: 1.6; }
+        .faq-answer { padding: 0 25px; max-height: 0; overflow: hidden; transition: max-height 0.5s ease; color: var(--text-muted); line-height: 1.6; }
         .faq-item.active .faq-answer { padding-bottom: 25px; }
 
         /* КОНТАКТЫ И ФУТЕР */
-        .contacts { text-align: center; background: radial-gradient(circle at bottom, rgba(0, 212, 255, 0.1) 0%, transparent 60%); padding-bottom: 50px; }
+        .contacts { text-align: center; background: radial-gradient(circle at bottom, rgba(255, 215, 0, 0.1) 0%, transparent 60%); padding-bottom: 50px; }
         .contacts h2 { font-size: 4rem; margin-bottom: 30px; }
         footer { text-align: center; padding: 40px; background: #000; border-top: 1px solid #111; color: #555; }
 
@@ -248,18 +257,18 @@
     <!-- 1. ГЛАВНЫЙ ЭКРАН -->
     <section class="hero">
         <div class="diamond-hand">💎🫱</div>
-        <h1>site referencov dimona</h1>
+        <h1>Дмитрий</h1>
         <p>Премиальные сайты, которые приносят деньги. Разработка под ключ с использованием современных технологий и анимаций.</p>
         <a href="#services" class="btn">Начать проект</a>
     </section>
 
     <!-- 2. ОБО МНЕ -->
     <section class="about reveal">
-        <h2 class="section-title">Кто такой <span>Димона</span></h2>
+        <h2 class="section-title">Кто такой <span>Дмитрий</span></h2>
         <div class="about-content">
             <div class="about-text">
                 <h3>Привет! Я твой веб-разработчик.</h3>
-                <p>Меня зовут Димона, и я создаю сайты, которые выглядят дорого и работают быстро. Мне 13 лет, но я уже разбираюсь в HTML, CSS, JavaScript и Python.</p>
+                <p>Меня зовут Дмитрий, и я создаю сайты, которые выглядят дорого и работают быстро. Мне 13 лет, но я уже разбираюсь в HTML, CSS, JavaScript и Python.</p>
                 <p>Я не просто верстаю страницы. Я создаю цифровые визитки, которые помогают бизнесу выделяться. Никакого шаблонного кода — только индивидуальный подход.</p>
                 <p>Моя цель — сделать так, чтобы твой сайт приносил тебе клиентов и прибыль. И я знаю, как это сделать.</p>
             </div>
@@ -267,10 +276,16 @@
         </div>
     </section>
 
-    <!-- 3. УСЛУГИ -->
+    <!-- 3. УСЛУГИ (От дешевого к дорогому) -->
     <section id="services" class="reveal">
         <h2 class="section-title">Мои <span>Услуги</span></h2>
         <div class="grid-3">
+            <div class="card">
+                <div class="card-icon">⚙️</div>
+                <h3>Верстка</h3>
+                <p>У тебя есть дизайн в Figma? Я сверстаю его в чистый код без ошибок и багов.</p>
+                <div class="price">от 1500 ₽</div>
+            </div>
             <div class="card">
                 <div class="card-icon">🚀</div>
                 <h3>Лендинги</h3>
@@ -284,10 +299,10 @@
                 <div class="price">от 3000 ₽</div>
             </div>
             <div class="card">
-                <div class="card-icon">🛒</div>
-                <h3>Интернет-магазины</h3>
-                <p>Полноценные магазины с корзиной, каталогом и оплатой. Для серьезного бизнеса.</p>
-                <div class="price">от 10000 ₽</div>
+                <div class="card-icon">🤖</div>
+                <h3>Telegram-боты</h3>
+                <p>Автоматизируй бизнес с помощью ботов. Прием заявок, ответы на вопросы, каталог.</p>
+                <div class="price">от 4000 ₽</div>
             </div>
             <div class="card">
                 <div class="card-icon">🎨</div>
@@ -296,16 +311,10 @@
                 <div class="price">от 5000 ₽</div>
             </div>
             <div class="card">
-                <div class="card-icon">⚙️</div>
-                <h3>Верстка</h3>
-                <p>У тебя есть дизайн в Figma? Я сверстаю его в чистый код без ошибок и багов.</p>
-                <div class="price">от 1500 ₽</div>
-            </div>
-            <div class="card">
-                <div class="card-icon">🤖</div>
-                <h3>Telegram-боты</h3>
-                <p>Автоматизируй бизнес с помощью ботов. Прием заявок, ответы на вопросы, каталог.</p>
-                <div class="price">от 4000 ₽</div>
+                <div class="card-icon">🛒</div>
+                <h3>Интернет-магазины</h3>
+                <p>Полноценные магазины с корзиной, каталогом и оплатой. Для серьезного бизнеса.</p>
+                <div class="price">от 10000 ₽</div>
             </div>
         </div>
     </section>
@@ -323,9 +332,9 @@
         </div>
     </section>
 
-    <!-- 5. ЭТАПЫ РАБОТЫ -->
+    <!-- 5. ЭТАПЫ РАБОТЫ ("Как Я работаю") -->
     <section class="steps reveal">
-        <h2 class="section-title">Как мы <span>Работаем</span></h2>
+        <h2 class="section-title">Как <span>Я работаю</span></h2>
         <div class="steps-grid">
             <div class="step-card">
                 <div class="step-num">1</div>
@@ -355,7 +364,7 @@
         <h2 class="section-title">Что говорят <span>Клиенты</span></h2>
         <div class="reviews-grid">
             <div class="review-card">
-                <p class="review-text">«Димона сделал сайт для моего салона за 2 дня. Выглядит дорого, клиенты записываются через кнопку. Рекомендую!»</p>
+                <p class="review-text">«Дмитрий сделал сайт для моего салона за 2 дня. Выглядит дорого, клиенты записываются через кнопку. Рекомендую!»</p>
                 <div class="review-author">— Елена, салон красоты</div>
             </div>
             <div class="review-card">
@@ -399,24 +408,26 @@
 
     <!-- ПОДВАЛ -->
     <footer>
-        <p>© 2026 site referencov dimona. Сделано с любовью и нейросетями.</p>
+        <p>© 2026 Дмитрий | Веб-разработчик. Сделано с любовью и нейросетями.</p>
     </footer>
 
     <!-- СКРИПТЫ -->
     <script>
-        // 1. Анимация появления при скролле
+        // 1. Плавная анимация появления при скролле
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
                 var windowHeight = window.innerHeight;
                 var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 150;
+                var elementVisible = 100; // Срабатывает чуть раньше
                 if (elementTop < windowHeight - elementVisible) {
                     reveals[i].classList.add("active");
                 }
             }
         }
         window.addEventListener("scroll", reveal);
+        // Вызываем один раз при загрузке, чтобы верхние блоки тоже появились
+        reveal();
 
         // 2. Аккордеон для FAQ
         document.querySelectorAll('.faq-question').forEach(item => {
@@ -424,11 +435,9 @@
                 const parent = item.parentElement;
                 parent.classList.toggle('active');
                 
-                // Меняем плюс на минус
                 const span = item.querySelector('span');
                 span.textContent = parent.classList.contains('active') ? '-' : '+';
                 
-                // Плавное раскрытие
                 const answer = parent.querySelector('.faq-answer');
                 if (parent.classList.contains('active')) {
                     answer.style.maxHeight = answer.scrollHeight + "px";
