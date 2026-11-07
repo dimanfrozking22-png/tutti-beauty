@@ -44,7 +44,7 @@
 
         @keyframes floatHand {
             0% { transform: translateY(0px) rotate(0deg) scale(1); }
-            50% { transform: translateY(-30px) rotate(5deg) scale(1.05); }
+            50% { transform: translateY(-20px) rotate(5deg) scale(1.05); }
             100% { transform: translateY(0px) rotate(0deg) scale(1); }
         }
 
@@ -52,6 +52,11 @@
             0% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.4); opacity: 0.9; }
             50% { box-shadow: 0 0 80px rgba(255, 215, 0, 0.8); opacity: 1; }
             100% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.4); opacity: 0.9; }
+        }
+
+        @keyframes rotateRing {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* ПЛАВНОЕ ПОЯВЛЕНИЕ */
@@ -89,6 +94,7 @@
             margin-bottom: 40px;
             width: 400px;
             height: 400px;
+            transition: transform 0.1s ease-out; /* Для параллакса */
         }
 
         .glow-ring {
@@ -96,8 +102,9 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 140, 0, 0.2) 0%, transparent 70%);
-            animation: pulseGlow 3s infinite alternate;
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.15) 0%, transparent 70%);
+            border: 2px dashed rgba(255, 140, 0, 0.3); /* Пунктирное кольцо */
+            animation: pulseGlow 3s infinite alternate, rotateRing 20s linear infinite;
             z-index: -1;
         }
 
@@ -251,11 +258,30 @@
         .step-card h3 { font-size: 1.5rem; margin-bottom: 10px; }
         .step-card p { color: var(--text-muted); }
 
-        /* ОТЗЫВЫ */
-        .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; }
-        .review-card { background: var(--card-bg); padding: 40px; border-radius: 20px; border-left: 4px solid var(--primary); }
-        .review-text { font-style: italic; color: #ccc; margin-bottom: 20px; font-size: 1.1rem; line-height: 1.6; }
-        .review-author { font-weight: 900; color: var(--primary); }
+        /* ОТЗЫВЫ (НОВЫЙ БЛОК) */
+        .empty-reviews {
+            text-align: center;
+            background: var(--card-bg);
+            padding: 60px 40px;
+            border-radius: 25px;
+            border: 2px dashed rgba(255, 140, 0, 0.3);
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(255, 140, 0, 0.05);
+        }
+        .empty-reviews::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255, 140, 0, 0.1), transparent 30%);
+            animation: rotateRing 6s linear infinite;
+            z-index: 0;
+        }
+        .empty-icon { font-size: 5rem; margin-bottom: 20px; position: relative; z-index: 1; animation: floatHand 4s ease-in-out infinite;}
+        .empty-reviews p { font-size: 1.5rem; color: var(--text-muted); margin-bottom: 15px; position: relative; z-index: 1; line-height: 1.6;}
+        .empty-reviews p:last-child { font-size: 1.8rem; color: var(--secondary); font-weight: 900; margin-bottom: 0; }
 
         /* FAQ */
         .faq { background: #0a0a0a; max-width: 900px; margin: 0 auto; }
@@ -289,6 +315,8 @@
             .glow-ring { width: 250px; height: 250px; }
             .hero-images { width: 250px; height: 250px; }
             .section-title { font-size: 2.2rem; }
+            .empty-reviews p { font-size: 1.2rem; }
+            .empty-reviews p:last-child { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -296,7 +324,7 @@
 
     <!-- 1. ГЛАВНЫЙ ЭКРАН -->
     <section class="hero" id="hero">
-        <div class="hero-images">
+        <div class="hero-images" id="parallax-hand">
             <div class="glow-ring"></div>
             <img src="hand.png" alt="Hand" class="animated-img">
         </div>
@@ -308,13 +336,13 @@
     <!-- ОБЕРТКА ДЛЯ КОНТЕНТА -->
     <div class="content-wrapper">
         
-        <!-- 2. ОБО МНЕ (ВАРИАНТ 2) -->
+        <!-- 2. ОБО МНЕ -->
         <section class="about reveal">
             <h2 class="section-title">Обо <span>мне</span></h2>
             <div class="about-content">
                 <div class="about-text">
                     <h3>Я — Дмитрий, веб-разработчик.</h3>
-                    <p>Превращаю идеи в работающие инструменты для бизнеса. Мне 14 лет, но я уже разбираюсь в HTML, CSS, JavaScript и Python.</p>
+                    <p>Превращаю идеи в работающие инструменты для бизнеса. Мне 13 лет, но я уже разбираюсь в HTML, CSS, JavaScript и Python.</p>
                     <p>Я не просто верстаю страницы. Я создаю цифровые визитки, которые помогают бизнесу выделяться. Никакого шаблонного кода — только индивидуальный подход.</p>
                     <p>Моя цель — сделать так, чтобы твой сайт приносил тебе клиентов и прибыль. И я знаю, как это сделать.</p>
                 </div>
@@ -405,22 +433,13 @@
             </div>
         </section>
 
-        <!-- 6. ОТЗЫВЫ -->
+        <!-- 6. ОТЗЫВЫ (ЗАГЛУШКА) -->
         <section class="reveal">
             <h2 class="section-title">Что говорят <span>Клиенты</span></h2>
-            <div class="reviews-grid">
-                <div class="review-card">
-                    <p class="review-text">«Дмитрий сделал сайт для моего салона за 2 дня. Выглядит дорого, клиенты записываются через кнопку. Рекомендую!»</p>
-                    <div class="review-author">— Елена, салон красоты</div>
-                </div>
-                <div class="review-card">
-                    <p class="review-text">«Очень крутые анимации. Сайт летает, даже на телефоне. Сделал быстрее, чем я ожидал.»</p>
-                    <div class="review-author">— Максим, автосервис</div>
-                </div>
-                <div class="review-card">
-                    <p class="review-text">«Понравился подход. Все четко, без воды. За такие деньги — просто подарок.»</p>
-                    <div class="review-author">— Ольга, кофейня</div>
-                </div>
+            <div class="empty-reviews">
+                <div class="empty-icon">💬</div>
+                <p>Здесь пока пусто. Я только начинаю свой путь в веб-разработке, поэтому отзывов еще нет.</p>
+                <p>Стань моим первым клиентом! И я сделаю всё, чтобы ты остался в восторге.</p>
             </div>
         </section>
 
@@ -473,7 +492,19 @@
             hero.style.transform = `scale(${1 - (scrollY * 0.0005)})`;
         });
 
-        // 2. АНИМАЦИЯ ПОЯВЛЕНИЯ (РАБОТАЕТ В ОБЕ СТОРОНЫ)
+        // 2. ПАРАЛЛАКС ДЛЯ РУКИ (СЛЕДУЕТ ЗА МЫШКОЙ)
+        document.addEventListener('mousemove', (e) => {
+            const handContainer = document.getElementById('parallax-hand');
+            
+            // Вычисляем смещение от центра экрана
+            const x = (window.innerWidth / 2 - e.pageX) / 25;
+            const y = (window.innerHeight / 2 - e.pageY) / 25;
+            
+            // Применяем трансформацию к контейнеру (чтобы не сбить анимацию floatHand)
+            handContainer.style.transform = `translate(${x}px, ${y}px)`;
+        });
+
+        // 3. АНИМАЦИЯ ПОЯВЛЕНИЯ (РАБОТАЕТ В ОБЕ СТОРОНЫ)
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -492,7 +523,7 @@
         window.addEventListener("scroll", reveal);
         reveal();
 
-        // 3. АККОРДЕОН ДЛЯ FAQ
+        // 4. АККОРДЕОН ДЛЯ FAQ
         document.querySelectorAll('.faq-question').forEach(item => {
             item.addEventListener('click', () => {
                 const parent = item.parentElement;
