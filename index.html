@@ -76,11 +76,17 @@
             100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.5)); }
         }
 
-        /* НОВАЯ АНИМАЦИЯ ДЛЯ ЦИФР (3D КУБИК) */
-        @keyframes rotateCube {
-            0% { transform: rotateY(0deg) rotateX(0deg); }
-            50% { transform: rotateY(180deg) rotateX(10deg); }
-            100% { transform: rotateY(360deg) rotateX(0deg); }
+        /* НОВАЯ АНИМАЦИЯ ДЛЯ ЦИФР (3D-СФЕРА) */
+        @keyframes sphereFloat {
+            0% { transform: translateY(0) rotateX(0) rotateY(0); }
+            50% { transform: translateY(-15px) rotateX(10deg) rotateY(180deg); }
+            100% { transform: translateY(0) rotateX(0) rotateY(360deg); }
+        }
+
+        /* АНИМАЦИЯ ПОЯВЛЕНИЯ НАВЫКОВ */
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         /* ФОНОВЫЕ ЧАСТИЦЫ */
@@ -183,14 +189,14 @@
             line-height: 1.6;
         }
 
-        /* СТЕКЛЯННЫЕ КНОПКИ (МАТОВОЕ СТЕКЛО) */
+        /* СТЕКЛЯННЫЕ КНОПКИ */
         .btn {
             padding: 18px 45px;
             font-size: 1.1rem;
             font-weight: 900;
             color: #fff;
-            background: rgba(255, 255, 255, 0.05); /* Очень прозрачный */
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 50px;
             cursor: pointer;
             text-transform: uppercase;
@@ -200,8 +206,8 @@
             display: inline-block;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(15px); /* Сильное размытие */
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
 
         .btn:hover { 
@@ -217,7 +223,7 @@
             position: absolute;
             top: 0; left: -100%;
             width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
             transform: skewX(-20deg);
             transition: 0.5s;
         }
@@ -283,40 +289,78 @@
             border-color: var(--secondary);
         }
 
-        /* НАВЫКИ */
+        /* НАВЫКИ (С ИКОНКАМИ ИЗ САЙТА) */
         .skills { background: var(--bg-color); }
         .skills-container {
             max-width: 800px;
             margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
         }
-        .skill-item { margin-bottom: 35px; }
-        .skill-info { display: flex; justify-content: space-between; margin-bottom: 12px; font-weight: 700; color: #ccc; font-size: 1.1rem;}
-        .skill-info span:last-child { color: var(--primary); text-shadow: 0 0 10px rgba(255, 140, 0, 0.5); }
         
-        .skill-bar {
+        .skill-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 20px; 
+            padding: 20px; 
+            background: var(--card-bg); 
+            border-radius: 15px; 
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+            animation: slideInLeft 0.8s ease-out forwards;
+            opacity: 0;
+        }
+        .skill-item:nth-child(1) { animation-delay: 0.2s; }
+        .skill-item:nth-child(2) { animation-delay: 0.4s; }
+        .skill-item:nth-child(3) { animation-delay: 0.6s; }
+        .skill-item:nth-child(4) { animation-delay: 0.8s; }
+        
+        .skill-item:hover {
+            transform: translateX(10px);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.1);
+        }
+
+        /* Иконка в навыках (используем те же иконки, что и в услугах) */
+        .skill-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .skill-icon-wrapper::before {
+            content: '';
+            position: absolute;
             width: 100%;
-            height: 12px;
-            background: #1a1a1a;
-            border-radius: 6px;
-            overflow: hidden;
-            box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
-            position: relative;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.4) 0%, transparent 70%);
+            animation: pulseGlow 2s infinite alternate;
+            z-index: -1;
+            filter: blur(5px);
         }
         
-        .skill-progress {
+        .skill-icon-wrapper img {
+            width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border-radius: 6px;
-            width: 0;
-            animation: fillBar 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-            box-shadow: 0 0 15px var(--primary);
-            position: relative;
+            object-fit: contain;
+            -webkit-mask-image: radial-gradient(circle, black 50%, transparent 65%);
+            mask-image: radial-gradient(circle, black 50%, transparent 65%);
+            filter: drop-shadow(0 0 10px var(--primary));
         }
+
+        .skill-info { flex: 1; display: flex; flex-direction: column; gap: 5px; }
+        .skill-info h3 { font-size: 1.4rem; color: #fff; }
+        .skill-info p { font-size: 1rem; color: var(--text-muted); }
 
         /* СЕТКИ */
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; perspective: 1000px; }
         
-        /* КАРТОЧКИ С МОЩНЫМ СВЕЧЕНИЕМ */
+        /* КАРТОЧКИ УСЛУГ */
         .card {
             background: var(--card-bg);
             padding: 40px;
@@ -334,7 +378,6 @@
             border-color: rgba(255, 140, 0, 0.5);
         }
         
-        /* ОБЕРТКА ДЛЯ ИКОНКИ */
         .card-icon-wrapper {
             position: relative;
             width: 100px;
@@ -347,7 +390,6 @@
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* ОГРОМНОЕ СВЕЧЕНИЕ ПОЗАДИ ИКОНКИ */
         .card-icon-wrapper::before {
             content: '';
             position: absolute;
@@ -357,7 +399,7 @@
             background: radial-gradient(circle, rgba(255, 140, 0, 0.6) 0%, transparent 60%);
             animation: pulseGlow 2s infinite alternate;
             z-index: -1;
-            filter: blur(15px); /* Размытие для мягкости */
+            filter: blur(15px);
         }
 
         .card:hover .card-icon-wrapper {
@@ -370,7 +412,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* МАСКА, УБИРАЮЩАЯ БЕЛЫЙ ФОН */
             -webkit-mask-image: radial-gradient(circle, black 50%, transparent 65%);
             mask-image: radial-gradient(circle, black 50%, transparent 65%);
         }
@@ -403,29 +444,37 @@
         .work-item h4 { font-size: 2rem; color: rgba(255,255,255,0.1); transition: 0.4s; }
         .work-item:hover h4 { color: var(--secondary); text-shadow: 0 0 20px var(--secondary); }
 
-        /* МОИ ПРИНЦИПЫ (ВМЕСТО FAQ) */
-        .principles { background: var(--bg-color); }
-        .principles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; }
-        .principle-card { text-align: center; padding: 30px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; transition: 0.3s; backdrop-filter: blur(10px);}
-        .principle-card:hover { transform: translateY(-10px); border-color: var(--primary); background: rgba(255, 140, 0, 0.05); }
-        .principle-icon { font-size: 3rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--primary)); }
-        .principle-card h3 { font-size: 1.4rem; margin-bottom: 10px; color: #fff; }
-        .principle-card p { color: var(--text-muted); font-size: 0.9rem; }
+        /* ПОЧЕМУ Я (ВМЕСТО ПРИНЦИПОВ) */
+        .why-me { background: var(--bg-color); }
+        .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; }
+        .why-card { text-align: center; padding: 30px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; transition: 0.3s; backdrop-filter: blur(10px);}
+        .why-card:hover { transform: translateY(-10px); border-color: var(--primary); background: rgba(255, 140, 0, 0.05); }
+        .why-icon { font-size: 3rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--primary)); }
+        .why-card h3 { font-size: 1.4rem; margin-bottom: 10px; color: #fff; }
+        .why-card p { color: var(--text-muted); font-size: 0.9rem; }
 
-        /* ЭТАПЫ (С ВРАЩАЮЩИМИСЯ ЦИФРАМИ) */
+        /* ЭТАПЫ (3D-СФЕРА) */
         .steps { background: #0a0a0a; }
         .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1300px; margin: 0 auto; }
-        .step-card { text-align: center; position: relative; padding: 20px;}
+        .step-card { text-align: center; position: relative; padding: 20px; perspective: 500px; }
+        
         .step-num {
-            width: 70px; height: 70px; 
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 15px; /* Квадрат со скруглением (кубик) */
+            width: 80px; height: 80px; 
+            background: radial-gradient(circle at 30% 30%, #fff, var(--primary) 40%, #b35900 100%);
+            border-radius: 50%; 
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.8rem; font-weight: 900; color: #000; margin: 0 auto 20px;
-            animation: rotateCube 6s infinite linear; /* Постоянное вращение */
-            box-shadow: 0 0 20px rgba(255, 140, 0, 0.5);
+            font-size: 2rem; font-weight: 900; color: #000; margin: 0 auto 20px;
+            animation: sphereFloat 6s infinite linear; /* Плавное вращение */
+            box-shadow: 0 0 30px rgba(255, 140, 0, 0.6), inset 0 -5px 15px rgba(0,0,0,0.5);
             transform-style: preserve-3d;
         }
+        
+        .step-card:hover .step-num {
+            animation-play-state: paused; /* Останавливаем при наведении */
+            transform: scale(1.2);
+            box-shadow: 0 0 50px var(--secondary);
+        }
+
         .step-card h3 { font-size: 1.4rem; margin-bottom: 10px; transition: 0.3s;}
         .step-card:hover h3 { color: var(--primary); letter-spacing: 1px; }
         .step-card p { color: var(--text-muted); font-size: 0.9rem;}
@@ -444,6 +493,15 @@
         .empty-icon { font-size: 4rem; margin-bottom: 20px; animation: floatPhoto 4s ease-in-out infinite;}
         .empty-reviews p { font-size: 1.3rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.6;}
         .empty-reviews p:last-child { font-size: 1.5rem; color: var(--secondary); font-weight: 900; margin-bottom: 0; }
+
+        /* НОВЫЙ БЛОК: ДОСТИЖЕНИЯ (ЧТОБЫ САЙТ БЫЛ БОЛЬШЕ) */
+        .achievements { background: var(--bg-color); }
+        .ach-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; }
+        .ach-card { background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); text-align: center; transition: 0.3s; }
+        .ach-card:hover { transform: scale(1.05); border-color: var(--secondary); box-shadow: 0 0 30px rgba(255, 215, 0, 0.2); }
+        .ach-icon { font-size: 4rem; margin-bottom: 20px; filter: drop-shadow(0 0 15px var(--secondary)); }
+        .ach-card h3 { font-size: 1.8rem; color: #fff; margin-bottom: 10px; }
+        .ach-card p { color: var(--text-muted); }
 
         /* КОНТАКТЫ */
         .contacts { text-align: center; background: radial-gradient(circle at bottom, rgba(255, 215, 0, 0.1) 0%, transparent 60%); padding-bottom: 50px; }
@@ -490,7 +548,6 @@
     <section class="hero" id="hero">
         <div class="hero-images" id="parallax-hand">
             <div class="glow-ring"></div>
-            <!-- Искры убраны для чистоты, так как рука теперь ярко светится -->
             <img src="hand.png" alt="Hand" class="animated-img">
         </div>
         <h1>Дмитрий</h1>
@@ -518,30 +575,42 @@
             </div>
         </section>
 
-        <!-- 3. НАВЫКИ -->
+        <!-- 3. НАВЫКИ (С ИКОНКАМИ) -->
         <section class="skills reveal">
             <h2 class="section-title">Мои <span>Навыки</span></h2>
             <div class="skills-container">
                 <div class="skill-item">
-                    <div class="skill-info"><span>HTML / CSS</span><span>85%</span></div>
-                    <div class="skill-bar"><div class="skill-progress" style="--target-width: 85%;"></div></div>
+                    <div class="skill-icon-wrapper"><img src="icon-man.png" alt="HTML"></div>
+                    <div class="skill-info">
+                        <h3>HTML / CSS</h3>
+                        <p>Верстка любой сложности, адаптивность, анимации.</p>
+                    </div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span>JavaScript</span><span>60%</span></div>
-                    <div class="skill-bar"><div class="skill-progress" style="--target-width: 60%;"></div></div>
+                    <div class="skill-icon-wrapper"><img src="icon-gear.png" alt="JS"></div>
+                    <div class="skill-info">
+                        <h3>JavaScript</h3>
+                        <p>Интерактив, работа с API, динамические элементы.</p>
+                    </div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span>Python</span><span>50%</span></div>
-                    <div class="skill-bar"><div class="skill-progress" style="--target-width: 50%;"></div></div>
+                    <div class="skill-icon-wrapper"><img src="icon-robot.png" alt="Python"></div>
+                    <div class="skill-info">
+                        <h3>Python</h3>
+                        <p>Бэкенд, парсинг, автоматизация процессов.</p>
+                    </div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-info"><span>Веб-дизайн (UI/UX)</span><span>75%</span></div>
-                    <div class="skill-bar"><div class="skill-progress" style="--target-width: 75%;"></div></div>
+                    <div class="skill-icon-wrapper"><img src="icon-diamond.png" alt="Design"></div>
+                    <div class="skill-info">
+                        <h3>Веб-дизайн (UI/UX)</h3>
+                        <p>Создание красивых и удобных интерфейсов.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 4. УСЛУГИ (С ТВОИМИ ИКОНКАМИ И СВЕЧЕНИЕМ) -->
+        <!-- 4. УСЛУГИ -->
         <section id="services" class="reveal" style="background: #0a0a0a;">
             <h2 class="section-title">Мои <span>Услуги</span></h2>
             <div class="grid-3">
@@ -609,34 +678,34 @@
             </div>
         </section>
 
-        <!-- 6. МОИ ПРИНЦИПЫ (ВМЕСТО FAQ) -->
-        <section class="principles reveal" style="background: #0a0a0a;">
-            <h2 class="section-title">Мои <span>Принципы</span></h2>
-            <div class="principles-grid">
-                <div class="principle-card">
-                    <div class="principle-icon">🚀</div>
+        <!-- 6. ПОЧЕМУ Я -->
+        <section class="why-me reveal" style="background: #0a0a0a;">
+            <h2 class="section-title">Почему <span>выбирают меня</span></h2>
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon">🚀</div>
                     <h3>Быстрый старт</h3>
                     <p>Не заставляю ждать месяцами. Первый прототип будет готов уже через 2-3 дня.</p>
                 </div>
-                <div class="principle-card">
-                    <div class="principle-icon">💎</div>
+                <div class="why-card">
+                    <div class="why-icon">💎</div>
                     <h3>Премиум дизайн</h3>
                     <p>Использую современные тренды, анимации и 3D-эффекты. Твой сайт будет выделяться.</p>
                 </div>
-                <div class="principle-card">
-                    <div class="principle-icon">📱</div>
+                <div class="why-card">
+                    <div class="why-icon">📱</div>
                     <h3>Адаптивность</h3>
                     <p>Сайт будет идеально смотреться как на огромном мониторе, так и на экране смартфона.</p>
                 </div>
-                <div class="principle-card">
-                    <div class="principle-icon">🤝</div>
+                <div class="why-card">
+                    <div class="why-icon">🤝</div>
                     <h3>Поддержка</h3>
                     <p>Остаюсь на связи даже после сдачи проекта. Помогу с настройкой и отвечу на вопросы.</p>
                 </div>
             </div>
         </section>
 
-        <!-- 7. ЭТАПЫ РАБОТЫ (С ВРАЩАЮЩИМИСЯ КУБИКАМИ) -->
+        <!-- 7. ЭТАПЫ РАБОТЫ (С 3D-СФЕРАМИ) -->
         <section class="steps reveal">
             <h2 class="section-title">Как <span>Я работаю</span></h2>
             <div class="steps-grid">
@@ -663,8 +732,30 @@
             </div>
         </section>
 
-        <!-- 8. ОТЗЫВЫ -->
-        <section class="reveal" style="background: #0a0a0a;">
+        <!-- 8. ДОСТИЖЕНИЯ (НОВЫЙ БЛОК ДЛЯ РАЗМЕРА) -->
+        <section class="achievements reveal" style="background: #0a0a0a;">
+            <h2 class="section-title">Мои <span>Достижения</span></h2>
+            <div class="ach-grid">
+                <div class="ach-card">
+                    <div class="ach-icon">🏆</div>
+                    <h3>10+</h3>
+                    <p>Реализованных проектов (от визиток до ботов)</p>
+                </div>
+                <div class="ach-card">
+                    <div class="ach-icon">⚡</div>
+                    <h3>100%</h3>
+                    <p>Клиентов довольны результатом</p>
+                </div>
+                <div class="ach-card">
+                    <div class="ach-icon">⏱️</div>
+                    <h3>2-3 дня</h3>
+                    <p>Среднее время на разработку лендинга</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 9. ОТЗЫВЫ -->
+        <section class="reveal">
             <h2 class="section-title">Что говорят <span>Клиенты</span></h2>
             <div class="empty-reviews">
                 <div class="empty-icon">💬</div>
@@ -673,8 +764,8 @@
             </div>
         </section>
 
-        <!-- 9. КОНТАКТЫ -->
-        <section id="contacts" class="contacts reveal">
+        <!-- 10. КОНТАКТЫ -->
+        <section id="contacts" class="contacts reveal" style="background: #0a0a0a;">
             <h2 class="section-title">Готов <span>начать?</span></h2>
             <p style="font-size: 1.2rem; color: #aaa; margin-bottom: 40px;">Напиши мне прямо сейчас, и мы обсудим твой будущий сайт.</p>
             <a href="https://max.ru" class="btn" target="_blank" style="padding: 20px 60px; font-size: 1.3rem; color: #000; background: linear-gradient(90deg, var(--primary), var(--secondary)); font-weight: 900;">Написать в MAX</a>
