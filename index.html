@@ -42,7 +42,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* НОВЫЕ АНИМАЦИИ ДЛЯ РУКИ */
         @keyframes floatHand {
             0% { transform: translateY(0px) rotate(0deg) scale(1); }
             50% { transform: translateY(-30px) rotate(5deg) scale(1.05); }
@@ -55,11 +54,11 @@
             100% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.4); opacity: 0.9; }
         }
 
-        /* ПЛАВНОЕ ПОЯВЛЕНИЕ */
+        /* ПЛАВНОЕ ПОЯВЛЕНИЕ (УВЕЛИЧИЛИ ВРЕМЯ ДО 1.8s) */
         .reveal { 
             opacity: 0; 
             transform: translateY(60px); 
-            transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1); 
+            transition: opacity 1.8s ease-out, transform 1.8s cubic-bezier(0.2, 0.8, 0.2, 1); 
             will-change: opacity, transform;
         }
         .reveal.active { 
@@ -82,7 +81,6 @@
             z-index: 1;
         }
 
-        /* СТИЛИ ДЛЯ РУКИ */
         .hero-images {
             position: relative;
             display: flex;
@@ -93,7 +91,6 @@
             height: 400px;
         }
 
-        /* Золотое кольцо (пульсирует) */
         .glow-ring {
             position: absolute;
             width: 100%;
@@ -108,7 +105,6 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            /* ВОТ ЭТА МАСКА УБИРАЕТ БЕЛЫЙ ФОН, ОСТАВЛЯЯ ТОЛЬКО РУКУ */
             -webkit-mask-image: radial-gradient(circle, black 40%, transparent 70%);
             mask-image: radial-gradient(circle, black 40%, transparent 70%);
             filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.8)); 
@@ -302,7 +298,6 @@
     <section class="hero" id="hero">
         <div class="hero-images">
             <div class="glow-ring"></div>
-            <!-- Твоя рука. Название файла: hand.png -->
             <img src="hand.png" alt="Hand" class="animated-img">
         </div>
         <h1>Дмитрий</h1>
@@ -454,7 +449,8 @@
         <section class="contacts reveal">
             <h2 class="section-title">Готов <span>начать?</span></h2>
             <p style="font-size: 1.5rem; color: #aaa; margin-bottom: 40px;">Напиши мне прямо сейчас, и мы обсудим твой будущий сайт.</p>
-            <a href="https://t.me/твой_ник" class="btn" target="_blank">Написать в Telegram</a>
+            <!-- ЗДЕСЬ ПОМЕНЯЛИ НА MAX -->
+            <a href="https://max.ru" class="btn" target="_blank">Написать в MAX</a>
         </section>
 
     </div> <!-- Конец обертки контента -->
