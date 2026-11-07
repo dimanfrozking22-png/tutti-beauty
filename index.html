@@ -14,8 +14,8 @@
             --text-main: #ffffff;
             --text-muted: #999999;
             --card-bg: #111111;
-            --glass-bg: rgba(255, 255, 255, 0.03); /* Максимально прозрачное стекло */
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.02); /* Максимальная прозрачность */
+            --glass-border: rgba(255, 255, 255, 0.15);
         }
 
         * {
@@ -76,17 +76,20 @@
             100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.5)); }
         }
 
-        /* НОВАЯ АНИМАЦИЯ ДЛЯ ЦИФР (3D-СФЕРА) */
         @keyframes sphereFloat {
             0% { transform: translateY(0) rotateX(0) rotateY(0); }
             50% { transform: translateY(-15px) rotateX(10deg) rotateY(180deg); }
             100% { transform: translateY(0) rotateX(0) rotateY(360deg); }
         }
 
-        /* АНИМАЦИЯ ПОЯВЛЕНИЯ НАВЫКОВ */
         @keyframes slideInLeft {
             from { opacity: 0; transform: translateX(-50px); }
             to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fillBar {
+            from { width: 0; }
+            to { width: var(--target-width); }
         }
 
         /* ФОНОВЫЕ ЧАСТИЦЫ */
@@ -189,14 +192,14 @@
             line-height: 1.6;
         }
 
-        /* СТЕКЛЯННЫЕ КНОПКИ С ОРАНЖЕВЫМ ОТСВЕТОМ */
+        /* СУПЕР-СТЕКЛЯННЫЕ КНОПКИ */
         .btn {
             padding: 18px 45px;
             font-size: 1.1rem;
             font-weight: 900;
             color: #fff;
-            background: transparent; /* Полностью прозрачный фон */
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.03); /* Почти прозрачный */
+            border: 1px solid rgba(255, 255, 255, 0.25); /* Белая стеклянная рамка */
             border-radius: 50px;
             cursor: pointer;
             text-transform: uppercase;
@@ -206,20 +209,22 @@
             display: inline-block;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px); /* Эффект матового стекла */
-            box-shadow: 0 0 15px rgba(255, 140, 0, 0.1), inset 0 0 15px rgba(255, 140, 0, 0.1); /* Легкий оранжевый отсвет внутри */
+            backdrop-filter: blur(20px); /* Огромное размытие */
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.2);
         }
 
+        /* Оранжевый отсвет при наведении */
         .btn:hover { 
             transform: scale(1.05) translateY(-5px); 
-            background: rgba(255, 140, 0, 0.15); /* Оранжевая заливка при наведении */
+            background: rgba(255, 140, 0, 0.15); 
             border-color: var(--primary);
-            box-shadow: 0 0 30px rgba(255, 140, 0, 0.5), inset 0 0 20px rgba(255, 140, 0, 0.3); /* Яркий отсвет */
-            color: #fff;
-            text-shadow: 0 0 10px var(--primary);
+            box-shadow: 0 10px 40px rgba(255, 140, 0, 0.5), inset 0 0 20px rgba(255, 140, 0, 0.3);
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
         }
 
-        /* Блик по стеклу */
+        /* Блик */
         .btn::before {
             content: '';
             position: absolute;
@@ -291,20 +296,20 @@
             border-color: var(--secondary);
         }
 
-        /* НАВЫКИ (С ИКОНКАМИ) */
+        /* НАВЫКИ (С ПРОЦЕНТАМИ И ПОЛОСКАМИ) */
         .skills { background: var(--bg-color); }
         .skills-container {
             max-width: 800px;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 30px;
+            gap: 25px;
         }
         
         .skill-item { 
             display: flex; 
-            align-items: center; 
-            gap: 20px; 
+            flex-direction: column;
+            gap: 10px;
             padding: 20px; 
             background: var(--card-bg); 
             border-radius: 15px; 
@@ -319,14 +324,25 @@
         .skill-item:nth-child(4) { animation-delay: 0.8s; }
         
         .skill-item:hover {
-            transform: translateX(10px);
             border-color: var(--primary);
             box-shadow: 0 0 20px rgba(255, 140, 0, 0.1);
         }
 
+        .skill-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .skill-name-wrap {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .skill-icon-wrapper {
-            width: 60px;
-            height: 60px;
+            width: 40px;
+            height: 40px;
             position: relative;
             display: flex;
             align-items: center;
@@ -354,9 +370,25 @@
             filter: drop-shadow(0 0 10px var(--primary));
         }
 
-        .skill-info { flex: 1; display: flex; flex-direction: column; gap: 5px; }
-        .skill-info h3 { font-size: 1.4rem; color: #fff; }
-        .skill-info p { font-size: 1rem; color: var(--text-muted); }
+        .skill-name { font-size: 1.2rem; font-weight: 700; color: #fff; }
+        .skill-percent { font-size: 1.2rem; font-weight: 900; color: var(--primary); }
+
+        /* Полоска */
+        .skill-bar {
+            width: 100%;
+            height: 8px;
+            background: #222;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+            width: 0;
+            animation: fillBar 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            box-shadow: 0 0 10px var(--primary);
+        }
 
         /* СЕТКИ */
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; perspective: 1000px; }
@@ -445,7 +477,7 @@
         .work-item h4 { font-size: 2rem; color: rgba(255,255,255,0.1); transition: 0.4s; }
         .work-item:hover h4 { color: var(--secondary); text-shadow: 0 0 20px var(--secondary); }
 
-        /* ПОЧЕМУ Я (С ТВОИМИ ИКОНКАМИ) */
+        /* ПОЧЕМУ Я */
         .why-me { background: var(--bg-color); }
         .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; }
         
@@ -468,7 +500,6 @@
             box-shadow: 0 0 30px rgba(255, 140, 0, 0.2);
         }
 
-        /* Иконки в блоке Почему Я */
         .why-icon-wrapper {
             width: 70px;
             height: 70px;
@@ -616,37 +647,49 @@
             </div>
         </section>
 
-        <!-- 3. НАВЫКИ -->
+        <!-- 3. НАВЫКИ (С ПРОЦЕНТАМИ И ПОЛОСКАМИ) -->
         <section class="skills reveal">
             <h2 class="section-title">Мои <span>Навыки</span></h2>
             <div class="skills-container">
                 <div class="skill-item">
-                    <div class="skill-icon-wrapper"><img src="icon-man.png" alt="HTML"></div>
-                    <div class="skill-info">
-                        <h3>HTML / CSS</h3>
-                        <p>Верстка любой сложности, адаптивность, анимации.</p>
+                    <div class="skill-header">
+                        <div class="skill-name-wrap">
+                            <div class="skill-icon-wrapper"><img src="icon-man.png" alt="HTML"></div>
+                            <div class="skill-name">HTML / CSS</div>
+                        </div>
+                        <div class="skill-percent">85%</div>
                     </div>
+                    <div class="skill-bar"><div class="skill-progress" style="--target-width: 85%;"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-icon-wrapper"><img src="icon-gear.png" alt="JS"></div>
-                    <div class="skill-info">
-                        <h3>JavaScript</h3>
-                        <p>Интерактив, работа с API, динамические элементы.</p>
+                    <div class="skill-header">
+                        <div class="skill-name-wrap">
+                            <div class="skill-icon-wrapper"><img src="icon-gear.png" alt="JS"></div>
+                            <div class="skill-name">JavaScript</div>
+                        </div>
+                        <div class="skill-percent">60%</div>
                     </div>
+                    <div class="skill-bar"><div class="skill-progress" style="--target-width: 60%;"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-icon-wrapper"><img src="icon-robot.png" alt="Python"></div>
-                    <div class="skill-info">
-                        <h3>Python</h3>
-                        <p>Бэкенд, парсинг, автоматизация процессов.</p>
+                    <div class="skill-header">
+                        <div class="skill-name-wrap">
+                            <div class="skill-icon-wrapper"><img src="icon-robot.png" alt="Python"></div>
+                            <div class="skill-name">Python</div>
+                        </div>
+                        <div class="skill-percent">50%</div>
                     </div>
+                    <div class="skill-bar"><div class="skill-progress" style="--target-width: 50%;"></div></div>
                 </div>
                 <div class="skill-item">
-                    <div class="skill-icon-wrapper"><img src="icon-diamond.png" alt="Design"></div>
-                    <div class="skill-info">
-                        <h3>Веб-дизайн (UI/UX)</h3>
-                        <p>Создание красивых и удобных интерфейсов.</p>
+                    <div class="skill-header">
+                        <div class="skill-name-wrap">
+                            <div class="skill-icon-wrapper"><img src="icon-diamond.png" alt="Design"></div>
+                            <div class="skill-name">Веб-дизайн (UI/UX)</div>
+                        </div>
+                        <div class="skill-percent">75%</div>
                     </div>
+                    <div class="skill-bar"><div class="skill-progress" style="--target-width: 75%;"></div></div>
                 </div>
             </div>
         </section>
@@ -719,7 +762,7 @@
             </div>
         </section>
 
-        <!-- 6. ПОЧЕМУ Я (С ТВОИМИ ИКОНКАМИ) -->
+        <!-- 6. ПОЧЕМУ Я -->
         <section class="why-me reveal" style="background: #0a0a0a;">
             <h2 class="section-title">Почему <span>выбирают меня</span></h2>
             <div class="why-grid">
