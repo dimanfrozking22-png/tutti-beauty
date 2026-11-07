@@ -14,8 +14,8 @@
             --text-main: #ffffff;
             --text-muted: #999999;
             --card-bg: #111111;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.15);
+            --glass-bg: rgba(255, 255, 255, 0.03); /* Максимально прозрачное стекло */
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         * {
@@ -189,14 +189,14 @@
             line-height: 1.6;
         }
 
-        /* СТЕКЛЯННЫЕ КНОПКИ */
+        /* СТЕКЛЯННЫЕ КНОПКИ С ОРАНЖЕВЫМ ОТСВЕТОМ */
         .btn {
             padding: 18px 45px;
             font-size: 1.1rem;
             font-weight: 900;
             color: #fff;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
+            background: transparent; /* Полностью прозрачный фон */
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50px;
             cursor: pointer;
             text-transform: uppercase;
@@ -206,24 +206,26 @@
             display: inline-block;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(15px);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px); /* Эффект матового стекла */
+            box-shadow: 0 0 15px rgba(255, 140, 0, 0.1), inset 0 0 15px rgba(255, 140, 0, 0.1); /* Легкий оранжевый отсвет внутри */
         }
 
         .btn:hover { 
             transform: scale(1.05) translateY(-5px); 
-            background: rgba(255, 140, 0, 0.2);
+            background: rgba(255, 140, 0, 0.15); /* Оранжевая заливка при наведении */
             border-color: var(--primary);
-            box-shadow: 0 10px 40px rgba(255, 140, 0, 0.4);
-            color: var(--primary);
+            box-shadow: 0 0 30px rgba(255, 140, 0, 0.5), inset 0 0 20px rgba(255, 140, 0, 0.3); /* Яркий отсвет */
+            color: #fff;
+            text-shadow: 0 0 10px var(--primary);
         }
 
+        /* Блик по стеклу */
         .btn::before {
             content: '';
             position: absolute;
             top: 0; left: -100%;
             width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
             transform: skewX(-20deg);
             transition: 0.5s;
         }
@@ -289,7 +291,7 @@
             border-color: var(--secondary);
         }
 
-        /* НАВЫКИ (С ИКОНКАМИ ИЗ САЙТА) */
+        /* НАВЫКИ (С ИКОНКАМИ) */
         .skills { background: var(--bg-color); }
         .skills-container {
             max-width: 800px;
@@ -322,7 +324,6 @@
             box-shadow: 0 0 20px rgba(255, 140, 0, 0.1);
         }
 
-        /* Иконка в навыках (используем те же иконки, что и в услугах) */
         .skill-icon-wrapper {
             width: 60px;
             height: 60px;
@@ -444,12 +445,61 @@
         .work-item h4 { font-size: 2rem; color: rgba(255,255,255,0.1); transition: 0.4s; }
         .work-item:hover h4 { color: var(--secondary); text-shadow: 0 0 20px var(--secondary); }
 
-        /* ПОЧЕМУ Я (ВМЕСТО ПРИНЦИПОВ) */
+        /* ПОЧЕМУ Я (С ТВОИМИ ИКОНКАМИ) */
         .why-me { background: var(--bg-color); }
         .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; }
-        .why-card { text-align: center; padding: 30px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; transition: 0.3s; backdrop-filter: blur(10px);}
-        .why-card:hover { transform: translateY(-10px); border-color: var(--primary); background: rgba(255, 140, 0, 0.05); }
-        .why-icon { font-size: 3rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--primary)); }
+        
+        .why-card { 
+            text-align: center; 
+            padding: 40px 20px; 
+            background: var(--glass-bg); 
+            border: 1px solid var(--glass-border); 
+            border-radius: 20px; 
+            transition: 0.3s; 
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .why-card:hover { 
+            transform: translateY(-10px); 
+            border-color: var(--primary); 
+            background: rgba(255, 140, 0, 0.05); 
+            box-shadow: 0 0 30px rgba(255, 140, 0, 0.2);
+        }
+
+        /* Иконки в блоке Почему Я */
+        .why-icon-wrapper {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .why-icon-wrapper::before {
+            content: '';
+            position: absolute;
+            width: 120%;
+            height: 120%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.4) 0%, transparent 60%);
+            animation: pulseGlow 2s infinite alternate;
+            z-index: -1;
+            filter: blur(10px);
+        }
+
+        .why-icon-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            -webkit-mask-image: radial-gradient(circle, black 50%, transparent 65%);
+            mask-image: radial-gradient(circle, black 50%, transparent 65%);
+            animation: iconPulse 4s infinite ease-in-out;
+        }
+
         .why-card h3 { font-size: 1.4rem; margin-bottom: 10px; color: #fff; }
         .why-card p { color: var(--text-muted); font-size: 0.9rem; }
 
@@ -464,13 +514,13 @@
             border-radius: 50%; 
             display: flex; align-items: center; justify-content: center;
             font-size: 2rem; font-weight: 900; color: #000; margin: 0 auto 20px;
-            animation: sphereFloat 6s infinite linear; /* Плавное вращение */
+            animation: sphereFloat 6s infinite linear;
             box-shadow: 0 0 30px rgba(255, 140, 0, 0.6), inset 0 -5px 15px rgba(0,0,0,0.5);
             transform-style: preserve-3d;
         }
         
         .step-card:hover .step-num {
-            animation-play-state: paused; /* Останавливаем при наведении */
+            animation-play-state: paused;
             transform: scale(1.2);
             box-shadow: 0 0 50px var(--secondary);
         }
@@ -493,15 +543,6 @@
         .empty-icon { font-size: 4rem; margin-bottom: 20px; animation: floatPhoto 4s ease-in-out infinite;}
         .empty-reviews p { font-size: 1.3rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.6;}
         .empty-reviews p:last-child { font-size: 1.5rem; color: var(--secondary); font-weight: 900; margin-bottom: 0; }
-
-        /* НОВЫЙ БЛОК: ДОСТИЖЕНИЯ (ЧТОБЫ САЙТ БЫЛ БОЛЬШЕ) */
-        .achievements { background: var(--bg-color); }
-        .ach-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; }
-        .ach-card { background: var(--card-bg); padding: 40px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); text-align: center; transition: 0.3s; }
-        .ach-card:hover { transform: scale(1.05); border-color: var(--secondary); box-shadow: 0 0 30px rgba(255, 215, 0, 0.2); }
-        .ach-icon { font-size: 4rem; margin-bottom: 20px; filter: drop-shadow(0 0 15px var(--secondary)); }
-        .ach-card h3 { font-size: 1.8rem; color: #fff; margin-bottom: 10px; }
-        .ach-card p { color: var(--text-muted); }
 
         /* КОНТАКТЫ */
         .contacts { text-align: center; background: radial-gradient(circle at bottom, rgba(255, 215, 0, 0.1) 0%, transparent 60%); padding-bottom: 50px; }
@@ -575,7 +616,7 @@
             </div>
         </section>
 
-        <!-- 3. НАВЫКИ (С ИКОНКАМИ) -->
+        <!-- 3. НАВЫКИ -->
         <section class="skills reveal">
             <h2 class="section-title">Мои <span>Навыки</span></h2>
             <div class="skills-container">
@@ -678,34 +719,34 @@
             </div>
         </section>
 
-        <!-- 6. ПОЧЕМУ Я -->
+        <!-- 6. ПОЧЕМУ Я (С ТВОИМИ ИКОНКАМИ) -->
         <section class="why-me reveal" style="background: #0a0a0a;">
             <h2 class="section-title">Почему <span>выбирают меня</span></h2>
             <div class="why-grid">
                 <div class="why-card">
-                    <div class="why-icon">🚀</div>
+                    <div class="why-icon-wrapper"><img src="icon-rocket.png" alt="Быстро"></div>
                     <h3>Быстрый старт</h3>
                     <p>Не заставляю ждать месяцами. Первый прототип будет готов уже через 2-3 дня.</p>
                 </div>
                 <div class="why-card">
-                    <div class="why-icon">💎</div>
+                    <div class="why-icon-wrapper"><img src="icon-diamond.png" alt="Дизайн"></div>
                     <h3>Премиум дизайн</h3>
                     <p>Использую современные тренды, анимации и 3D-эффекты. Твой сайт будет выделяться.</p>
                 </div>
                 <div class="why-card">
-                    <div class="why-icon">📱</div>
+                    <div class="why-icon-wrapper"><img src="icon-man.png" alt="Адаптив"></div>
                     <h3>Адаптивность</h3>
                     <p>Сайт будет идеально смотреться как на огромном мониторе, так и на экране смартфона.</p>
                 </div>
                 <div class="why-card">
-                    <div class="why-icon">🤝</div>
+                    <div class="why-icon-wrapper"><img src="icon-robot.png" alt="Поддержка"></div>
                     <h3>Поддержка</h3>
                     <p>Остаюсь на связи даже после сдачи проекта. Помогу с настройкой и отвечу на вопросы.</p>
                 </div>
             </div>
         </section>
 
-        <!-- 7. ЭТАПЫ РАБОТЫ (С 3D-СФЕРАМИ) -->
+        <!-- 7. ЭТАПЫ РАБОТЫ -->
         <section class="steps reveal">
             <h2 class="section-title">Как <span>Я работаю</span></h2>
             <div class="steps-grid">
@@ -732,30 +773,8 @@
             </div>
         </section>
 
-        <!-- 8. ДОСТИЖЕНИЯ (НОВЫЙ БЛОК ДЛЯ РАЗМЕРА) -->
-        <section class="achievements reveal" style="background: #0a0a0a;">
-            <h2 class="section-title">Мои <span>Достижения</span></h2>
-            <div class="ach-grid">
-                <div class="ach-card">
-                    <div class="ach-icon">🏆</div>
-                    <h3>10+</h3>
-                    <p>Реализованных проектов (от визиток до ботов)</p>
-                </div>
-                <div class="ach-card">
-                    <div class="ach-icon">⚡</div>
-                    <h3>100%</h3>
-                    <p>Клиентов довольны результатом</p>
-                </div>
-                <div class="ach-card">
-                    <div class="ach-icon">⏱️</div>
-                    <h3>2-3 дня</h3>
-                    <p>Среднее время на разработку лендинга</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 9. ОТЗЫВЫ -->
-        <section class="reveal">
+        <!-- 8. ОТЗЫВЫ -->
+        <section class="reveal" style="background: #0a0a0a;">
             <h2 class="section-title">Что говорят <span>Клиенты</span></h2>
             <div class="empty-reviews">
                 <div class="empty-icon">💬</div>
@@ -764,11 +783,11 @@
             </div>
         </section>
 
-        <!-- 10. КОНТАКТЫ -->
-        <section id="contacts" class="contacts reveal" style="background: #0a0a0a;">
+        <!-- 9. КОНТАКТЫ -->
+        <section id="contacts" class="contacts reveal">
             <h2 class="section-title">Готов <span>начать?</span></h2>
             <p style="font-size: 1.2rem; color: #aaa; margin-bottom: 40px;">Напиши мне прямо сейчас, и мы обсудим твой будущий сайт.</p>
-            <a href="https://max.ru" class="btn" target="_blank" style="padding: 20px 60px; font-size: 1.3rem; color: #000; background: linear-gradient(90deg, var(--primary), var(--secondary)); font-weight: 900;">Написать в MAX</a>
+            <a href="https://max.ru" class="btn" target="_blank" style="padding: 20px 60px; font-size: 1.3rem; color: #000; background: linear-gradient(90deg, var(--primary), var(--secondary)); font-weight: 900; border: none; box-shadow: 0 10px 30px rgba(255, 140, 0, 0.4);">Написать в MAX</a>
         </section>
 
     </div> <!-- Конец обертки контента -->
