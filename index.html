@@ -14,8 +14,8 @@
             --text-main: #ffffff;
             --text-muted: #999999;
             --card-bg: #111111;
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
         }
 
         * {
@@ -52,9 +52,9 @@
         }
 
         @keyframes pulseGlow {
-            0% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.3); opacity: 0.8; }
-            50% { box-shadow: 0 0 90px rgba(255, 215, 0, 0.7); opacity: 1; }
-            100% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.3); opacity: 0.8; }
+            0% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.2); opacity: 0.8; }
+            50% { box-shadow: 0 0 80px rgba(255, 215, 0, 0.5); opacity: 1; }
+            100% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.2); opacity: 0.8; }
         }
 
         @keyframes floatParticle {
@@ -75,11 +75,16 @@
             100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
         }
 
-        /* НОВАЯ АНИМАЦИЯ: ПУЛЬСАЦИЯ ИКОНКИ */
         @keyframes iconPulse {
             0% { transform: translateZ(40px) scale(1); filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.5)); }
             50% { transform: translateZ(40px) scale(1.05); filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8)); }
             100% { transform: translateZ(40px) scale(1); filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.5)); }
+        }
+
+        /* АНИМАЦИЯ ПРОГРЕСС-БАРА */
+        @keyframes fillBar {
+            from { width: 0; }
+            to { width: var(--target-width); }
         }
 
         /* ФОНОВЫЕ ЧАСТИЦЫ */
@@ -158,7 +163,7 @@
             z-index: 2;
         }
 
-        /* ИСКРЫ, ВЫЛЕТАЮЩИЕ ИЗ РУКИ */
+        /* ИСКРЫ */
         .spark {
             position: absolute;
             top: 50%; left: 50%;
@@ -173,7 +178,6 @@
         .spark:nth-child(3) { --x: 120px; --y: -100px; animation: sparkFly 2.5s infinite ease-out 0.5s; }
         .spark:nth-child(4) { --x: -80px; --y: 100px; animation: sparkFly 1.8s infinite ease-out 1s; }
         .spark:nth-child(5) { --x: 90px; --y: 80px; animation: sparkFly 2.2s infinite ease-out 1.5s; }
-        .spark:nth-child(6) { --x: 0px; --y: -120px; animation: sparkFly 2s infinite ease-out 0.8s; }
 
         /* ИМЯ */
         .hero h1 {
@@ -205,7 +209,7 @@
             font-size: 1.1rem;
             font-weight: 900;
             color: #fff;
-            background: var(--glass-bg); /* Стекло */
+            background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: 50px;
             cursor: pointer;
@@ -216,7 +220,7 @@
             display: inline-block;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px); /* Размытие фона */
+            backdrop-filter: blur(10px);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
 
@@ -237,11 +241,9 @@
             transform: skewX(-20deg);
             transition: 0.5s;
         }
-        .btn:hover::before {
-            left: 100%;
-        }
+        .btn:hover::before { left: 100%; }
 
-        /* ОСТАЛЬНЫЕ СЕКЦИИ */
+        /* ОБЩИЕ СЕКЦИИ */
         .content-wrapper {
             position: relative;
             z-index: 2;
@@ -301,10 +303,34 @@
             border-color: var(--secondary);
         }
 
+        /* НАВЫКИ (ПРОГРЕСС-БАРЫ) */
+        .skills { background: var(--bg-color); }
+        .skills-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .skill-item { margin-bottom: 30px; }
+        .skill-info { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: 700; color: #ccc; }
+        .skill-bar {
+            width: 100%;
+            height: 10px;
+            background: #222;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 5px;
+            width: 0; /* Начальное значение */
+            animation: fillBar 2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
         /* СЕТКИ */
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; perspective: 1000px; }
         
-        /* 3D КАРТОЧКИ */
+        /* КАРТОЧКИ С СВЕЧЕНИЕМ */
         .card {
             background: var(--card-bg);
             padding: 40px;
@@ -322,37 +348,56 @@
             border-color: rgba(255, 140, 0, 0.5);
         }
         
-        /* СВЯТАЯ МАГИЯ: МАСКА ДЛЯ ИКОНОК */
-        .card-icon { 
-            width: 80px; 
-            height: 80px; 
-            margin-bottom: 25px; 
+        /* КОНТЕЙНЕР ДЛЯ ИКОНКИ С ФОНОМ-СВЕЧЕНИЕМ */
+        .card-icon-wrapper {
+            position: relative;
+            width: 90px;
+            height: 90px;
+            margin-bottom: 25px;
             display: flex;
             align-items: center;
             justify-content: center;
             transform: translateZ(40px);
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            /* Применяем ту же маску, что и к руке */
-            -webkit-mask-image: radial-gradient(circle, black 50%, transparent 65%);
-            mask-image: radial-gradient(circle, black 50%, transparent 65%);
         }
 
-        .card:hover .card-icon {
+        /* СВЕЧЕНИЕ ПОЗАДИ ИКОНКИ */
+        .card-icon-wrapper::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.4) 0%, transparent 70%);
+            animation: pulseGlow 2s infinite alternate;
+            z-index: -1;
+        }
+
+        .card:hover .card-icon-wrapper {
             transform: translateZ(60px) scale(1.1) rotate(10deg);
+        }
+
+        .card-icon {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* МАСКА, УБИРАЮЩАЯ БЕЛЫЙ ФОН */
+            -webkit-mask-image: radial-gradient(circle, black 50%, transparent 65%);
+            mask-image: radial-gradient(circle, black 50%, transparent 65%);
         }
 
         .card-icon img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            transition: 0.4s;
             animation: iconPulse 3s infinite alternate;
-            /* Добавляем свечение к самой иконке */
             filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.8));
         }
 
         .card:hover .card-icon img {
-            animation: none; /* Останавливаем пульсацию при наведении */
+            animation: none;
             filter: drop-shadow(0 0 40px var(--secondary));
         }
 
@@ -372,6 +417,15 @@
         .work-item h4 { font-size: 2rem; color: rgba(255,255,255,0.1); transition: 0.4s; }
         .work-item:hover h4 { color: var(--secondary); text-shadow: 0 0 20px var(--secondary); }
 
+        /* ПОЧЕМУ Я (НОВЫЙ БЛОК) */
+        .why-me { background: var(--bg-color); }
+        .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; }
+        .why-card { text-align: center; padding: 30px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; transition: 0.3s; backdrop-filter: blur(10px);}
+        .why-card:hover { transform: translateY(-10px); border-color: var(--primary); background: rgba(255, 140, 0, 0.05); }
+        .why-icon { font-size: 3rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--primary)); }
+        .why-card h3 { font-size: 1.4rem; margin-bottom: 10px; color: #fff; }
+        .why-card p { color: var(--text-muted); font-size: 0.9rem; }
+
         /* ЭТАПЫ */
         .steps { background: #0a0a0a; }
         .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1300px; margin: 0 auto; }
@@ -382,10 +436,7 @@
             font-size: 1.8rem; font-weight: 900; color: #000; margin: 0 auto 20px;
             transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .step-card:hover .step-num {
-            transform: rotateY(180deg) scale(1.2);
-            box-shadow: 0 0 30px var(--primary);
-        }
+        .step-card:hover .step-num { transform: rotateY(180deg) scale(1.2); box-shadow: 0 0 30px var(--primary); }
         .step-card h3 { font-size: 1.4rem; margin-bottom: 10px; transition: 0.3s;}
         .step-card:hover h3 { color: var(--primary); letter-spacing: 1px; }
         .step-card p { color: var(--text-muted); font-size: 0.9rem;}
@@ -461,14 +512,11 @@
     <section class="hero" id="hero">
         <div class="hero-images" id="parallax-hand">
             <div class="glow-ring"></div>
-            
-            <!-- ИСКРЫ -->
             <div class="spark"></div>
             <div class="spark"></div>
             <div class="spark"></div>
             <div class="spark"></div>
             <div class="spark"></div>
-
             <img src="hand.png" alt="Hand" class="animated-img">
         </div>
         <h1>Дмитрий</h1>
@@ -488,6 +536,7 @@
                     <p>Превращаю идеи в работающие инструменты для бизнеса. Мне 14 лет, но я уже разбираюсь в HTML, CSS, JavaScript и Python.</p>
                     <p>Я не просто верстаю страницы. Я создаю цифровые визитки, которые помогают бизнесу выделяться. Никакого шаблонного кода — только индивидуальный подход.</p>
                     <p>Моя цель — сделать так, чтобы твой сайт приносил тебе клиентов и прибыль. И я знаю, как это сделать.</p>
+                    <a href="#contacts" class="btn" style="margin-top: 20px; padding: 12px 30px; font-size: 1rem;">Связаться со мной</a>
                 </div>
                 <div class="about-img">
                     <img src="me.jpg" alt="Дмитрий">
@@ -495,42 +544,77 @@
             </div>
         </section>
 
-        <!-- 3. УСЛУГИ -->
-        <section id="services" class="reveal">
+        <!-- 3. НАВЫКИ (НОВЫЙ БЛОК) -->
+        <section class="skills reveal">
+            <h2 class="section-title">Мои <span>Навыки</span></h2>
+            <div class="skills-container">
+                <div class="skill-item">
+                    <div class="skill-info"><span>HTML / CSS</span><span>95%</span></div>
+                    <div class="skill-bar"><div class="skill-progress" style="--target-width: 95%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info"><span>JavaScript</span><span>80%</span></div>
+                    <div class="skill-bar"><div class="skill-progress" style="--target-width: 80%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Python</span><span>70%</span></div>
+                    <div class="skill-bar"><div class="skill-progress" style="--target-width: 70%;"></div></div>
+                </div>
+                <div class="skill-item">
+                    <div class="skill-info"><span>Веб-дизайн (UI/UX)</span><span>85%</span></div>
+                    <div class="skill-bar"><div class="skill-progress" style="--target-width: 85%;"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. УСЛУГИ -->
+        <section id="services" class="reveal" style="background: #0a0a0a;">
             <h2 class="section-title">Мои <span>Услуги</span></h2>
             <div class="grid-3">
                 <div class="card tilt">
-                    <div class="card-icon"><img src="icon-gear.png" alt="Верстка"></div>
+                    <div class="card-icon-wrapper">
+                        <div class="card-icon"><img src="icon-gear.png" alt="Верстка"></div>
+                    </div>
                     <h3>Верстка</h3>
                     <p>У тебя есть дизайн в Figma? Я сверстаю его в чистый код без ошибок и багов.</p>
                     <div class="price">от 1500 ₽</div>
                 </div>
                 <div class="card tilt">
-                    <div class="card-icon"><img src="icon-rocket.png" alt="Лендинги"></div>
+                    <div class="card-icon-wrapper">
+                        <div class="card-icon"><img src="icon-rocket.png" alt="Лендинги"></div>
+                    </div>
                     <h3>Лендинги</h3>
                     <p>Одностраничные сайты, которые продают. Идеально для услуг, товаров и запуска стартапов.</p>
                     <div class="price">от 2000 ₽</div>
                 </div>
                 <div class="card tilt">
-                    <div class="card-icon"><img src="icon-diamond.png" alt="Визитки"></div>
+                    <div class="card-icon-wrapper">
+                        <div class="card-icon"><img src="icon-diamond.png" alt="Визитки"></div>
+                    </div>
                     <h3>Сайты-визитки</h3>
                     <p>Красивое портфолио для мастера, салона или фрилансера. Привлекает клиентов 24/7.</p>
                     <div class="price">от 3000 ₽</div>
                 </div>
                 <div class="card tilt">
-                    <div class="card-icon"><img src="icon-robot.png" alt="Боты"></div>
+                    <div class="card-icon-wrapper">
+                        <div class="card-icon"><img src="icon-robot.png" alt="Боты"></div>
+                    </div>
                     <h3>Telegram-боты</h3>
                     <p>Автоматизируй бизнес с помощью ботов. Прием заявок, ответы на вопросы, каталог.</p>
                     <div class="price">от 4000 ₽</div>
                 </div>
                 <div class="card tilt">
-                    <div class="card-icon"><img src="icon-man.png" alt="Редизайн"></div>
+                    <div class="card-icon-wrapper">
+                        <div class="card-icon"><img src="icon-man.png" alt="Редизайн"></div>
+                    </div>
                     <h3>Редизайн</h3>
                     <p>Твой сайт устарел? Я сделаю его современным, быстрым и адаптивным под телефоны.</p>
                     <div class="price">от 5000 ₽</div>
                 </div>
                 <div class="card tilt">
-                    <div class="card-icon"><img src="icon-cart.png" alt="Магазины"></div>
+                    <div class="card-icon-wrapper">
+                        <div class="card-icon"><img src="icon-cart.png" alt="Магазины"></div>
+                    </div>
                     <h3>Интернет-магазины</h3>
                     <p>Полноценные магазины с корзиной, каталогом и оплатой. Для серьезного бизнеса.</p>
                     <div class="price">от 10000 ₽</div>
@@ -538,7 +622,7 @@
             </div>
         </section>
 
-        <!-- 4. ПОРТФОЛИО -->
+        <!-- 5. ПОРТФОЛИО -->
         <section class="reveal">
             <h2 class="section-title">Мои <span>Работы</span></h2>
             <div class="grid-3">
@@ -551,7 +635,34 @@
             </div>
         </section>
 
-        <!-- 5. ЭТАПЫ РАБОТЫ -->
+        <!-- 6. ПОЧЕМУ Я (НОВЫЙ БЛОК) -->
+        <section class="why-me reveal" style="background: #0a0a0a;">
+            <h2 class="section-title">Почему <span>выбирают меня</span></h2>
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon">🚀</div>
+                    <h3>Быстрый старт</h3>
+                    <p>Не заставляю ждать месяцами. Первый прототип будет готов уже через 2-3 дня.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">💎</div>
+                    <h3>Премиум дизайн</h3>
+                    <p>Использую современные тренды, анимации и 3D-эффекты. Твой сайт будет выделяться.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">📱</div>
+                    <h3>Адаптивность</h3>
+                    <p>Сайт будет идеально смотреться как на огромном мониторе, так и на экране смартфона.</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">🤝</div>
+                    <h3>Поддержка</h3>
+                    <p>Остаюсь на связи даже после сдачи проекта. Помогу с настройкой и отвечу на вопросы.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. ЭТАПЫ РАБОТЫ -->
         <section class="steps reveal">
             <h2 class="section-title">Как <span>Я работаю</span></h2>
             <div class="steps-grid">
@@ -578,8 +689,8 @@
             </div>
         </section>
 
-        <!-- 6. ОТЗЫВЫ -->
-        <section class="reveal">
+        <!-- 8. ОТЗЫВЫ (ЗАГЛУШКА) -->
+        <section class="reveal" style="background: #0a0a0a;">
             <h2 class="section-title">Что говорят <span>Клиенты</span></h2>
             <div class="empty-reviews">
                 <div class="empty-icon">💬</div>
@@ -588,7 +699,7 @@
             </div>
         </section>
 
-        <!-- 7. FAQ -->
+        <!-- 9. FAQ -->
         <section class="faq reveal">
             <h2 class="section-title">Частые <span>Вопросы</span></h2>
             <div class="faq-item">
@@ -609,11 +720,11 @@
             </div>
         </section>
 
-        <!-- 8. КОНТАКТЫ -->
-        <section class="contacts reveal">
+        <!-- 10. КОНТАКТЫ -->
+        <section id="contacts" class="contacts reveal" style="background: #0a0a0a;">
             <h2 class="section-title">Готов <span>начать?</span></h2>
             <p style="font-size: 1.2rem; color: #aaa; margin-bottom: 40px;">Напиши мне прямо сейчас, и мы обсудим твой будущий сайт.</p>
-            <a href="https://max.ru" class="btn" target="_blank">Написать в MAX</a>
+            <a href="https://max.ru" class="btn" target="_blank" style="padding: 20px 60px; font-size: 1.3rem; color: #000; background: linear-gradient(90deg, var(--primary), var(--secondary)); font-weight: 900;">Написать в MAX</a>
         </section>
 
     </div> <!-- Конец обертки контента -->
