@@ -42,21 +42,33 @@
             100% { background-position: 0% 50%; }
         }
 
+        /* НОВАЯ МОЩНАЯ АНИМАЦИЯ ДЛЯ РУКИ */
         @keyframes floatHand {
-            0% { transform: translateY(0px) rotate(0deg) scale(1); }
-            50% { transform: translateY(-20px) rotate(5deg) scale(1.05); }
-            100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            0% { 
+                transform: translateY(0px) rotate(0deg) scale(1); 
+                filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.6)); 
+            }
+            50% { 
+                transform: translateY(-25px) rotate(8deg) scale(1.05); 
+                filter: drop-shadow(0 0 50px rgba(255, 215, 0, 1)); 
+            }
+            100% { 
+                transform: translateY(0px) rotate(0deg) scale(1); 
+                filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.6)); 
+            }
+        }
+
+        /* АНИМАЦИЯ ДЛЯ ИСКР */
+        @keyframes sparkFloat {
+            0% { transform: translateY(0) scale(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
         }
 
         @keyframes pulseGlow {
-            0% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.4); opacity: 0.9; }
+            0% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.4); opacity: 0.8; }
             50% { box-shadow: 0 0 80px rgba(255, 215, 0, 0.8); opacity: 1; }
-            100% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.4); opacity: 0.9; }
-        }
-
-        @keyframes rotateRing {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            100% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.4); opacity: 0.8; }
         }
 
         /* ПЛАВНОЕ ПОЯВЛЕНИЕ */
@@ -97,16 +109,32 @@
             transition: transform 0.1s ease-out; /* Для параллакса */
         }
 
+        /* Убрали пунктирную полоску, оставили только свечение */
         .glow-ring {
             position: absolute;
             width: 100%;
             height: 100%;
             border-radius: 50%;
             background: radial-gradient(circle, rgba(255, 140, 0, 0.15) 0%, transparent 70%);
-            border: 2px dashed rgba(255, 140, 0, 0.3); /* Пунктирное кольцо */
-            animation: pulseGlow 3s infinite alternate, rotateRing 20s linear infinite;
+            animation: pulseGlow 3s infinite alternate;
             z-index: -1;
         }
+
+        /* СТИЛИ ДЛЯ ИСКР */
+        .spark {
+            position: absolute;
+            width: 6px; height: 6px;
+            background: var(--secondary);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--primary);
+            opacity: 0;
+            z-index: 1;
+        }
+        .spark:nth-child(2) { top: 10%; left: 20%; animation: sparkFloat 3s infinite ease-in-out; }
+        .spark:nth-child(3) { top: 80%; left: 10%; animation: sparkFloat 4s infinite ease-in-out 1s; }
+        .spark:nth-child(4) { top: 20%; right: 15%; animation: sparkFloat 3.5s infinite ease-in-out 2s; }
+        .spark:nth-child(5) { bottom: 10%; right: 30%; animation: sparkFloat 2.5s infinite ease-in-out 0.5s; }
+        .spark:nth-child(6) { top: 50%; left: 5%; animation: sparkFloat 4.5s infinite ease-in-out 1.5s; }
 
         .animated-img {
             width: 100%;
@@ -114,8 +142,7 @@
             object-fit: contain;
             -webkit-mask-image: radial-gradient(circle, black 40%, transparent 70%);
             mask-image: radial-gradient(circle, black 40%, transparent 70%);
-            filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.8)); 
-            animation: floatHand 6s ease-in-out infinite;
+            animation: floatHand 6s ease-in-out infinite; /* Усиленная анимация */
             transition: 0.4s;
         }
 
@@ -258,7 +285,7 @@
         .step-card h3 { font-size: 1.5rem; margin-bottom: 10px; }
         .step-card p { color: var(--text-muted); }
 
-        /* ОТЗЫВЫ (НОВЫЙ БЛОК) */
+        /* ОТЗЫВЫ (ЗАГЛУШКА) */
         .empty-reviews {
             text-align: center;
             background: var(--card-bg);
@@ -326,6 +353,13 @@
     <section class="hero" id="hero">
         <div class="hero-images" id="parallax-hand">
             <div class="glow-ring"></div>
+            <!-- Искры вокруг руки -->
+            <div class="spark"></div>
+            <div class="spark"></div>
+            <div class="spark"></div>
+            <div class="spark"></div>
+            <div class="spark"></div>
+            
             <img src="hand.png" alt="Hand" class="animated-img">
         </div>
         <h1>Дмитрий</h1>
@@ -342,7 +376,7 @@
             <div class="about-content">
                 <div class="about-text">
                     <h3>Я — Дмитрий, веб-разработчик.</h3>
-                    <p>Превращаю идеи в работающие инструменты для бизнеса. Мне 13 лет, но я уже разбираюсь в HTML, CSS, JavaScript и Python.</p>
+                    <p>Превращаю идеи в работающие инструменты для бизнеса. Мне 14 лет, но я уже разбираюсь в HTML, CSS, JavaScript и Python.</p>
                     <p>Я не просто верстаю страницы. Я создаю цифровые визитки, которые помогают бизнесу выделяться. Никакого шаблонного кода — только индивидуальный подход.</p>
                     <p>Моя цель — сделать так, чтобы твой сайт приносил тебе клиентов и прибыль. И я знаю, как это сделать.</p>
                 </div>
@@ -473,9 +507,9 @@
 
     </div> <!-- Конец обертки контента -->
 
-    <!-- ПОДВАЛ -->
+    <!-- ПОДВАЛ (ИЗМЕНЕН ТЕКСТ) -->
     <footer>
-        <p>© 2026 Дмитрий | Веб-разработчик. Сделано с любовью и нейросетями.</p>
+        <p>© 2026 Дмитрий | Веб-разработчик. Мне 14 лет.</p>
     </footer>
 
     <!-- СКРИПТЫ -->
@@ -496,15 +530,13 @@
         document.addEventListener('mousemove', (e) => {
             const handContainer = document.getElementById('parallax-hand');
             
-            // Вычисляем смещение от центра экрана
             const x = (window.innerWidth / 2 - e.pageX) / 25;
             const y = (window.innerHeight / 2 - e.pageY) / 25;
             
-            // Применяем трансформацию к контейнеру (чтобы не сбить анимацию floatHand)
             handContainer.style.transform = `translate(${x}px, ${y}px)`;
         });
 
-        // 3. АНИМАЦИЯ ПОЯВЛЕНИЯ (РАБОТАЕТ В ОБЕ СТОРОНЫ)
+        // 3. АНИМАЦИЯ ПОЯВЛЕНИЯ
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
