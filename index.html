@@ -42,23 +42,12 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* НОВАЯ МОЩНАЯ АНИМАЦИЯ ДЛЯ РУКИ */
         @keyframes floatHand {
-            0% { 
-                transform: translateY(0px) rotate(0deg) scale(1); 
-                filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.6)); 
-            }
-            50% { 
-                transform: translateY(-25px) rotate(8deg) scale(1.05); 
-                filter: drop-shadow(0 0 50px rgba(255, 215, 0, 1)); 
-            }
-            100% { 
-                transform: translateY(0px) rotate(0deg) scale(1); 
-                filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.6)); 
-            }
+            0% { transform: translateY(0px) rotate(0deg) scale(1); filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.6)); }
+            50% { transform: translateY(-25px) rotate(8deg) scale(1.05); filter: drop-shadow(0 0 50px rgba(255, 215, 0, 1)); }
+            100% { transform: translateY(0px) rotate(0deg) scale(1); filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.6)); }
         }
 
-        /* АНИМАЦИЯ ДЛЯ ИСКР */
         @keyframes sparkFloat {
             0% { transform: translateY(0) scale(0); opacity: 0; }
             50% { opacity: 1; }
@@ -71,11 +60,17 @@
             100% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.4); opacity: 0.8; }
         }
 
+        @keyframes floatIcon {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
         /* ПЛАВНОЕ ПОЯВЛЕНИЕ */
         .reveal { 
             opacity: 0; 
             transform: translateY(60px); 
-            transition: opacity 1.8s ease-out, transform 1.8s cubic-bezier(0.2, 0.8, 0.2, 1); 
+            transition: opacity 1.2s ease-out, transform 1.2s cubic-bezier(0.2, 0.8, 0.2, 1); 
             will-change: opacity, transform;
         }
         .reveal.active { 
@@ -106,10 +101,9 @@
             margin-bottom: 40px;
             width: 400px;
             height: 400px;
-            transition: transform 0.1s ease-out; /* Для параллакса */
+            transition: transform 0.1s ease-out;
         }
 
-        /* Убрали пунктирную полоску, оставили только свечение */
         .glow-ring {
             position: absolute;
             width: 100%;
@@ -120,7 +114,6 @@
             z-index: -1;
         }
 
-        /* СТИЛИ ДЛЯ ИСКР */
         .spark {
             position: absolute;
             width: 6px; height: 6px;
@@ -142,7 +135,7 @@
             object-fit: contain;
             -webkit-mask-image: radial-gradient(circle, black 40%, transparent 70%);
             mask-image: radial-gradient(circle, black 40%, transparent 70%);
-            animation: floatHand 6s ease-in-out infinite; /* Усиленная анимация */
+            animation: floatHand 6s ease-in-out infinite;
             transition: 0.4s;
         }
 
@@ -171,23 +164,34 @@
             margin-bottom: 50px;
         }
 
+        /* ПРОЗРАЧНЫЕ КНОПКИ С ГРАДИЕНТНОЙ РАМКОЙ */
         .btn {
-            padding: 20px 50px;
+            padding: 18px 48px;
             font-size: 1.2rem;
             font-weight: 900;
-            color: #000;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border: none;
+            color: var(--primary);
+            background: transparent;
+            border: 2px solid transparent;
             border-radius: 50px;
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 2px;
-            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3);
             transition: 0.4s;
             text-decoration: none;
             display: inline-block;
+            position: relative;
+            /* Магия градиентной рамки */
+            background-image: linear-gradient(var(--bg-color), var(--bg-color)), linear-gradient(90deg, var(--primary), var(--secondary));
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
         }
-        .btn:hover { transform: scale(1.05); box-shadow: 0 0 50px var(--secondary); }
+
+        .btn:hover { 
+            transform: scale(1.05); 
+            background-image: linear-gradient(90deg, var(--primary), var(--secondary)), linear-gradient(90deg, var(--primary), var(--secondary));
+            color: #000;
+            box-shadow: 0 0 30px rgba(255, 140, 0, 0.4);
+        }
 
         /* ОСТАЛЬНЫЕ СЕКЦИИ */
         .content-wrapper {
@@ -238,6 +242,7 @@
 
         /* СЕТКИ */
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; max-width: 1300px; margin: 0 auto; }
+        
         .card {
             background: var(--card-bg);
             padding: 50px 40px;
@@ -256,7 +261,33 @@
         .card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
         .card:hover::before { transform: translateX(100%); }
         
-        .card-icon { font-size: 4rem; margin-bottom: 20px; }
+        /* СТИЛИ ДЛЯ ИКОНОК */
+        .card-icon { 
+            width: 80px; 
+            height: 80px; 
+            margin-bottom: 25px; 
+            animation: floatIcon 3s ease-in-out infinite;
+        }
+        .card:nth-child(2) .card-icon { animation-delay: 0.5s; }
+        .card:nth-child(3) .card-icon { animation-delay: 1s; }
+        .card:nth-child(4) .card-icon { animation-delay: 1.5s; }
+        .card:nth-child(5) .card-icon { animation-delay: 2s; }
+        .card:nth-child(6) .card-icon { animation-delay: 2.5s; }
+
+        .card-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: 0.4s;
+            /* Убирает белый фон у картинок от Гигачата */
+            mix-blend-mode: multiply; 
+            filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.3));
+        }
+        .card:hover .card-icon img {
+            transform: scale(1.2) rotate(10deg);
+            filter: drop-shadow(0 0 25px var(--secondary));
+        }
+
         .card h3 { font-size: 1.8rem; margin-bottom: 15px; color: #fff; }
         .card p { color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; }
         .price { font-size: 1.5rem; font-weight: 900; color: var(--secondary); }
@@ -306,7 +337,7 @@
             animation: rotateRing 6s linear infinite;
             z-index: 0;
         }
-        .empty-icon { font-size: 5rem; margin-bottom: 20px; position: relative; z-index: 1; animation: floatHand 4s ease-in-out infinite;}
+        .empty-icon { font-size: 5rem; margin-bottom: 20px; position: relative; z-index: 1; animation: floatIcon 4s ease-in-out infinite;}
         .empty-reviews p { font-size: 1.5rem; color: var(--text-muted); margin-bottom: 15px; position: relative; z-index: 1; line-height: 1.6;}
         .empty-reviews p:last-child { font-size: 1.8rem; color: var(--secondary); font-weight: 900; margin-bottom: 0; }
 
@@ -316,14 +347,42 @@
         .faq-question {
             padding: 25px; font-size: 1.2rem; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s;
         }
-        .faq-question:hover { background: #1a1a1a; }
+        .faq-question:hover { background: #1a1a1a; color: var(--primary); }
         .faq-answer { padding: 0 25px; max-height: 0; overflow: hidden; transition: max-height 0.5s ease; color: var(--text-muted); line-height: 1.6; }
         .faq-item.active .faq-answer { padding-bottom: 25px; }
 
-        /* КОНТАКТЫ И ФУТЕР */
+        /* КОНТАКТЫ */
         .contacts { text-align: center; background: radial-gradient(circle at bottom, rgba(255, 215, 0, 0.1) 0%, transparent 60%); padding-bottom: 50px; }
         .contacts h2 { font-size: 4rem; margin-bottom: 30px; }
-        footer { text-align: center; padding: 40px; background: #000; border-top: 1px solid #111; color: #555; }
+
+        /* НОВЫЙ ПОДВАЛ */
+        footer { 
+            padding: 60px 20px; 
+            background: #000; 
+            border-top: 1px solid #111; 
+            text-align: center; 
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+        .footer-links a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+        }
+        .footer-copy {
+            color: #555;
+            font-size: 0.9rem;
+        }
 
         /* АДАПТИВ */
         @media (max-width: 1024px) {
@@ -344,6 +403,7 @@
             .section-title { font-size: 2.2rem; }
             .empty-reviews p { font-size: 1.2rem; }
             .empty-reviews p:last-child { font-size: 1.5rem; }
+            .footer-links { flex-direction: column; gap: 15px; }
         }
     </style>
 </head>
@@ -353,13 +413,11 @@
     <section class="hero" id="hero">
         <div class="hero-images" id="parallax-hand">
             <div class="glow-ring"></div>
-            <!-- Искры вокруг руки -->
             <div class="spark"></div>
             <div class="spark"></div>
             <div class="spark"></div>
             <div class="spark"></div>
             <div class="spark"></div>
-            
             <img src="hand.png" alt="Hand" class="animated-img">
         </div>
         <h1>Дмитрий</h1>
@@ -389,37 +447,37 @@
             <h2 class="section-title">Мои <span>Услуги</span></h2>
             <div class="grid-3">
                 <div class="card">
-                    <div class="card-icon">⚙️</div>
+                    <div class="card-icon"><img src="icon-gear.png" alt="Верстка"></div>
                     <h3>Верстка</h3>
                     <p>У тебя есть дизайн в Figma? Я сверстаю его в чистый код без ошибок и багов.</p>
                     <div class="price">от 1500 ₽</div>
                 </div>
                 <div class="card">
-                    <div class="card-icon">🚀</div>
+                    <div class="card-icon"><img src="icon-rocket.png" alt="Лендинги"></div>
                     <h3>Лендинги</h3>
                     <p>Одностраничные сайты, которые продают. Идеально для услуг, товаров и запуска стартапов.</p>
                     <div class="price">от 2000 ₽</div>
                 </div>
                 <div class="card">
-                    <div class="card-icon">💎</div>
+                    <div class="card-icon"><img src="icon-diamond.png" alt="Визитки"></div>
                     <h3>Сайты-визитки</h3>
                     <p>Красивое портфолио для мастера, салона или фрилансера. Привлекает клиентов 24/7.</p>
                     <div class="price">от 3000 ₽</div>
                 </div>
                 <div class="card">
-                    <div class="card-icon">🤖</div>
+                    <div class="card-icon"><img src="icon-robot.png" alt="Боты"></div>
                     <h3>Telegram-боты</h3>
                     <p>Автоматизируй бизнес с помощью ботов. Прием заявок, ответы на вопросы, каталог.</p>
                     <div class="price">от 4000 ₽</div>
                 </div>
                 <div class="card">
-                    <div class="card-icon">🎨</div>
+                    <div class="card-icon"><img src="icon-man.png" alt="Редизайн"></div>
                     <h3>Редизайн</h3>
                     <p>Твой сайт устарел? Я сделаю его современным, быстрым и адаптивным под телефоны.</p>
                     <div class="price">от 5000 ₽</div>
                 </div>
                 <div class="card">
-                    <div class="card-icon">🛒</div>
+                    <div class="card-icon"><img src="icon-cart.png" alt="Магазины"></div>
                     <h3>Интернет-магазины</h3>
                     <p>Полноценные магазины с корзиной, каталогом и оплатой. Для серьезного бизнеса.</p>
                     <div class="price">от 10000 ₽</div>
@@ -507,9 +565,14 @@
 
     </div> <!-- Конец обертки контента -->
 
-    <!-- ПОДВАЛ (ИЗМЕНЕН ТЕКСТ) -->
+    <!-- ПОДВАЛ -->
     <footer>
-        <p>© 2026 Дмитрий | Веб-разработчик. Мне 14 лет.</p>
+        <div class="footer-links">
+            <a href="#">Политика конфиденциальности</a>
+            <a href="#">Условия использования</a>
+            <a href="#">Контакты</a>
+        </div>
+        <p class="footer-copy">© 2026 Дмитрий | Веб-разработчик. Все права защищены.</p>
     </footer>
 
     <!-- СКРИПТЫ -->
@@ -526,13 +589,11 @@
             hero.style.transform = `scale(${1 - (scrollY * 0.0005)})`;
         });
 
-        // 2. ПАРАЛЛАКС ДЛЯ РУКИ (СЛЕДУЕТ ЗА МЫШКОЙ)
+        // 2. ПАРАЛЛАКС ДЛЯ РУКИ
         document.addEventListener('mousemove', (e) => {
             const handContainer = document.getElementById('parallax-hand');
-            
             const x = (window.innerWidth / 2 - e.pageX) / 25;
             const y = (window.innerHeight / 2 - e.pageY) / 25;
-            
             handContainer.style.transform = `translate(${x}px, ${y}px)`;
         });
 
