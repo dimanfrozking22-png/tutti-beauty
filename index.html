@@ -44,8 +44,14 @@
 
         @keyframes floatHand {
             0% { transform: translateY(0px) rotate(0deg) scale(1); filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.6)); }
-            50% { transform: translateY(-25px) rotate(8deg) scale(1.05); filter: drop-shadow(0 0 50px rgba(255, 215, 0, 1)); }
+            50% { transform: translateY(-25px) rotate(5deg) scale(1.05); filter: drop-shadow(0 0 50px rgba(255, 215, 0, 1)); }
             100% { transform: translateY(0px) rotate(0deg) scale(1); filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.6)); }
+        }
+
+        @keyframes floatPhoto {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
         }
 
         @keyframes sparkFloat {
@@ -60,11 +66,25 @@
             100% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.4); opacity: 0.8; }
         }
 
-        /* НОВАЯ АНИМАЦИЯ ДЛЯ ФОТО */
-        @keyframes floatPhoto {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(2deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
+        @keyframes spinBorder {
+            0% { --angle: 0deg; }
+            100% { --angle: 360deg; }
+        }
+
+        @keyframes textPulse {
+            0% { text-shadow: 0 0 10px rgba(255, 140, 0, 0.5); }
+            50% { text-shadow: 0 0 30px rgba(255, 215, 0, 0.8); }
+            100% { text-shadow: 0 0 10px rgba(255, 140, 0, 0.5); }
+        }
+
+        /* НОВАЯ АНИМАЦИЯ ДЛЯ ТЕКСТА (ПЕЧАТНАЯ МАШИНКА) */
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blinkCursor {
+            from, to { border-color: transparent; }
+            50% { border-color: var(--primary); }
         }
 
         /* ПЛАВНОЕ ПОЯВЛЕНИЕ */
@@ -102,7 +122,6 @@
             margin-bottom: 40px;
             width: 400px;
             height: 400px;
-            transition: transform 0.1s ease-out;
         }
 
         .glow-ring {
@@ -145,6 +164,7 @@
             filter: drop-shadow(0 0 60px var(--secondary));
         }
 
+        /* ЭФФЕКТ ПЕЧАТНОЙ МАШИНКИ ДЛЯ ЗАГОЛОВКА */
         .hero h1 {
             font-size: 6rem;
             text-transform: uppercase;
@@ -156,6 +176,11 @@
             margin-bottom: 20px;
             font-weight: 900;
             letter-spacing: 5px;
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 4px solid var(--primary);
+            width: 0;
+            animation: typing 2s steps(10) forwards, blinkCursor 0.75s step-end infinite;
         }
 
         .hero p {
@@ -165,7 +190,7 @@
             margin-bottom: 50px;
         }
 
-        /* ПРОЗРАЧНЫЕ КНОПКИ С ГРАДИЕНТНОЙ РАМКОЙ */
+        /* КНОПКИ */
         .btn {
             padding: 18px 48px;
             font-size: 1.2rem;
@@ -187,10 +212,10 @@
         }
 
         .btn:hover { 
-            transform: scale(1.05); 
+            transform: scale(1.05) translateY(-5px) rotate(-2deg); 
             background-image: linear-gradient(90deg, var(--primary), var(--secondary)), linear-gradient(90deg, var(--primary), var(--secondary));
             color: #000;
-            box-shadow: 0 0 30px rgba(255, 140, 0, 0.4);
+            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.6);
         }
 
         /* ОСТАЛЬНЫЕ СЕКЦИИ */
@@ -215,7 +240,7 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* ОБО МНЕ (ТЕПЕРЬ БЕЗ ТЕМНОТЫ) */
+        /* ОБО МНЕ (ИДЕАЛЬНЫЙ КРУГ) */
         .about { background: #0a0a0a; }
         .about-content {
             display: flex;
@@ -230,93 +255,99 @@
         
         .about-img {
             flex: 1;
-            height: 400px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 30px;
-            overflow: hidden;
-            /* Красивое свечение вокруг фото */
-            box-shadow: 0 0 60px rgba(255, 140, 0, 0.3);
-            border: 2px solid rgba(255, 140, 0, 0.2);
             position: relative;
         }
         
-        /* Убираем mix-blend-mode! Теперь фото будет ярким */
+        /* МАГИЯ: Идеальный круг, который обрезает белые углы */
         .about-img img {
-            width: 100%;
-            height: 100%;
+            width: 400px;
+            height: 400px;
             object-fit: cover;
+            border-radius: 50%; /* Круглая форма */
+            border: 5px solid var(--primary); /* Толстая рамка */
+            box-shadow: 0 0 50px rgba(255, 140, 0, 0.5); /* Свечение */
             animation: floatPhoto 5s ease-in-out infinite;
             transition: 0.4s;
-            /* МАГИЯ: Делаем картинку ярче и контрастнее */
-            filter: brightness(1.2) contrast(1.1);
+            filter: brightness(1.1) contrast(1.1);
         }
 
-        .about-img:hover img {
-            transform: scale(1.05) rotate(-2deg);
-            filter: brightness(1.3) contrast(1.2) drop-shadow(0 0 30px var(--secondary));
+        .about-img img:hover {
+            transform: scale(1.08) rotate(5deg);
+            box-shadow: 0 0 80px var(--secondary);
+            border-color: var(--secondary);
         }
 
         /* СЕТКИ */
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; max-width: 1300px; margin: 0 auto; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; max-width: 1300px; margin: 0 auto; perspective: 1000px; /* Для 3D */ }
         
+        /* КАРТОЧКИ С 3D НАКЛОНОМ */
         .card {
             background: var(--card-bg);
             padding: 50px 40px;
             border-radius: 25px;
             border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
-            overflow: hidden;
             z-index: 1;
+            transition: 0.1s; /* Быстрая реакция на мышь */
+            transform-style: preserve-3d; /* Включаем 3D */
+            /* Вращающаяся рамка */
+            background-image: linear-gradient(#111, #111), conic-gradient(from var(--angle), var(--primary), var(--secondary), var(--primary));
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+            animation: spinBorder 4s linear infinite;
         }
-        .card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255,140,0,0.08), transparent);
-            transform: translateX(-100%); transition: 0.6s; z-index: -1;
-        }
-        .card:hover { 
-            transform: translateY(-15px) scale(1.02); 
-            border-color: var(--primary); 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(255, 140, 0, 0.2); 
-        }
-        .card:hover::before { transform: translateX(100%); }
         
-        /* СТИЛИ ДЛЯ ИКОНОК (ТЕПЕРЬ БЕЛЫЕ ПЛИТКИ) */
+        @property --angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        .card:hover { 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.6), 0 0 40px rgba(255, 140, 0, 0.3); 
+        }
+        
+        /* ИКОНКИ (СТЕКЛЯННЫЕ ПЛИТКИ) */
         .card-icon { 
             width: 90px; 
             height: 90px; 
             margin-bottom: 25px; 
-            background: #fff; /* Белая подложка */
-            border-radius: 20px; /* Закругленные углы */
+            background: rgba(255, 255, 255, 0.05); /* Стеклянный эффект */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px; 
+            backdrop-filter: blur(10px); /* Размытие */
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: 0.4s;
+            transform: translateZ(30px); /* Выталкиваем иконку в 3D */
         }
 
         .card:hover .card-icon {
-            transform: translateY(-10px) rotate(10deg) scale(1.1);
-            box-shadow: 0 15px 30px rgba(255, 140, 0, 0.4);
-            background: var(--primary); /* При наведении плитка становится оранжевой */
+            transform: translateZ(50px) scale(1.1) rotate(10deg);
+            background: rgba(255, 140, 0, 0.2);
+            border-color: var(--primary);
+            box-shadow: 0 0 20px var(--primary);
         }
 
         .card-icon img {
             width: 70%;
             height: 70%;
             object-fit: contain;
+            filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.5));
             transition: 0.4s;
         }
 
         .card:hover .card-icon img {
-            transform: scale(1.1);
+            filter: drop-shadow(0 0 30px var(--secondary));
         }
 
-        .card h3 { font-size: 1.8rem; margin-bottom: 15px; color: #fff; }
-        .card p { color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; }
-        .price { font-size: 1.5rem; font-weight: 900; color: var(--secondary); }
+        .card h3 { font-size: 1.8rem; margin-bottom: 15px; color: #fff; transform: translateZ(20px); }
+        .card p { color: var(--text-muted); line-height: 1.6; margin-bottom: 25px; transform: translateZ(10px); }
+        .price { font-size: 1.5rem; font-weight: 900; color: var(--secondary); transform: translateZ(20px); }
 
         /* ПОРТФОЛИО */
         .work-item {
@@ -326,25 +357,26 @@
             display: flex; align-items: center; justify-content: center;
             border: 2px solid transparent; transition: 0.4s; cursor: pointer;
         }
-        .work-item:hover { border-color: var(--secondary); transform: scale(1.03); box-shadow: 0 0 40px rgba(255, 215, 0, 0.2); }
+        .work-item:hover { border-color: var(--secondary); transform: scale(1.05) rotate(2deg); box-shadow: 0 0 40px rgba(255, 215, 0, 0.2); }
         .work-item h4 { font-size: 2rem; color: rgba(255,255,255,0.1); transition: 0.4s; }
         .work-item:hover h4 { color: var(--secondary); text-shadow: 0 0 20px var(--secondary); }
 
         /* ЭТАПЫ */
         .steps { background: #0a0a0a; }
         .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; max-width: 1300px; margin: 0 auto; }
-        .step-card { text-align: center; position: relative; }
+        .step-card { text-align: center; position: relative; perspective: 500px; }
         .step-num {
             width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             font-size: 2rem; font-weight: 900; color: #000; margin: 0 auto 20px;
-            transition: 0.4s;
+            transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .step-card:hover .step-num {
-            transform: scale(1.1) rotate(360deg);
-            box-shadow: 0 0 30px var(--primary);
+            transform: rotateY(180deg) scale(1.2);
+            box-shadow: 0 0 40px var(--primary);
         }
-        .step-card h3 { font-size: 1.5rem; margin-bottom: 10px; }
+        .step-card h3 { font-size: 1.5rem; margin-bottom: 10px; transition: 0.3s;}
+        .step-card:hover h3 { color: var(--primary); letter-spacing: 2px; }
         .step-card p { color: var(--text-muted); }
 
         /* ОТЗЫВЫ (ЗАГЛУШКА) */
@@ -360,14 +392,6 @@
             overflow: hidden;
             box-shadow: 0 0 30px rgba(255, 140, 0, 0.05);
         }
-        .empty-reviews::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(255, 140, 0, 0.1), transparent 30%);
-            animation: rotateRing 6s linear infinite;
-            z-index: 0;
-        }
         .empty-icon { font-size: 5rem; margin-bottom: 20px; position: relative; z-index: 1; animation: floatPhoto 4s ease-in-out infinite;}
         .empty-reviews p { font-size: 1.5rem; color: var(--text-muted); margin-bottom: 15px; position: relative; z-index: 1; line-height: 1.6;}
         .empty-reviews p:last-child { font-size: 1.8rem; color: var(--secondary); font-weight: 900; margin-bottom: 0; }
@@ -375,7 +399,7 @@
         /* FAQ */
         .faq { background: #0a0a0a; max-width: 900px; margin: 0 auto; }
         .faq-item { background: var(--card-bg); margin-bottom: 15px; border-radius: 15px; overflow: hidden; border: 1px solid #222; transition: 0.3s;}
-        .faq-item:hover { border-color: var(--primary); }
+        .faq-item:hover { border-color: var(--primary); transform: translateX(10px) scale(1.02); }
         .faq-question {
             padding: 25px; font-size: 1.2rem; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s;
         }
@@ -388,47 +412,25 @@
         .contacts h2 { font-size: 4rem; margin-bottom: 30px; }
 
         /* ПОДВАЛ */
-        footer { 
-            padding: 60px 20px; 
-            background: #000; 
-            border-top: 1px solid #111; 
-            text-align: center; 
-        }
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-        .footer-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 1rem;
-            transition: 0.3s;
-        }
-        .footer-links a:hover {
-            color: var(--primary);
-            text-shadow: 0 0 10px var(--primary);
-        }
-        .footer-copy {
-            color: #555;
-            font-size: 0.9rem;
-        }
+        footer { padding: 60px 20px; background: #000; border-top: 1px solid #111; text-align: center; }
+        .footer-links { display: flex; justify-content: center; gap: 30px; margin-bottom: 25px; flex-wrap: wrap; }
+        .footer-links a { color: var(--text-muted); text-decoration: none; font-size: 1rem; transition: 0.3s; }
+        .footer-links a:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary); transform: translateY(-3px); display: inline-block; }
+        .footer-copy { color: #555; font-size: 0.9rem; }
 
         /* АДАПТИВ */
         @media (max-width: 1024px) {
             .steps-grid { grid-template-columns: repeat(2, 1fr); }
             .hero h1 { font-size: 4rem; }
             .about-content { flex-direction: column; }
-            .about-img { width: 100%; }
+            .about-img img { width: 300px; height: 300px; }
             .animated-img { height: 300px; width: 300px; }
             .glow-ring { width: 300px; height: 300px; }
             .hero-images { width: 300px; height: 300px; }
         }
         @media (max-width: 768px) {
             .steps-grid { grid-template-columns: 1fr; }
-            .hero h1 { font-size: 2.5rem; }
+            .hero h1 { font-size: 2.5rem; white-space: normal; border-right: none; }
             .animated-img { height: 250px; width: 250px; }
             .glow-ring { width: 250px; height: 250px; }
             .hero-images { width: 250px; height: 250px; }
@@ -460,7 +462,7 @@
     <!-- ОБЕРТКА ДЛЯ КОНТЕНТА -->
     <div class="content-wrapper">
         
-        <!-- 2. ОБО МНЕ (ТЕПЕРЬ БЕЗ ТЕМНОТЫ) -->
+        <!-- 2. ОБО МНЕ (КРУГЛАЯ ФОТКА) -->
         <section class="about reveal">
             <h2 class="section-title">Обо <span>мне</span></h2>
             <div class="about-content">
@@ -471,47 +473,47 @@
                     <p>Моя цель — сделать так, чтобы твой сайт приносил тебе клиентов и прибыль. И я знаю, как это сделать.</p>
                 </div>
                 <div class="about-img">
-                    <!-- Картинка от Гигачата -->
+                    <!-- Круглая картинка от Гигачата -->
                     <img src="me.jpg" alt="Дмитрий">
                 </div>
             </div>
         </section>
 
-        <!-- 3. УСЛУГИ (С КРАСИВЫМИ ПЛИТКАМИ) -->
+        <!-- 3. УСЛУГИ (С 3D НАКЛОНОМ) -->
         <section id="services" class="reveal">
             <h2 class="section-title">Мои <span>Услуги</span></h2>
             <div class="grid-3">
-                <div class="card">
+                <div class="card tilt">
                     <div class="card-icon"><img src="icon-gear.png" alt="Верстка"></div>
                     <h3>Верстка</h3>
                     <p>У тебя есть дизайн в Figma? Я сверстаю его в чистый код без ошибок и багов.</p>
                     <div class="price">от 1500 ₽</div>
                 </div>
-                <div class="card">
+                <div class="card tilt">
                     <div class="card-icon"><img src="icon-rocket.png" alt="Лендинги"></div>
                     <h3>Лендинги</h3>
                     <p>Одностраничные сайты, которые продают. Идеально для услуг, товаров и запуска стартапов.</p>
                     <div class="price">от 2000 ₽</div>
                 </div>
-                <div class="card">
+                <div class="card tilt">
                     <div class="card-icon"><img src="icon-diamond.png" alt="Визитки"></div>
                     <h3>Сайты-визитки</h3>
                     <p>Красивое портфолио для мастера, салона или фрилансера. Привлекает клиентов 24/7.</p>
                     <div class="price">от 3000 ₽</div>
                 </div>
-                <div class="card">
+                <div class="card tilt">
                     <div class="card-icon"><img src="icon-robot.png" alt="Боты"></div>
                     <h3>Telegram-боты</h3>
                     <p>Автоматизируй бизнес с помощью ботов. Прием заявок, ответы на вопросы, каталог.</p>
                     <div class="price">от 4000 ₽</div>
                 </div>
-                <div class="card">
+                <div class="card tilt">
                     <div class="card-icon"><img src="icon-man.png" alt="Редизайн"></div>
                     <h3>Редизайн</h3>
                     <p>Твой сайт устарел? Я сделаю его современным, быстрым и адаптивным под телефоны.</p>
                     <div class="price">от 5000 ₽</div>
                 </div>
-                <div class="card">
+                <div class="card tilt">
                     <div class="card-icon"><img src="icon-cart.png" alt="Магазины"></div>
                     <h3>Интернет-магазины</h3>
                     <p>Полноценные магазины с корзиной, каталогом и оплатой. Для серьезного бизнеса.</p>
@@ -666,6 +668,29 @@
                 } else {
                     answer.style.maxHeight = 0;
                 }
+            });
+        });
+
+        // 5. 3D-НАКЛОН КАРТОЧЕК (ГЛАВНАЯ ФИШКА)
+        const cards = document.querySelectorAll('.tilt');
+        
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left; // x position within the element.
+                const y = e.clientY - rect.top;  // y position within the element.
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -15; // Наклон по X
+                const rotateY = ((x - centerX) / centerX) * 15;  // Наклон по Y
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
             });
         });
     </script>
