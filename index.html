@@ -14,8 +14,8 @@
             --text-main: #ffffff;
             --text-muted: #999999;
             --card-bg: #111111;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.15);
         }
 
         * {
@@ -40,9 +40,9 @@
 
         /* АНИМАЦИИ */
         @keyframes floatHand {
-            0% { transform: translateY(0px) rotate(0deg) scale(1); filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.6)); }
-            50% { transform: translateY(-20px) rotate(3deg) scale(1.02); filter: drop-shadow(0 0 70px rgba(255, 215, 0, 1)); }
-            100% { transform: translateY(0px) rotate(0deg) scale(1); filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.6)); }
+            0% { transform: translateY(0px) rotate(0deg) scale(1); filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.8)); }
+            50% { transform: translateY(-20px) rotate(3deg) scale(1.02); filter: drop-shadow(0 0 80px rgba(255, 215, 0, 1)); }
+            100% { transform: translateY(0px) rotate(0deg) scale(1); filter: drop-shadow(0 0 30px rgba(255, 140, 0, 0.8)); }
         }
 
         @keyframes floatPhoto {
@@ -52,9 +52,9 @@
         }
 
         @keyframes pulseGlow {
-            0% { opacity: 0.6; transform: scale(0.9); }
-            50% { opacity: 1; transform: scale(1.1); }
-            100% { opacity: 0.6; transform: scale(0.9); }
+            0% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.4); opacity: 0.8; }
+            50% { box-shadow: 0 0 100px rgba(255, 215, 0, 0.8); opacity: 1; }
+            100% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.4); opacity: 0.8; }
         }
 
         @keyframes floatParticle {
@@ -70,26 +70,17 @@
             100% { text-shadow: 0 0 20px rgba(255, 140, 0, 0.6); }
         }
 
-        @keyframes sparkFly {
-            0% { transform: translate(0, 0) scale(1); opacity: 1; }
-            100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
-        }
-
         @keyframes iconPulse {
             0% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.5)); }
             50% { transform: translateY(-8px) scale(1.05); filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8)); }
             100% { transform: translateY(0px) scale(1); filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.5)); }
         }
 
-        /* АНИМАЦИЯ ПРОГРЕСС-БАРА (СВЕТЯЩАЯСЯ ПОЛОСКА) */
-        @keyframes fillBar {
-            from { width: 0; }
-            to { width: var(--target-width); }
-        }
-
-        @keyframes shimmer {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
+        /* НОВАЯ АНИМАЦИЯ ДЛЯ ЦИФР (3D КУБИК) */
+        @keyframes rotateCube {
+            0% { transform: rotateY(0deg) rotateX(0deg); }
+            50% { transform: rotateY(180deg) rotateX(10deg); }
+            100% { transform: rotateY(360deg) rotateX(0deg); }
         }
 
         /* ФОНОВЫЕ ЧАСТИЦЫ */
@@ -151,7 +142,7 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 140, 0, 0.2) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.4) 0%, transparent 70%);
             animation: pulseGlow 3s infinite alternate;
             z-index: -1;
         }
@@ -167,22 +158,6 @@
             position: relative;
             z-index: 2;
         }
-
-        /* ИСКРЫ */
-        .spark {
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 6px; height: 6px;
-            background: var(--secondary);
-            border-radius: 50%;
-            box-shadow: 0 0 15px var(--primary);
-            z-index: 1;
-            pointer-events: none;
-        }
-        .spark:nth-child(2) { --x: -100px; --y: -150px; animation: sparkFly 2s infinite ease-out; }
-        .spark:nth-child(3) { --x: 120px; --y: -100px; animation: sparkFly 2.5s infinite ease-out 0.5s; }
-        .spark:nth-child(4) { --x: -80px; --y: 100px; animation: sparkFly 1.8s infinite ease-out 1s; }
-        .spark:nth-child(5) { --x: 90px; --y: 80px; animation: sparkFly 2.2s infinite ease-out 1.5s; }
 
         /* ИМЯ */
         .hero h1 {
@@ -208,14 +183,14 @@
             line-height: 1.6;
         }
 
-        /* СТЕКЛЯННЫЕ КНОПКИ */
+        /* СТЕКЛЯННЫЕ КНОПКИ (МАТОВОЕ СТЕКЛО) */
         .btn {
             padding: 18px 45px;
             font-size: 1.1rem;
             font-weight: 900;
             color: #fff;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05); /* Очень прозрачный */
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 50px;
             cursor: pointer;
             text-transform: uppercase;
@@ -225,8 +200,8 @@
             display: inline-block;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(15px); /* Сильное размытие */
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.2);
         }
 
         .btn:hover { 
@@ -242,7 +217,7 @@
             position: absolute;
             top: 0; left: -100%;
             width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
             transform: skewX(-20deg);
             transition: 0.5s;
         }
@@ -308,7 +283,7 @@
             border-color: var(--secondary);
         }
 
-        /* НАВЫКИ (РЕАЛИСТИЧНЫЕ И С АНИМАЦИЕЙ) */
+        /* НАВЫКИ */
         .skills { background: var(--bg-color); }
         .skills-container {
             max-width: 800px;
@@ -338,20 +313,10 @@
             position: relative;
         }
 
-        /* Блик, бегущий по полоске */
-        .skill-progress::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            background-size: 200% 100%;
-            animation: shimmer 2s infinite linear;
-        }
-
         /* СЕТКИ */
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; perspective: 1000px; }
         
-        /* КАРТОЧКИ С ИКОНКАМИ-ПРИЗРАКАМИ */
+        /* КАРТОЧКИ С МОЩНЫМ СВЕЧЕНИЕМ */
         .card {
             background: var(--card-bg);
             padding: 40px;
@@ -365,7 +330,7 @@
         }
 
         .card:hover { 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 40px rgba(255, 140, 0, 0.2); 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 40px rgba(255, 140, 0, 0.3); 
             border-color: rgba(255, 140, 0, 0.5);
         }
         
@@ -382,17 +347,17 @@
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* МОЩНОЕ СВЕЧЕНИЕ ПОЗАДИ ИКОНКИ */
+        /* ОГРОМНОЕ СВЕЧЕНИЕ ПОЗАДИ ИКОНКИ */
         .card-icon-wrapper::before {
             content: '';
             position: absolute;
-            width: 130%;
-            height: 130%;
+            width: 150%;
+            height: 150%;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 140, 0, 0.5) 0%, transparent 60%);
+            background: radial-gradient(circle, rgba(255, 140, 0, 0.6) 0%, transparent 60%);
             animation: pulseGlow 2s infinite alternate;
             z-index: -1;
-            filter: blur(10px);
+            filter: blur(15px); /* Размытие для мягкости */
         }
 
         .card:hover .card-icon-wrapper {
@@ -405,9 +370,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* УБИРАЕМ БЕЛЫЙ ФОН МАСКОЙ */
-            -webkit-mask-image: radial-gradient(circle, black 55%, transparent 70%);
-            mask-image: radial-gradient(circle, black 55%, transparent 70%);
+            /* МАСКА, УБИРАЮЩАЯ БЕЛЫЙ ФОН */
+            -webkit-mask-image: radial-gradient(circle, black 50%, transparent 65%);
+            mask-image: radial-gradient(circle, black 50%, transparent 65%);
         }
 
         .card-icon img {
@@ -438,26 +403,29 @@
         .work-item h4 { font-size: 2rem; color: rgba(255,255,255,0.1); transition: 0.4s; }
         .work-item:hover h4 { color: var(--secondary); text-shadow: 0 0 20px var(--secondary); }
 
-        /* ПОЧЕМУ Я */
-        .why-me { background: var(--bg-color); }
-        .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; }
-        .why-card { text-align: center; padding: 30px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; transition: 0.3s; backdrop-filter: blur(10px);}
-        .why-card:hover { transform: translateY(-10px); border-color: var(--primary); background: rgba(255, 140, 0, 0.05); }
-        .why-icon { font-size: 3rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--primary)); }
-        .why-card h3 { font-size: 1.4rem; margin-bottom: 10px; color: #fff; }
-        .why-card p { color: var(--text-muted); font-size: 0.9rem; }
+        /* МОИ ПРИНЦИПЫ (ВМЕСТО FAQ) */
+        .principles { background: var(--bg-color); }
+        .principles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; }
+        .principle-card { text-align: center; padding: 30px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; transition: 0.3s; backdrop-filter: blur(10px);}
+        .principle-card:hover { transform: translateY(-10px); border-color: var(--primary); background: rgba(255, 140, 0, 0.05); }
+        .principle-icon { font-size: 3rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--primary)); }
+        .principle-card h3 { font-size: 1.4rem; margin-bottom: 10px; color: #fff; }
+        .principle-card p { color: var(--text-muted); font-size: 0.9rem; }
 
-        /* ЭТАПЫ */
+        /* ЭТАПЫ (С ВРАЩАЮЩИМИСЯ ЦИФРАМИ) */
         .steps { background: #0a0a0a; }
         .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; max-width: 1300px; margin: 0 auto; }
-        .step-card { text-align: center; position: relative; perspective: 500px; padding: 20px;}
+        .step-card { text-align: center; position: relative; padding: 20px;}
         .step-num {
-            width: 70px; height: 70px; background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            width: 70px; height: 70px; 
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 15px; /* Квадрат со скруглением (кубик) */
+            display: flex; align-items: center; justify-content: center;
             font-size: 1.8rem; font-weight: 900; color: #000; margin: 0 auto 20px;
-            transition: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: rotateCube 6s infinite linear; /* Постоянное вращение */
+            box-shadow: 0 0 20px rgba(255, 140, 0, 0.5);
+            transform-style: preserve-3d;
         }
-        .step-card:hover .step-num { transform: rotateY(180deg) scale(1.2); box-shadow: 0 0 30px var(--primary); }
         .step-card h3 { font-size: 1.4rem; margin-bottom: 10px; transition: 0.3s;}
         .step-card:hover h3 { color: var(--primary); letter-spacing: 1px; }
         .step-card p { color: var(--text-muted); font-size: 0.9rem;}
@@ -476,17 +444,6 @@
         .empty-icon { font-size: 4rem; margin-bottom: 20px; animation: floatPhoto 4s ease-in-out infinite;}
         .empty-reviews p { font-size: 1.3rem; color: var(--text-muted); margin-bottom: 15px; line-height: 1.6;}
         .empty-reviews p:last-child { font-size: 1.5rem; color: var(--secondary); font-weight: 900; margin-bottom: 0; }
-
-        /* FAQ */
-        .faq { background: #0a0a0a; max-width: 900px; margin: 0 auto; }
-        .faq-item { background: var(--card-bg); margin-bottom: 15px; border-radius: 15px; overflow: hidden; border: 1px solid #222; transition: 0.3s;}
-        .faq-item:hover { border-color: var(--primary); transform: translateX(10px); }
-        .faq-question {
-            padding: 25px; font-size: 1.1rem; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s;
-        }
-        .faq-question:hover { background: #1a1a1a; color: var(--primary); }
-        .faq-answer { padding: 0 25px; max-height: 0; overflow: hidden; transition: max-height 0.5s ease; color: var(--text-muted); line-height: 1.6; font-size: 0.95rem;}
-        .faq-item.active .faq-answer { padding-bottom: 25px; }
 
         /* КОНТАКТЫ */
         .contacts { text-align: center; background: radial-gradient(circle at bottom, rgba(255, 215, 0, 0.1) 0%, transparent 60%); padding-bottom: 50px; }
@@ -533,11 +490,7 @@
     <section class="hero" id="hero">
         <div class="hero-images" id="parallax-hand">
             <div class="glow-ring"></div>
-            <div class="spark"></div>
-            <div class="spark"></div>
-            <div class="spark"></div>
-            <div class="spark"></div>
-            <div class="spark"></div>
+            <!-- Искры убраны для чистоты, так как рука теперь ярко светится -->
             <img src="hand.png" alt="Hand" class="animated-img">
         </div>
         <h1>Дмитрий</h1>
@@ -565,7 +518,7 @@
             </div>
         </section>
 
-        <!-- 3. НАВЫКИ (РЕАЛИСТИЧНЫЕ ЦИФРЫ) -->
+        <!-- 3. НАВЫКИ -->
         <section class="skills reveal">
             <h2 class="section-title">Мои <span>Навыки</span></h2>
             <div class="skills-container">
@@ -588,7 +541,7 @@
             </div>
         </section>
 
-        <!-- 4. УСЛУГИ -->
+        <!-- 4. УСЛУГИ (С ТВОИМИ ИКОНКАМИ И СВЕЧЕНИЕМ) -->
         <section id="services" class="reveal" style="background: #0a0a0a;">
             <h2 class="section-title">Мои <span>Услуги</span></h2>
             <div class="grid-3">
@@ -656,191 +609,26 @@
             </div>
         </section>
 
-        <!-- 6. ПОЧЕМУ Я -->
-        <section class="why-me reveal" style="background: #0a0a0a;">
-            <h2 class="section-title">Почему <span>выбирают меня</span></h2>
-            <div class="why-grid">
-                <div class="why-card">
-                    <div class="why-icon">🚀</div>
+        <!-- 6. МОИ ПРИНЦИПЫ (ВМЕСТО FAQ) -->
+        <section class="principles reveal" style="background: #0a0a0a;">
+            <h2 class="section-title">Мои <span>Принципы</span></h2>
+            <div class="principles-grid">
+                <div class="principle-card">
+                    <div class="principle-icon">🚀</div>
                     <h3>Быстрый старт</h3>
                     <p>Не заставляю ждать месяцами. Первый прототип будет готов уже через 2-3 дня.</p>
                 </div>
-                <div class="why-card">
-                    <div class="why-icon">💎</div>
+                <div class="principle-card">
+                    <div class="principle-icon">💎</div>
                     <h3>Премиум дизайн</h3>
                     <p>Использую современные тренды, анимации и 3D-эффекты. Твой сайт будет выделяться.</p>
                 </div>
-                <div class="why-card">
-                    <div class="why-icon">📱</div>
+                <div class="principle-card">
+                    <div class="principle-icon">📱</div>
                     <h3>Адаптивность</h3>
                     <p>Сайт будет идеально смотреться как на огромном мониторе, так и на экране смартфона.</p>
                 </div>
-                <div class="why-card">
-                    <div class="why-icon">🤝</div>
+                <div class="principle-card">
+                    <div class="principle-icon">🤝</div>
                     <h3>Поддержка</h3>
-                    <p>Остаюсь на связи даже после сдачи проекта. Помогу с настройкой и отвечу на вопросы.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 7. ЭТАПЫ РАБОТЫ -->
-        <section class="steps reveal">
-            <h2 class="section-title">Как <span>Я работаю</span></h2>
-            <div class="steps-grid">
-                <div class="step-card">
-                    <div class="step-num">1</div>
-                    <h3>Заявка</h3>
-                    <p>Ты пишешь мне, мы обсуждаем идею и задачи.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-num">2</div>
-                    <h3>Прототип</h3>
-                    <p>Я делаю черновой вариант, чтобы ты увидел структуру.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-num">3</div>
-                    <h3>Разработка</h3>
-                    <p>Я пишу код, добавляю анимации и наполняю контентом.</p>
-                </div>
-                <div class="step-card">
-                    <div class="step-num">4</div>
-                    <h3>Запуск</h3>
-                    <p>Выкладываем сайт в интернет и радуемся результату!</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 8. ОТЗЫВЫ -->
-        <section class="reveal" style="background: #0a0a0a;">
-            <h2 class="section-title">Что говорят <span>Клиенты</span></h2>
-            <div class="empty-reviews">
-                <div class="empty-icon">💬</div>
-                <p>Здесь пока пусто. Я только начинаю свой путь в веб-разработке, поэтому отзывов еще нет.</p>
-                <p>Стань моим первым клиентом! И я сделаю всё, чтобы ты остался в восторге.</p>
-            </div>
-        </section>
-
-        <!-- 9. FAQ -->
-        <section class="faq reveal">
-            <h2 class="section-title">Частые <span>Вопросы</span></h2>
-            <div class="faq-item">
-                <div class="faq-question">Сколько времени занимает разработка? <span>+</span></div>
-                <div class="faq-answer">Простые лендинги — 2-3 дня. Сайты-визитки — до недели. Все зависит от сложности и количества правок.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">Как происходит оплата? <span>+</span></div>
-                <div class="faq-answer">Оплата 50/50. Половина — предоплата, половина — после сдачи проекта. Перевод на карту или СБП.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">Вы даете гарантию? <span>+</span></div>
-                <div class="faq-answer">Да, я бесплатно исправляю ошибки в течение 14 дней после сдачи проекта. Если что-то сломалось по моей вине — чиню за свой счет.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">Смогу ли я сам редактировать сайт? <span>+</span></div>
-                <div class="faq-answer">Конечно. Я покажу, как менять текст и картинки. Если нужно, сделаю админ-панель.</div>
-            </div>
-        </section>
-
-        <!-- 10. КОНТАКТЫ -->
-        <section id="contacts" class="contacts reveal" style="background: #0a0a0a;">
-            <h2 class="section-title">Готов <span>начать?</span></h2>
-            <p style="font-size: 1.2rem; color: #aaa; margin-bottom: 40px;">Напиши мне прямо сейчас, и мы обсудим твой будущий сайт.</p>
-            <a href="https://max.ru" class="btn" target="_blank" style="padding: 20px 60px; font-size: 1.3rem; color: #000; background: linear-gradient(90deg, var(--primary), var(--secondary)); font-weight: 900;">Написать в MAX</a>
-        </section>
-
-    </div> <!-- Конец обертки контента -->
-
-    <!-- ПОДВАЛ -->
-    <footer>
-        <div class="footer-links">
-            <a href="#">Политика конфиденциальности</a>
-            <a href="#">Условия использования</a>
-            <a href="#">Контакты</a>
-        </div>
-        <p class="footer-copy">© 2026 Дмитрий | Веб-разработчик. Все права защищены.</p>
-    </footer>
-
-    <!-- СКРИПТЫ -->
-    <script>
-        // 1. ПЛАВНОЕ ИСЧЕЗНОВЕНИЕ ГЛАВНОГО ЭКРАНА ПРИ СКРОЛЛЕ
-        window.addEventListener('scroll', () => {
-            const hero = document.getElementById('hero');
-            const scrollY = window.scrollY;
-            
-            let opacity = 1 - (scrollY / (window.innerHeight * 0.6));
-            if (opacity < 0) opacity = 0;
-            
-            hero.style.opacity = opacity;
-            hero.style.transform = `scale(${1 - (scrollY * 0.0005)})`;
-        });
-
-        // 2. ПАРАЛЛАКС ДЛЯ РУКИ
-        document.addEventListener('mousemove', (e) => {
-            const handContainer = document.getElementById('parallax-hand');
-            const x = (window.innerWidth / 2 - e.pageX) / 25;
-            const y = (window.innerHeight / 2 - e.pageY) / 25;
-            handContainer.style.transform = `translate(${x}px, ${y}px)`;
-        });
-
-        // 3. АНИМАЦИЯ ПОЯВЛЕНИЯ
-        function reveal() {
-            var reveals = document.querySelectorAll(".reveal");
-            for (var i = 0; i < reveals.length; i++) {
-                var windowHeight = window.innerHeight;
-                var elementTop = reveals[i].getBoundingClientRect().top;
-                var elementVisible = 100;
-
-                if (elementTop < windowHeight - elementVisible) {
-                    reveals[i].classList.add("active");
-                } else {
-                    reveals[i].classList.remove("active");
-                }
-            }
-        }
-        
-        window.addEventListener("scroll", reveal);
-        reveal();
-
-        // 4. АККОРДЕОН ДЛЯ FAQ
-        document.querySelectorAll('.faq-question').forEach(item => {
-            item.addEventListener('click', () => {
-                const parent = item.parentElement;
-                parent.classList.toggle('active');
-                
-                const span = item.querySelector('span');
-                span.textContent = parent.classList.contains('active') ? '-' : '+';
-                
-                const answer = parent.querySelector('.faq-answer');
-                if (parent.classList.contains('active')) {
-                    answer.style.maxHeight = answer.scrollHeight + "px";
-                } else {
-                    answer.style.maxHeight = 0;
-                }
-            });
-        });
-
-        // 5. 3D-НАКЛОН КАРТОЧЕК
-        const cards = document.querySelectorAll('.tilt');
-        
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left; 
-                const y = e.clientY - rect.top;  
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = ((y - centerY) / centerY) * -10; 
-                const rotateY = ((x - centerX) / centerX) * 10;  
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
-            });
-        });
-    </script>
-</body>
-</html>
+                    <p>Остаюсь на связи даже после сдачи проекта.
