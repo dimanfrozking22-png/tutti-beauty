@@ -631,4 +631,130 @@
                 <div class="principle-card">
                     <div class="principle-icon">🤝</div>
                     <h3>Поддержка</h3>
-                    <p>Остаюсь на связи даже после сдачи проекта.
+                    <p>Остаюсь на связи даже после сдачи проекта. Помогу с настройкой и отвечу на вопросы.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. ЭТАПЫ РАБОТЫ (С ВРАЩАЮЩИМИСЯ КУБИКАМИ) -->
+        <section class="steps reveal">
+            <h2 class="section-title">Как <span>Я работаю</span></h2>
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <h3>Заявка</h3>
+                    <p>Ты пишешь мне, мы обсуждаем идею и задачи.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <h3>Прототип</h3>
+                    <p>Я делаю черновой вариант, чтобы ты увидел структуру.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <h3>Разработка</h3>
+                    <p>Я пишу код, добавляю анимации и наполняю контентом.</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <h3>Запуск</h3>
+                    <p>Выкладываем сайт в интернет и радуемся результату!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. ОТЗЫВЫ -->
+        <section class="reveal" style="background: #0a0a0a;">
+            <h2 class="section-title">Что говорят <span>Клиенты</span></h2>
+            <div class="empty-reviews">
+                <div class="empty-icon">💬</div>
+                <p>Здесь пока пусто. Я только начинаю свой путь в веб-разработке, поэтому отзывов еще нет.</p>
+                <p>Стань моим первым клиентом! И я сделаю всё, чтобы ты остался в восторге.</p>
+            </div>
+        </section>
+
+        <!-- 9. КОНТАКТЫ -->
+        <section id="contacts" class="contacts reveal">
+            <h2 class="section-title">Готов <span>начать?</span></h2>
+            <p style="font-size: 1.2rem; color: #aaa; margin-bottom: 40px;">Напиши мне прямо сейчас, и мы обсудим твой будущий сайт.</p>
+            <a href="https://max.ru" class="btn" target="_blank" style="padding: 20px 60px; font-size: 1.3rem; color: #000; background: linear-gradient(90deg, var(--primary), var(--secondary)); font-weight: 900;">Написать в MAX</a>
+        </section>
+
+    </div> <!-- Конец обертки контента -->
+
+    <!-- ПОДВАЛ -->
+    <footer>
+        <div class="footer-links">
+            <a href="#">Политика конфиденциальности</a>
+            <a href="#">Условия использования</a>
+            <a href="#">Контакты</a>
+        </div>
+        <p class="footer-copy">© 2026 Дмитрий | Веб-разработчик. Все права защищены.</p>
+    </footer>
+
+    <!-- СКРИПТЫ -->
+    <script>
+        // 1. ПЛАВНОЕ ИСЧЕЗНОВЕНИЕ ГЛАВНОГО ЭКРАНА ПРИ СКРОЛЛЕ
+        window.addEventListener('scroll', () => {
+            const hero = document.getElementById('hero');
+            const scrollY = window.scrollY;
+            
+            let opacity = 1 - (scrollY / (window.innerHeight * 0.6));
+            if (opacity < 0) opacity = 0;
+            
+            hero.style.opacity = opacity;
+            hero.style.transform = `scale(${1 - (scrollY * 0.0005)})`;
+        });
+
+        // 2. ПАРАЛЛАКС ДЛЯ РУКИ
+        document.addEventListener('mousemove', (e) => {
+            const handContainer = document.getElementById('parallax-hand');
+            const x = (window.innerWidth / 2 - e.pageX) / 25;
+            const y = (window.innerHeight / 2 - e.pageY) / 25;
+            handContainer.style.transform = `translate(${x}px, ${y}px)`;
+        });
+
+        // 3. АНИМАЦИЯ ПОЯВЛЕНИЯ
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                } else {
+                    reveals[i].classList.remove("active");
+                }
+            }
+        }
+        
+        window.addEventListener("scroll", reveal);
+        reveal();
+
+        // 4. 3D-НАКЛОН КАРТОЧЕК
+        const cards = document.querySelectorAll('.tilt');
+        
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left; 
+                const y = e.clientY - rect.top;  
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -10; 
+                const rotateY = ((x - centerX) / centerX) * 10;  
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)`;
+            });
+        });
+    </script>
+</body>
+</html>
