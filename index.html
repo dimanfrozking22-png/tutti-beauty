@@ -14,6 +14,8 @@
             --text-main: #ffffff;
             --text-muted: #999999;
             --card-bg: #111111;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         * {
@@ -55,7 +57,6 @@
             100% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.3); opacity: 0.8; }
         }
 
-        /* Падающие частицы на фоне */
         @keyframes floatParticle {
             0% { transform: translateY(0) rotate(0deg); opacity: 0; }
             10% { opacity: 1; }
@@ -69,10 +70,16 @@
             100% { text-shadow: 0 0 20px rgba(255, 140, 0, 0.6); }
         }
 
-        /* Искры из руки */
         @keyframes sparkFly {
             0% { transform: translate(0, 0) scale(1); opacity: 1; }
             100% { transform: translate(var(--x), var(--y)) scale(0); opacity: 0; }
+        }
+
+        /* НОВАЯ АНИМАЦИЯ: ПУЛЬСАЦИЯ ИКОНКИ */
+        @keyframes iconPulse {
+            0% { transform: translateZ(40px) scale(1); filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.5)); }
+            50% { transform: translateZ(40px) scale(1.05); filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8)); }
+            100% { transform: translateZ(40px) scale(1); filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.5)); }
         }
 
         /* ФОНОВЫЕ ЧАСТИЦЫ */
@@ -168,7 +175,6 @@
         .spark:nth-child(5) { --x: 90px; --y: 80px; animation: sparkFly 2.2s infinite ease-out 1.5s; }
         .spark:nth-child(6) { --x: 0px; --y: -120px; animation: sparkFly 2s infinite ease-out 0.8s; }
 
-
         /* ИМЯ */
         .hero h1 {
             font-size: 6rem;
@@ -193,14 +199,14 @@
             line-height: 1.6;
         }
 
-        /* КНОПКИ */
+        /* СТЕКЛЯННЫЕ КНОПКИ */
         .btn {
             padding: 18px 45px;
             font-size: 1.1rem;
             font-weight: 900;
-            color: #000;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            border: none;
+            color: #fff;
+            background: var(--glass-bg); /* Стекло */
+            border: 1px solid var(--glass-border);
             border-radius: 50px;
             cursor: pointer;
             text-transform: uppercase;
@@ -210,12 +216,16 @@
             display: inline-block;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 10px 20px rgba(255, 140, 0, 0.3);
+            backdrop-filter: blur(10px); /* Размытие фона */
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
 
         .btn:hover { 
-            transform: scale(1.1) translateY(-5px); 
-            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.5);
+            transform: scale(1.05) translateY(-5px); 
+            background: rgba(255, 140, 0, 0.2);
+            border-color: var(--primary);
+            box-shadow: 0 10px 40px rgba(255, 140, 0, 0.4);
+            color: var(--primary);
         }
 
         .btn::before {
@@ -223,7 +233,7 @@
             position: absolute;
             top: 0; left: -100%;
             width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
             transform: skewX(-20deg);
             transition: 0.5s;
         }
@@ -274,7 +284,6 @@
             position: relative;
         }
         
-        /* ФОТО В КРУГЕ */
         .about-img img {
             width: 350px;
             height: 350px;
@@ -313,40 +322,38 @@
             border-color: rgba(255, 140, 0, 0.5);
         }
         
-        /* ИКОНКИ (КАК ПЛИТКИ IPHONE) */
+        /* СВЯТАЯ МАГИЯ: МАСКА ДЛЯ ИКОНОК */
         .card-icon { 
             width: 80px; 
             height: 80px; 
             margin-bottom: 25px; 
-            /* Белая подложка, но с градиентом и тенью */
-            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
-            border-radius: 18px; /* Сильное скругление */
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             transform: translateZ(40px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3), inset 0 -2px 5px rgba(0,0,0,0.1);
-            border: 1px solid rgba(255,255,255,0.5);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            /* Применяем ту же маску, что и к руке */
+            -webkit-mask-image: radial-gradient(circle, black 50%, transparent 65%);
+            mask-image: radial-gradient(circle, black 50%, transparent 65%);
         }
 
         .card:hover .card-icon {
             transform: translateZ(60px) scale(1.1) rotate(10deg);
-            box-shadow: 0 10px 25px rgba(255, 140, 0, 0.6), inset 0 -2px 5px rgba(0,0,0,0.1);
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
         }
 
         .card-icon img {
-            width: 70%;
-            height: 70%;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
             transition: 0.4s;
-            /* Если у иконки есть белый фон, он сольется с плиткой */
-            mix-blend-mode: multiply; 
+            animation: iconPulse 3s infinite alternate;
+            /* Добавляем свечение к самой иконке */
+            filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.8));
         }
-        
+
         .card:hover .card-icon img {
-            mix-blend-mode: normal; /* При наведении убираем blend, чтобы оранжевая иконка ярко выделялась на градиенте */
+            animation: none; /* Останавливаем пульсацию при наведении */
+            filter: drop-shadow(0 0 40px var(--secondary));
         }
 
         .card h3 { font-size: 1.6rem; margin-bottom: 15px; color: #fff; transform: translateZ(30px); }
