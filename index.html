@@ -60,10 +60,11 @@
             100% { box-shadow: 0 0 30px rgba(255, 140, 0, 0.4); opacity: 0.8; }
         }
 
-        @keyframes floatIcon {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
+        /* НОВАЯ АНИМАЦИЯ ДЛЯ ФОТО */
+        @keyframes floatPhoto {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
         }
 
         /* ПЛАВНОЕ ПОЯВЛЕНИЕ */
@@ -214,7 +215,7 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* ОБО МНЕ (ЗАМЕНИЛИ СМАЙЛ НА КАРТИНКУ) */
+        /* ОБО МНЕ (ТЕПЕРЬ БЕЗ ТЕМНОТЫ) */
         .about { background: #0a0a0a; }
         .about-content {
             display: flex;
@@ -235,14 +236,26 @@
             justify-content: center;
             border-radius: 30px;
             overflow: hidden;
-            box-shadow: 0 0 40px rgba(255, 140, 0, 0.1);
+            /* Красивое свечение вокруг фото */
+            box-shadow: 0 0 60px rgba(255, 140, 0, 0.3);
+            border: 2px solid rgba(255, 140, 0, 0.2);
+            position: relative;
         }
+        
+        /* Убираем mix-blend-mode! Теперь фото будет ярким */
         .about-img img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Картинка впишется целиком */
-            mix-blend-mode: multiply; /* Убирает белый фон */
-            animation: floatIcon 4s ease-in-out infinite; /* Плавное покачивание */
+            object-fit: cover;
+            animation: floatPhoto 5s ease-in-out infinite;
+            transition: 0.4s;
+            /* МАГИЯ: Делаем картинку ярче и контрастнее */
+            filter: brightness(1.2) contrast(1.1);
+        }
+
+        .about-img:hover img {
+            transform: scale(1.05) rotate(-2deg);
+            filter: brightness(1.3) contrast(1.2) drop-shadow(0 0 30px var(--secondary));
         }
 
         /* СЕТКИ */
@@ -263,36 +276,42 @@
             background: linear-gradient(45deg, transparent, rgba(255,140,0,0.08), transparent);
             transform: translateX(-100%); transition: 0.6s; z-index: -1;
         }
-        .card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .card:hover { 
+            transform: translateY(-15px) scale(1.02); 
+            border-color: var(--primary); 
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(255, 140, 0, 0.2); 
+        }
         .card:hover::before { transform: translateX(100%); }
         
-        /* ИКОНКИ С КАРТИНКАМИ */
+        /* СТИЛИ ДЛЯ ИКОНОК (ТЕПЕРЬ БЕЛЫЕ ПЛИТКИ) */
         .card-icon { 
-            width: 80px; 
-            height: 80px; 
+            width: 90px; 
+            height: 90px; 
             margin-bottom: 25px; 
-            animation: floatIcon 3s ease-in-out infinite;
+            background: #fff; /* Белая подложка */
+            border-radius: 20px; /* Закругленные углы */
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .card:nth-child(2) .card-icon { animation-delay: 0.5s; }
-        .card:nth-child(3) .card-icon { animation-delay: 1s; }
-        .card:nth-child(4) .card-icon { animation-delay: 1.5s; }
-        .card:nth-child(5) .card-icon { animation-delay: 2s; }
-        .card:nth-child(6) .card-icon { animation-delay: 2.5s; }
+
+        .card:hover .card-icon {
+            transform: translateY(-10px) rotate(10deg) scale(1.1);
+            box-shadow: 0 15px 30px rgba(255, 140, 0, 0.4);
+            background: var(--primary); /* При наведении плитка становится оранжевой */
+        }
 
         .card-icon img {
-            width: 100%;
-            height: 100%;
+            width: 70%;
+            height: 70%;
             object-fit: contain;
             transition: 0.4s;
-            mix-blend-mode: multiply; /* Убирает белый фон у картинок */
-            filter: drop-shadow(0 0 10px rgba(255, 140, 0, 0.3));
         }
+
         .card:hover .card-icon img {
-            transform: scale(1.2) rotate(10deg);
-            filter: drop-shadow(0 0 25px var(--secondary));
+            transform: scale(1.1);
         }
 
         .card h3 { font-size: 1.8rem; margin-bottom: 15px; color: #fff; }
@@ -319,6 +338,11 @@
             width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             font-size: 2rem; font-weight: 900; color: #000; margin: 0 auto 20px;
+            transition: 0.4s;
+        }
+        .step-card:hover .step-num {
+            transform: scale(1.1) rotate(360deg);
+            box-shadow: 0 0 30px var(--primary);
         }
         .step-card h3 { font-size: 1.5rem; margin-bottom: 10px; }
         .step-card p { color: var(--text-muted); }
@@ -344,13 +368,14 @@
             animation: rotateRing 6s linear infinite;
             z-index: 0;
         }
-        .empty-icon { font-size: 5rem; margin-bottom: 20px; position: relative; z-index: 1; animation: floatIcon 4s ease-in-out infinite;}
+        .empty-icon { font-size: 5rem; margin-bottom: 20px; position: relative; z-index: 1; animation: floatPhoto 4s ease-in-out infinite;}
         .empty-reviews p { font-size: 1.5rem; color: var(--text-muted); margin-bottom: 15px; position: relative; z-index: 1; line-height: 1.6;}
         .empty-reviews p:last-child { font-size: 1.8rem; color: var(--secondary); font-weight: 900; margin-bottom: 0; }
 
         /* FAQ */
         .faq { background: #0a0a0a; max-width: 900px; margin: 0 auto; }
-        .faq-item { background: var(--card-bg); margin-bottom: 15px; border-radius: 15px; overflow: hidden; border: 1px solid #222; }
+        .faq-item { background: var(--card-bg); margin-bottom: 15px; border-radius: 15px; overflow: hidden; border: 1px solid #222; transition: 0.3s;}
+        .faq-item:hover { border-color: var(--primary); }
         .faq-question {
             padding: 25px; font-size: 1.2rem; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s;
         }
@@ -435,7 +460,7 @@
     <!-- ОБЕРТКА ДЛЯ КОНТЕНТА -->
     <div class="content-wrapper">
         
-        <!-- 2. ОБО МНЕ (КАРТИНКА ВМЕСТО СМАЙЛА) -->
+        <!-- 2. ОБО МНЕ (ТЕПЕРЬ БЕЗ ТЕМНОТЫ) -->
         <section class="about reveal">
             <h2 class="section-title">Обо <span>мне</span></h2>
             <div class="about-content">
@@ -446,13 +471,13 @@
                     <p>Моя цель — сделать так, чтобы твой сайт приносил тебе клиентов и прибыль. И я знаю, как это сделать.</p>
                 </div>
                 <div class="about-img">
-                    <!-- ТУТ ТВОЯ КАРТИНКА ПРОГРАММИСТА -->
-                    <img src="icon-man.png" alt="Программист">
+                    <!-- Картинка от Гигачата -->
+                    <img src="me.jpg" alt="Дмитрий">
                 </div>
             </div>
         </section>
 
-        <!-- 3. УСЛУГИ (С КАРТИНКАМИ) -->
+        <!-- 3. УСЛУГИ (С КРАСИВЫМИ ПЛИТКАМИ) -->
         <section id="services" class="reveal">
             <h2 class="section-title">Мои <span>Услуги</span></h2>
             <div class="grid-3">
