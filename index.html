@@ -214,7 +214,7 @@
             -webkit-text-fill-color: transparent;
         }
 
-        /* ОБО МНЕ */
+        /* ОБО МНЕ (ЗАМЕНИЛИ СМАЙЛ НА КАРТИНКУ) */
         .about { background: #0a0a0a; }
         .about-content {
             display: flex;
@@ -226,17 +226,23 @@
         .about-text { flex: 1; }
         .about-text h3 { font-size: 2.5rem; margin-bottom: 20px; color: var(--primary); }
         .about-text p { font-size: 1.2rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 20px; }
+        
         .about-img {
             flex: 1;
             height: 400px;
-            background: linear-gradient(45deg, var(--card-bg), #222);
-            border-radius: 30px;
-            border: 1px solid rgba(255,255,255,0.05);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 8rem;
+            border-radius: 30px;
+            overflow: hidden;
             box-shadow: 0 0 40px rgba(255, 140, 0, 0.1);
+        }
+        .about-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Картинка впишется целиком */
+            mix-blend-mode: multiply; /* Убирает белый фон */
+            animation: floatIcon 4s ease-in-out infinite; /* Плавное покачивание */
         }
 
         /* СЕТКИ */
@@ -260,7 +266,7 @@
         .card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
         .card:hover::before { transform: translateX(100%); }
         
-        /* СТИЛИ ДЛЯ КАРТИНОК-ИКОНОК В УСЛУГАХ */
+        /* ИКОНКИ С КАРТИНКАМИ */
         .card-icon { 
             width: 80px; 
             height: 80px; 
@@ -281,8 +287,7 @@
             height: 100%;
             object-fit: contain;
             transition: 0.4s;
-            /* МАГИЯ: Убирает белый фон у JPEG картинок */
-            mix-blend-mode: multiply; 
+            mix-blend-mode: multiply; /* Убирает белый фон у картинок */
             filter: drop-shadow(0 0 10px rgba(255, 140, 0, 0.3));
         }
         .card:hover .card-icon img {
@@ -357,7 +362,7 @@
         .contacts { text-align: center; background: radial-gradient(circle at bottom, rgba(255, 215, 0, 0.1) 0%, transparent 60%); padding-bottom: 50px; }
         .contacts h2 { font-size: 4rem; margin-bottom: 30px; }
 
-        /* НОВЫЙ ПОДВАЛ */
+        /* ПОДВАЛ */
         footer { 
             padding: 60px 20px; 
             background: #000; 
@@ -430,7 +435,7 @@
     <!-- ОБЕРТКА ДЛЯ КОНТЕНТА -->
     <div class="content-wrapper">
         
-        <!-- 2. ОБО МНЕ -->
+        <!-- 2. ОБО МНЕ (КАРТИНКА ВМЕСТО СМАЙЛА) -->
         <section class="about reveal">
             <h2 class="section-title">Обо <span>мне</span></h2>
             <div class="about-content">
@@ -440,34 +445,37 @@
                     <p>Я не просто верстаю страницы. Я создаю цифровые визитки, которые помогают бизнесу выделяться. Никакого шаблонного кода — только индивидуальный подход.</p>
                     <p>Моя цель — сделать так, чтобы твой сайт приносил тебе клиентов и прибыль. И я знаю, как это сделать.</p>
                 </div>
-                <div class="about-img">👨‍💻</div>
+                <div class="about-img">
+                    <!-- ТУТ ТВОЯ КАРТИНКА ПРОГРАММИСТА -->
+                    <img src="icon-man.png" alt="Программист">
+                </div>
             </div>
         </section>
 
-        <!-- 3. УСЛУГИ (ТЕПЕРЬ С ТВОИМИ КАРТИНКАМИ) -->
+        <!-- 3. УСЛУГИ (С КАРТИНКАМИ) -->
         <section id="services" class="reveal">
             <h2 class="section-title">Мои <span>Услуги</span></h2>
             <div class="grid-3">
                 <div class="card">
-                    <div class="card-icon"><img src="icon-gear.png" alt="Шестеренка"></div>
+                    <div class="card-icon"><img src="icon-gear.png" alt="Верстка"></div>
                     <h3>Верстка</h3>
                     <p>У тебя есть дизайн в Figma? Я сверстаю его в чистый код без ошибок и багов.</p>
                     <div class="price">от 1500 ₽</div>
                 </div>
                 <div class="card">
-                    <div class="card-icon"><img src="icon-rocket.png" alt="Ракета"></div>
+                    <div class="card-icon"><img src="icon-rocket.png" alt="Лендинги"></div>
                     <h3>Лендинги</h3>
                     <p>Одностраничные сайты, которые продают. Идеально для услуг, товаров и запуска стартапов.</p>
                     <div class="price">от 2000 ₽</div>
                 </div>
                 <div class="card">
-                    <div class="card-icon"><img src="icon-diamond.png" alt="Бриллиант"></div>
+                    <div class="card-icon"><img src="icon-diamond.png" alt="Визитки"></div>
                     <h3>Сайты-визитки</h3>
                     <p>Красивое портфолио для мастера, салона или фрилансера. Привлекает клиентов 24/7.</p>
                     <div class="price">от 3000 ₽</div>
                 </div>
                 <div class="card">
-                    <div class="card-icon"><img src="icon-robot.png" alt="Робот"></div>
+                    <div class="card-icon"><img src="icon-robot.png" alt="Боты"></div>
                     <h3>Telegram-боты</h3>
                     <p>Автоматизируй бизнес с помощью ботов. Прием заявок, ответы на вопросы, каталог.</p>
                     <div class="price">от 4000 ₽</div>
@@ -479,7 +487,7 @@
                     <div class="price">от 5000 ₽</div>
                 </div>
                 <div class="card">
-                    <div class="card-icon"><img src="icon-cart.png" alt="Корзина"></div>
+                    <div class="card-icon"><img src="icon-cart.png" alt="Магазины"></div>
                     <h3>Интернет-магазины</h3>
                     <p>Полноценные магазины с корзиной, каталогом и оплатой. Для серьезного бизнеса.</p>
                     <div class="price">от 10000 ₽</div>
