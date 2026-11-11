@@ -14,7 +14,7 @@
             --text-main: #ffffff;
             --text-muted: #999999;
             --card-bg: #111111;
-            --glass-bg: rgba(255, 255, 255, 0.02); /* Максимальная прозрачность */
+            --glass-bg: rgba(255, 255, 255, 0.02);
             --glass-border: rgba(255, 255, 255, 0.15);
         }
 
@@ -192,14 +192,14 @@
             line-height: 1.6;
         }
 
-        /* СУПЕР-СТЕКЛЯННЫЕ КНОПКИ */
+        /* СТЕКЛЯННЫЕ КНОПКИ */
         .btn {
             padding: 18px 45px;
             font-size: 1.1rem;
             font-weight: 900;
             color: #fff;
-            background: rgba(255, 255, 255, 0.03); /* Почти прозрачный */
-            border: 1px solid rgba(255, 255, 255, 0.25); /* Белая стеклянная рамка */
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 50px;
             cursor: pointer;
             text-transform: uppercase;
@@ -209,28 +209,24 @@
             display: inline-block;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(20px); /* Огромное размытие */
-            -webkit-backdrop-filter: blur(20px);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255,255,255,0.2);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
 
-        /* Оранжевый отсвет при наведении */
         .btn:hover { 
             transform: scale(1.05) translateY(-5px); 
-            background: rgba(255, 140, 0, 0.15); 
+            background: rgba(255, 140, 0, 0.15);
             border-color: var(--primary);
-            box-shadow: 0 10px 40px rgba(255, 140, 0, 0.5), inset 0 0 20px rgba(255, 140, 0, 0.3);
+            box-shadow: 0 10px 40px rgba(255, 140, 0, 0.4);
             color: var(--primary);
-            text-shadow: 0 0 10px rgba(255, 140, 0, 0.5);
         }
 
-        /* Блик */
         .btn::before {
             content: '';
             position: absolute;
             top: 0; left: -100%;
             width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
             transform: skewX(-20deg);
             transition: 0.5s;
         }
@@ -393,7 +389,7 @@
         /* СЕТКИ */
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; perspective: 1000px; }
         
-        /* КАРТОЧКИ УСЛУГ */
+        /* КАРТОЧКИ УСЛУГ (ОБНОВЛЕННЫЕ ЦЕНЫ) */
         .card {
             background: var(--card-bg);
             padding: 40px;
@@ -647,7 +643,7 @@
             </div>
         </section>
 
-        <!-- 3. НАВЫКИ (С ПРОЦЕНТАМИ И ПОЛОСКАМИ) -->
+        <!-- 3. НАВЫКИ -->
         <section class="skills reveal">
             <h2 class="section-title">Мои <span>Навыки</span></h2>
             <div class="skills-container">
@@ -694,7 +690,7 @@
             </div>
         </section>
 
-        <!-- 4. УСЛУГИ -->
+        <!-- 4. УСЛУГИ (ОБНОВЛЕННЫЕ ЦЕНЫ ИЗ ТИКТОКА) -->
         <section id="services" class="reveal" style="background: #0a0a0a;">
             <h2 class="section-title">Мои <span>Услуги</span></h2>
             <div class="grid-3">
@@ -704,7 +700,7 @@
                     </div>
                     <h3>Верстка</h3>
                     <p>У тебя есть дизайн в Figma? Я сверстаю его в чистый код без ошибок и багов.</p>
-                    <div class="price">от 1500 ₽</div>
+                    <div class="price">от 2500 ₽</div>
                 </div>
                 <div class="card tilt">
                     <div class="card-icon-wrapper">
@@ -712,7 +708,7 @@
                     </div>
                     <h3>Лендинги</h3>
                     <p>Одностраничные сайты, которые продают. Идеально для услуг, товаров и запуска стартапов.</p>
-                    <div class="price">от 2000 ₽</div>
+                    <div class="price">от 2500 ₽</div>
                 </div>
                 <div class="card tilt">
                     <div class="card-icon-wrapper">
@@ -728,7 +724,7 @@
                     </div>
                     <h3>Telegram-боты</h3>
                     <p>Автоматизируй бизнес с помощью ботов. Прием заявок, ответы на вопросы, каталог.</p>
-                    <div class="price">от 4000 ₽</div>
+                    <div class="price">от 1500 ₽</div>
                 </div>
                 <div class="card tilt">
                     <div class="card-icon-wrapper">
@@ -742,8 +738,8 @@
                     <div class="card-icon-wrapper">
                         <div class="card-icon"><img src="icon-cart.png" alt="Магазины"></div>
                     </div>
-                    <h3>Интернет-магазины</h3>
-                    <p>Полноценные магазины с корзиной, каталогом и оплатой. Для серьезного бизнеса.</p>
+                    <h3>Кастомный скрипт</h3>
+                    <p>Напишу скрипт под твои задачи. Парсинг, автоматизация, интеграции.</p>
                     <div class="price">от 10000 ₽</div>
                 </div>
             </div>
