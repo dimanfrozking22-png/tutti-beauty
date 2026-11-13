@@ -24,7 +24,6 @@
             box-sizing: border-box;
             font-family: 'Montserrat', sans-serif;
             scroll-behavior: smooth;
-            cursor: none; /* Скрываем стандартный курсор */
         }
 
         body {
@@ -32,26 +31,6 @@
             color: var(--text-main);
             overflow-x: hidden;
             position: relative;
-        }
-
-        /* НОВЫЙ ЖИВОЙ КУРСОР */
-        .cursor {
-            width: 20px;
-            height: 20px;
-            background: var(--primary);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transform: translate(-50%, -50%);
-            transition: width 0.2s, height 0.2s, background 0.2s;
-            mix-blend-mode: difference;
-        }
-        .cursor.hover {
-            width: 50px;
-            height: 50px;
-            background: var(--secondary);
-            opacity: 0.6;
         }
 
         /* СКРОЛЛБАР */
@@ -113,17 +92,9 @@
             to { width: var(--target-width); }
         }
 
-        /* НОВАЯ АНИМАЦИЯ: КАСКАДНОЕ ПОЯВЛЕНИЕ КАРТОЧЕК */
         @keyframes cardAppear {
             from { opacity: 0; transform: translateY(50px) scale(0.9); }
             to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        /* НОВАЯ АНИМАЦИЯ: ПЕРЕЛИВАЮЩИЙСЯ ТЕКСТ */
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
 
         /* ФОНОВЫЕ ЧАСТИЦЫ */
@@ -274,19 +245,13 @@
         }
 
         section { padding: 120px 5%; position: relative; }
-        
-        /* ПЕРЕЛИВАЮЩИЙСЯ ЗАГОЛОВОК */
         .section-title {
             font-size: 3.5rem;
             text-align: center;
             margin-bottom: 60px;
             text-transform: uppercase;
             font-weight: 900;
-            background: linear-gradient(90deg, #ffffff, var(--primary), #ffffff);
-            background-size: 200% auto;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: gradientMove 4s linear infinite;
+            color: #fff;
         }
         .section-title span {
             background: linear-gradient(90deg, var(--primary), var(--secondary));
@@ -428,7 +393,7 @@
         /* СЕТКИ */
         .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; max-width: 1300px; margin: 0 auto; perspective: 1000px; }
         
-        /* КАРТОЧКИ УСЛУГ С КАСКАДОМ */
+        /* КАРТОЧКИ УСЛУГ (ИСПРАВЛЕННЫЕ ИКОНКИ) */
         .card {
             background: var(--card-bg);
             padding: 40px;
@@ -439,10 +404,9 @@
             transition: transform 0.1s, box-shadow 0.3s;
             transform-style: preserve-3d;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            opacity: 0; /* Скрыто до появления */
+            opacity: 0; 
         }
 
-        /* Каскадное появление */
         .card:nth-child(1) { animation: cardAppear 0.8s ease-out 0.1s forwards; }
         .card:nth-child(2) { animation: cardAppear 0.8s ease-out 0.2s forwards; }
         .card:nth-child(3) { animation: cardAppear 0.8s ease-out 0.3s forwards; }
@@ -483,14 +447,15 @@
             transform: translateZ(70px) scale(1.1) rotate(5deg);
         }
 
+        /* ИСПРАВЛЕНИЕ ИКОНОК: двойная маска + свечение */
         .card-icon {
             width: 100%;
             height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
-            -webkit-mask-image: radial-gradient(circle, black 50%, transparent 65%);
-            mask-image: radial-gradient(circle, black 50%, transparent 65%);
+            -webkit-mask-image: radial-gradient(circle, black 40%, transparent 60%);
+            mask-image: radial-gradient(circle, black 40%, transparent 60%);
         }
 
         .card-icon img {
@@ -498,11 +463,12 @@
             height: 100%;
             object-fit: contain;
             animation: iconPulse 4s infinite ease-in-out;
+            filter: drop-shadow(0 0 20px rgba(255, 140, 0, 0.8)) brightness(1.2);
         }
 
         .card:hover .card-icon img {
             animation: none;
-            filter: drop-shadow(0 0 30px var(--secondary));
+            filter: drop-shadow(0 0 40px var(--secondary)) brightness(1.4);
         }
 
         .card h3 { font-size: 1.6rem; margin-bottom: 15px; color: #fff; transform: translateZ(30px); }
@@ -566,13 +532,15 @@
             filter: blur(10px);
         }
 
+        /* ИСПРАВЛЕНИЕ ИКОНОК В БЛОКЕ ПОЧЕМУ Я */
         .why-icon-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            -webkit-mask-image: radial-gradient(circle, black 50%, transparent 65%);
-            mask-image: radial-gradient(circle, black 50%, transparent 65%);
+            -webkit-mask-image: radial-gradient(circle, black 40%, transparent 60%);
+            mask-image: radial-gradient(circle, black 40%, transparent 60%);
             animation: iconPulse 4s infinite ease-in-out;
+            filter: drop-shadow(0 0 15px rgba(255, 140, 0, 0.8)) brightness(1.2);
         }
 
         .why-card h3 { font-size: 1.4rem; margin-bottom: 10px; color: #fff; }
@@ -652,9 +620,6 @@
     </style>
 </head>
 <body>
-
-    <!-- ЖИВОЙ КУРСОР -->
-    <div class="cursor" id="cursor"></div>
 
     <!-- ФОНОВЫЕ ЧАСТИЦЫ -->
     <div class="particle"></div>
@@ -741,7 +706,7 @@
             </div>
         </section>
 
-        <!-- 4. УСЛУГИ -->
+        <!-- 4. УСЛУГИ (ИСПРАВЛЕННЫЕ ИКОНКИ) -->
         <section id="services" class="reveal" style="background: #0a0a0a;">
             <h2 class="section-title">Мои <span>Услуги</span></h2>
             <div class="grid-3">
@@ -809,7 +774,7 @@
             </div>
         </section>
 
-        <!-- 6. ПОЧЕМУ Я -->
+        <!-- 6. ПОЧЕМУ Я (ИСПРАВЛЕННЫЕ ИКОНКИ) -->
         <section class="why-me reveal" style="background: #0a0a0a;">
             <h2 class="section-title">Почему <span>выбирают меня</span></h2>
             <div class="why-grid">
@@ -894,22 +859,7 @@
 
     <!-- СКРИПТЫ -->
     <script>
-        // 1. ЖИВОЙ КУРСОР (МАГНИТ)
-        const cursor = document.getElementById('cursor');
-        
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        // Увеличение курсора на кнопках и ссылках
-        const hoverElements = document.querySelectorAll('a, button, .btn, .card, .work-item');
-        hoverElements.forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-        });
-
-        // 2. ПЛАВНОЕ ИСЧЕЗНОВЕНИЕ ГЛАВНОГО ЭКРАНА ПРИ СКРОЛЛЕ
+        // 1. ПЛАВНОЕ ИСЧЕЗНОВЕНИЕ ГЛАВНОГО ЭКРАНА ПРИ СКРОЛЛЕ
         window.addEventListener('scroll', () => {
             const hero = document.getElementById('hero');
             const scrollY = window.scrollY;
@@ -921,7 +871,7 @@
             hero.style.transform = `scale(${1 - (scrollY * 0.0005)})`;
         });
 
-        // 3. ПАРАЛЛАКС ДЛЯ РУКИ
+        // 2. ПАРАЛЛАКС ДЛЯ РУКИ
         document.addEventListener('mousemove', (e) => {
             const handContainer = document.getElementById('parallax-hand');
             const x = (window.innerWidth / 2 - e.pageX) / 25;
@@ -929,7 +879,7 @@
             handContainer.style.transform = `translate(${x}px, ${y}px)`;
         });
 
-        // 4. АНИМАЦИЯ ПОЯВЛЕНИЯ
+        // 3. АНИМАЦИЯ ПОЯВЛЕНИЯ
         function reveal() {
             var reveals = document.querySelectorAll(".reveal");
             for (var i = 0; i < reveals.length; i++) {
@@ -948,7 +898,7 @@
         window.addEventListener("scroll", reveal);
         reveal();
 
-        // 5. 3D-НАКЛОН КАРТОЧЕК
+        // 4. 3D-НАКЛОН КАРТОЧЕК
         const cards = document.querySelectorAll('.tilt');
         
         cards.forEach(card => {
